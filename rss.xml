@@ -1,4 +1,443 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모모의 기술 블로그]]></title><description><![CDATA[Develop, Security, It, Etc...]]></description><link>https://2022-momo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 05 Sep 2022 15:04:26 GMT</lastBuildDate><item><title><![CDATA[CI/CD란?]]></title><description><![CDATA[…]]></description><link>https://2022-momo.github.io/DevOps/20220713-CICD란/</link><guid isPermaLink="false">https://2022-momo.github.io/DevOps/20220713-CICD란/</guid><pubDate>Wed, 13 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모모의 기술 블로그]]></title><description><![CDATA[Develop, Security, It, Etc...]]></description><link>https://2022-momo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 13 Sep 2022 14:19:50 GMT</lastBuildDate><item><title><![CDATA[submodule로 환경 변수 관리하기]]></title><description><![CDATA[해당 포스트는 모모팀 크루 유세지가 작성했습니다. 이번 프로젝트의 릴리즈에서, 환경 변수의 관리 방법을 기존의 로컬 파일에 의존하던 방식에서 github의 submodule…]]></description><link>https://2022-momo.github.io/DevOps/20220815-submodule로-환경변수-관리하기/</link><guid isPermaLink="false">https://2022-momo.github.io/DevOps/20220815-submodule로-환경변수-관리하기/</guid><pubDate>Mon, 15 Aug 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;해당 포스트는 모모팀 크루 &lt;a href=&quot;https://github.com/usageness&quot;&gt;유세지&lt;/a&gt;가 작성했습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이번 프로젝트의 릴리즈에서, 환경 변수의 관리 방법을 기존의 로컬 파일에 의존하던 방식에서 github의 &lt;code&gt;submodule&lt;/code&gt;를 적용하여 관리하는 방법으로 변경하였습니다. 어떤 점에서 불편을 느꼈고, 어떻게 이러한 방식을 적용하게 되었는지 이야기해보려 합니다.&lt;/p&gt;
+&lt;h1 id=&quot;환경-변수&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98&quot; aria-label=&quot;환경 변수 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;환경 변수?&lt;/h1&gt;
+&lt;p&gt;위키백과에 따르면, 환경 변수란 실행 중인 프로세스가 컴퓨터에서 동작하는 방식에 영향을 미치는 동적인 값들의 모임이라고 설명하고 있습니다. 물론 틀린 말은 아니나, 이것은 OS의 관점에서 설명했기에 저희 프로젝트에서 적용한 환경 변수에는 다소 와닿지 않는 설명입니다.&lt;/p&gt;
+&lt;p&gt;현재 프로젝트 상황에 맞도록 조금 다르게 설명해보면, 환경 변수는 &lt;strong&gt;“프로젝트의 환경에 따라 다르게 사용되는 변수”&lt;/strong&gt; 정도로 정의할 수 있을 것 같습니다.&lt;/p&gt;
+&lt;h1 id=&quot;환경-변수를-사용하는-이유&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0&quot; aria-label=&quot;환경 변수를 사용하는 이유 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;환경 변수를 사용하는 이유&lt;/h1&gt;
+&lt;p&gt;환경 변수를 사용하는 이유는 크게 두 가지를 들 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;1-보안을-위해&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1-%EB%B3%B4%EC%95%88%EC%9D%84-%EC%9C%84%ED%95%B4&quot; aria-label=&quot;1 보안을 위해 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. 보안을 위해&lt;/h2&gt;
+&lt;p&gt;프로젝트를 진행하다 보면, 외부에 공개하면 문제가 생길 수 있지만 프로젝트에는 꼭 포함되어야 하는 정보들이 있습니다. 가령 API Key 라던가, DB에 접근하는 계정이 그 예시입니다.&lt;/p&gt;
+&lt;p&gt;이러한 정보들이 프로젝트에 그대로 포함된 채 깃허브의 public repository 같은 공개적인 장소에 올라가게 되면 중요 정보가 외부에 노출되어 자칫 위험한 상황으로 이어질 수 있습니다. 실제로 깃허브에 이러한 key값이 노출되면 종종 보안 경고 메일이 오기도 합니다.&lt;/p&gt;
+&lt;p&gt;이러한 상황을 미연에 방지하기 위해, 중요 정보들은 별도의 환경 변수로 관리하여야 합니다. 주요 정보를 환경 변수 파일로 설정해주고, 깃허브에 올라가지 않도록 &lt;code&gt;.gitignore&lt;/code&gt; 파일에 추가해주면 이러한 정보가 새는걸 막을 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;2-개발-환경을-위해&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#2-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%9D%84-%EC%9C%84%ED%95%B4&quot; aria-label=&quot;2 개발 환경을 위해 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. 개발 환경을 위해&lt;/h2&gt;
+&lt;p&gt;환경 변수는 보안 뿐 아니라 개발 환경이 나뉘어진 경우에도 유용합니다. 모모 프로젝트의 구조를 생각해보겠습니다. 모모는 크게 production mode와 develop mode로 나뉘어져 있습니다. develop mode에서 모킹된 API를 사용하거나, 별도의 개발용 서버를 사용하기 위해서는 두 mode의 BASE URL이 다를 필요가 있습니다.&lt;/p&gt;
+&lt;p&gt;develop mode와 production mode를 오가며 BASE URL과 이에 따른 설정들을 하나하나 바꿔주는건 번거롭습니다. 그렇다고 코드에 조건문들을 추가하자니 프로덕션 코드가 더러워집니다. 이럴때 환경 변수를 선언해주면 이러한 변경들을 깔끔하게 관리할 수 있습니다.&lt;/p&gt;
+&lt;h1 id=&quot;처음에-시도했던-방법&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B2%98%EC%9D%8C%EC%97%90-%EC%8B%9C%EB%8F%84%ED%96%88%EB%8D%98-%EB%B0%A9%EB%B2%95&quot; aria-label=&quot;처음에 시도했던 방법 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;처음에 시도했던 방법&lt;/h1&gt;
+&lt;p&gt;모모에서는 처음엔 환경 변수 파일을 생성하여 로컬 파일로 관리하였습니다. 그러나 Jenkins를 통해 CI/CD를 관리하기 시작하며 로컬에만 존재하는 환경 변수 파일을 함께 배포하기 번거로워졌습니다.&lt;/p&gt;
+&lt;p&gt;당시의 배포 과정은 이렇습니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 31.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAByElEQVQY02NggAIODg6GWncVhileSgweapKsN0sMp36s0ZH6cXQKWN7SwphFUFCY8UOVEeOdYgOGk5l6zo8rjKpXT5ZnaGIwY5rIkMmgw6DDBFIrAcR2bGxsDAJiUgxairIM+lqabI0OIgaFyYGKe9bN7F62tFf6////DGamhmwMDMoMEyLFGeJdJOVLAqSMOeZzCFjWSPKwVbBz8ybysoMMbADiNEZGxiCw6WJiXC6mxtwnm1MZpocEdO+Y1PB/VqhP9a7cBIYYWwtOzmheZob/QIU9DFoMsxgSGKYwpDNMYohgnMmQAeRrgczIA2JbIE4BccRERbl0dPS5zd1jGCIdPIuriiv/d6WmVS+ra2Dwd3TilNWXYlRhUGXSzBHhBhrGuWa3gde+I+6uDNMYeJkXMnCAzOAEYmkgZuLj42NQVlRkUFPXYAUHXGI5y7qdu+NXHDksAvKygbExmywwSIwcFRhjLIzYr970ZvhxIqL8y6n4ztW3TBliGZwZGZSUlPg1NDQEVVRUWI2MjBgUFRQYxEVFGBQUFLkUpSTFgcZyAQNORENLi5ONiYlBmVWZQYJHnoFfVoI5rkCDGeogTqswOWYJLSlmALQzZ7FGuaB8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Deploy process&quot;
+        title=&quot;Deploy process&quot;
+        src=&quot;/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png&quot;
+        srcset=&quot;/static/5d33aca76bf7ab2bd5d498b589415764/5a46d/deploy_process.png 300w,
+/static/5d33aca76bf7ab2bd5d498b589415764/0a47e/deploy_process.png 600w,
+/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png 1200w,
+/static/5d33aca76bf7ab2bd5d498b589415764/d61c2/deploy_process.png 1800w,
+/static/5d33aca76bf7ab2bd5d498b589415764/97a96/deploy_process.png 2400w,
+/static/5d33aca76bf7ab2bd5d498b589415764/29726/deploy_process.png 8302w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;프로젝트의 저장소에서 PR이 merge되면, webhook을 통해 Jenkins가 repository clone을 시도합니다. 클론이 완료되면 node module을 설치하고, build 하여 그 결과물을 Nginx가 설치된 서버에 자동으로 배포합니다.&lt;/p&gt;
+&lt;p&gt;여기서 문제가 발생합니다. 우리가 만든 환경 변수 파일은 github에 올라가지 않았기에 이 상태로 빌드를 시도하면 오류가 발생할 것입니다. Jenkins 파이프라인의 스크립트를 수정하여 다른 경로에 있는 환경 변수 파일을 참조하도록 하거나, 배포 방식을 수동으로 바꾸는 방법도 있겠지만 이러면 Jenkins를 적용하며 생긴 이점이 상당 부분 사라지거나, 기껏 구성한 환경이 다시 복잡해질 것입니다.&lt;/p&gt;
+&lt;p&gt;그래서 저희는 조금 더 우아한 방법을 적용해보았습니다.&lt;/p&gt;
+&lt;h1 id=&quot;submodule-적용-과정&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#submodule-%EC%A0%81%EC%9A%A9-%EA%B3%BC%EC%A0%95&quot; aria-label=&quot;submodule 적용 과정 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;submodule 적용 과정&lt;/h1&gt;
+&lt;p&gt;이러한 문제를 해결하기 위한 방법으로, git에서 제공하는 submodule(이하 서브모듈)이 있습니다. 서브모듈이란 기존의 repository에 다른 repository를 넣어주는 형태인데, 기존 파일 구조를 건드리지 않으면서 다른 저장소의 코드를 모듈처럼 독립적으로 관리할 수 있다는 특징이 있습니다. 이렇게 하면 기존의 코드를 최대한 건드리지 않고, 구성해 둔 파이프라인을 깨지 않으며 환경 변수를 적용할 수 있습니다. 지금부터 한 번 적용해보겠습니다.&lt;/p&gt;
+&lt;h2 id=&quot;프로젝트에-서브모듈-적용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;프로젝트에 서브모듈 적용하기 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로젝트에 서브모듈 적용하기&lt;/h2&gt;
+&lt;p&gt;먼저 서브모듈로 사용할 새로운 repository를 만듭니다. 이 저장소에는 환경 변수를 업로드 해주어야 하기 때문에 private으로 생성해줍니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 380px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAACcUlEQVQ4y1VUW3LbMAzUhXuSfvYqPUKn/Wk6TSdunExiW1b0pGS9KIoSKW0ByrJVz+wQBmGACyzsDcOItuvR9QOUHh00+cZxAds9+QayjVkwmuW70gZ6tOgHc/u913Ud/CBEkJTY+R32gcQhXs6dLxGKFk/HCn+OEr8PLR6PLb7va7xECmkq8Pp2QpTmLhkn9TKRoyhrXGqF+NIjIRSNdid/F2WHvF7sQCj4KSFTCPOemCmUtUQjlUvmEhZpDEmGpmcbY2EsU2BaZoGdiJ5xFK1d7tdzMNON8gpvliUKqpIWFU5BhD1R4AJHsqNE4HA8I7tU9Ioe76cAQZjA/4hxOod4O51RVA0xbHDwPxDGKbyanltXNdrLBUWSQkQxOqLCgRUVyvISVdtBKg1BRcu6pfa0ZJfICEy3oaFy26pGwmM606CBoQdGOs0ATBb8mecZ62c17567f5pm5+d4j53cp4KqVq1EzgOi10mqOlJPWQVlWUJrDSk7WPK1UqIiVkop6ru5JefELiFr7fwRIc0E/j6/4O3gu77w6wtqRSYEmqaBEAUM+TKKi6g1eZ5TYbVJOC0JeWIrHUtOS5V44vzCeUNtvZ//oztdJ7+cHocN44Td8wOSLHTq581h8CBWewVrjf0OV+1t4V7YDxZfPn/Cj29fSToJfj0+Ybd/JeonnKPESeT96COmzVDXNdtiXVm3ektCErVqofv+upeaLu/B9x8N7p7FrFns1BLec+XuF3hODrPFQwLQdqGtKwrQN9ls4YpT0aZuaEikR9Ih/7lsY28Jf0YWQlrItnEJWQLc6GVIk7PZx/JpSV6csKbEnHAb+w+E7oPdUsIPAQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Private repo&quot;
+        title=&quot;Private repo&quot;
+        src=&quot;/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png&quot;
+        srcset=&quot;/static/943e31d058d752a5aa21b49518c0e149/5a46d/private_repo.png 300w,
+/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png 380w&quot;
+        sizes=&quot;(max-width: 380px) 100vw, 380px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;해당 repository에 환경 변수를 업로드했다면, 이제 메인이 되는 repository로 돌아와서 서브모듈을 불러올 차례입니다. 명령어를 통해 서브모듈을 연결해줍니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;groovy&quot; data-index=&quot;0&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git submodule add [서브모듈의 주소]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git add &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;*&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git commit &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;m &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;chore: apply submodule&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git push origin [원하는 브랜치]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이렇게 했다면, 이제 기존 repository에는 서브모듈이 적용된 상태입니다.&lt;/p&gt;
+&lt;p&gt;아래의 명령어를 이용하여 다른 팀원의 프로젝트에서도 서브모듈을 적용해줍니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;groovy&quot; data-index=&quot;1&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git clone [메인 프로젝트 주소] &lt;/span&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// 처음 시작 시&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git submodule update --init --recursive&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;jenkins에-서브모듈-적용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#jenkins%EC%97%90-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;jenkins에 서브모듈 적용하기 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Jenkins에 서브모듈 적용하기&lt;/h2&gt;
+&lt;p&gt;Jenkins에서도 서브모듈을 사용할 수 있게 해주려면 몇 가지 설정이 필요합니다. 먼저 Jenkins가 private repository에 접근하여 서브모듈을 받아올 수 있도록 권한을 설정해주어야 합니다.&lt;/p&gt;
+&lt;p&gt;먼저 github에서 토큰을 발급합니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.33333333333334%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAADY0lEQVQ4y1WT228UVRzHTyXAtFtDYySRhW0ze6lsWtleAlRoQEwbiIEFDSHyR+C78cEX3+2DQKqFLhBEHyDwqCRgTeSBhjQhECtst9Cyl86W3bmeuc/xe0632k7yzbnMmc/5/r6/XbJ7T6Jze6wrt+3dnYc7unaNSDveH+14L/5R4epU19/z8x+XSiWu0bm5uV5CyLbc4FBnMpWOJdOZWDKVicmYy8lUrLu7R0okEhI5cOiT7WMnTj06kT/HPvv8vPHFuS/Z4MiR3xljGU3THcMwKVt7fvpj5k8wt5Le/gGS3Tckxp50lvRkoGSGJOIfEFIoTLevvm08WVEUVq3V/Hq9zubn/5mxLLqX2jajlEZ4OHAKtI7Dx8ZPZgf2j/UPHRjP5obH0n258UzfwLFMX669d98wIXfu3pNc1501DIO5nuf6QcA/fgh9CHeh4zjYEnvf79wtnz555iwbHjkSHRz9lO0/dJT1Dx7ksiAZIuTypYv/AT0AuRvHcVtAI2o0m0HL4cTS0lL+1XKVvVx47ReLC9GLl8Vw+U2ZVapVvVyuyJVKlZDr165JlmXNKii1Xl8VQM/zBVDX9UhVNQEMw2gCe/lWnj7Ebwlbax2SIUJ+nJyUHDhUNY2hCW4Yhszz14CmZUWmaQa8ZEAF0Pd9hot8ZMvWoPyyUIdkiDssSBalwiGgLj+17lCDQ9O0RIDrQN1yGcr035QrrNFQI0pt/u5/h1empiQELzKEk01AdDqyHWcT0PVD/t6HeNYRpptLLkxPC4dNVWNhFLmhyNATQNu2IyjAGkA2gZLyESLB6LXyC3hEiEHDRA4ClPzLzetS4DmzDjX5GeHQcdccGqYZIUfxEe+yadEzmm4gGp3xUvlFukGZYVp2EPgyfBNy8cotqVhRHxfLKivVTPv1W58pmvtAlExpAIfeOhDz44jBcx1awccruGkFJa/CYQnqhghJ579t//q28vSbOwr76tYKu/BzjT14rj0CINtUdXTU4HXxDG8AS5hT6dRqL6TAMSSc2ag2keHk5R94U37Fz6CIjTloEbdO85BR4rNGU31KbWcRLr/jDhj+zubqK+LaOuGAjRJPMpXayukzv93dgvGddd1/+BfZsN6CnNsWl5eIZxvEtjTiey5BowiaSBRFEax4PN72LwiKeukNk7t0AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Generate token&quot;
+        title=&quot;Generate token&quot;
+        src=&quot;/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png&quot;
+        srcset=&quot;/static/b056658f67bfd281a27651cf457f290e/5a46d/generate_token.png 300w,
+/static/b056658f67bfd281a27651cf457f290e/0a47e/generate_token.png 600w,
+/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png 1200w,
+/static/b056658f67bfd281a27651cf457f290e/d61c2/generate_token.png 1800w,
+/static/b056658f67bfd281a27651cf457f290e/97a96/generate_token.png 2400w,
+/static/b056658f67bfd281a27651cf457f290e/38808/generate_token.png 5440w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;[Settings] → [Developer settings] → [Personal access tokens] 메뉴에서 접근 가능한 토큰을 생성하고, 키 값을 복사해둡니다.&lt;/p&gt;
+&lt;p&gt;이제 이 키를 Jenkins에 등록해서 사용해야 합니다.&lt;/p&gt;
+&lt;p&gt;Jenkins의 &lt;code&gt;Dashboard &gt; Manage Credentials&lt;/code&gt; 에서 &lt;code&gt;Add Credentials&lt;/code&gt;를 누릅니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 39.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAACCklEQVQoz0VRzYoTQRDu9eyKiYcQUBDyBl5U3ChuCAoSNxFEWFZve1NEEG95AV9AA168aVg9xBU2sHHdGCL6CLksGGeSOD2Z6emenp/OdFntZrGgqKa66qvvqyIPNzdf1mq1N+Vy+XW9Xm91Op3WcDhsNZvNV9Vq9e3djY07hJCzFy+cv41xHesq/f5hpffloFK5cbVyZoWsk5VTt1ZXT18qlUpXiG1Z4WQ6hdFoBJZlQZIksFgsgDEGk8kEfN9/8XFn51pvfx9wmBoMBppSRzuU6p8/vuted0/tdbvQ7/cPisXiNkni5JfWGmQkEwRSAKCM4TuGY3uMXl6+F2EYYm0EaZrCSW4ZD3O53BahR0c2R4aSsUyI0KCBEALmnqdCKSFJ06fz+fy6yUkpVcC5FjLVXEgdBEwzLhUTkQH8ms/nH5GAMdvI5CzIfJT5T3KWIQNkiREHPBuPxzcNILJSCK49HulYZTqKIi2jRIVR+h/Q87wxfkAcx6mRmmWZylA6emxWgfZk7rprZqdYgwyFZtTVbDrTqRA6ValK4vgEcItgU2AajVwWBLBAhhGlwH9bkMWJKXyOKtYMQ3OsDGeYfOL5oI+BYDn4GwJuE9xLCxf9gVL63rbtNl61TR2nPbUn75DVp9nsz73Pu7vnUMkD13XreOGG63kNT4gG9b2G4zh19Puc83KhULj8F9LEBXrJ4SLbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Untitled&quot;
+        title=&quot;Untitled&quot;
+        src=&quot;/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png&quot;
+        srcset=&quot;/static/e8d3923af45b64b864247a64759a036e/5a46d/add_credential.png 300w,
+/static/e8d3923af45b64b864247a64759a036e/0a47e/add_credential.png 600w,
+/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png 1200w,
+/static/e8d3923af45b64b864247a64759a036e/d61c2/add_credential.png 1800w,
+/static/e8d3923af45b64b864247a64759a036e/97a96/add_credential.png 2400w,
+/static/e8d3923af45b64b864247a64759a036e/83914/add_credential.png 6080w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;키 값을 통해 github에 로그인 하는 방식이므로, Kind의 &lt;code&gt;Username with password&lt;/code&gt;을 선택하고 나머지 빈 값을 채워줍니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 89.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAACHUlEQVQ4y41Uy44SURDtDT/Azg1slIQETYwmMwvxC9Sf4kf8BL+ChIwJi9k4EYg2NIz08Oj3497u46mLkzCdbpmbHCguXafOqSqwPrx/h+vrKwyHQ3S7XbTbbbRaLYxGI0ynU4zHY0wmE4Obm+/48vkTrgYv8PHNW7x+1cPLXg+dTgf9fh+DwQDWj7s7zOcLYo7ZbGYgsWCxWBhI7DgO1sRyucTStk9gvFqtTGwTElvgybIMcRwjiiJorREnCfaHA7aui839PXKl8Nxj+b5vqks1d7tFQNJg5cD7bcPn/ZGVMxIXLKD3+3rs5P2AgmIsUZTnuYGikoJV4sUvhFQWPewQ73bQQQDl+Sf4Fcgdv08poqRTq0625kPxny0yVpW48CvwzvD4maQoS1glX84hl6LSC0P4tB+lKUL21IBxXhTQUrQCc088UWgI5QEmx5xYRNuKtg3cB6ijh0IKMrEOkl9LKH0JuErJ4UhLgbEjZPl6QxWl2YQ6FI0KORxFooQ9jDgUGY4MoEizM4VlBf9RqDnxYLOBR0UpVyIhqTQe7OHFPay1TDWRvUQactG58DpOoDgksayoRNFeHRotKw4lddZmWbXsoSwubcuKyBPGslivoNkyE3JWNMnVxIYJ6399rSckWUi78tt+tKIbiM4JaxUaTlGilfnT0GeETbioMIgSOO6B6k5ViwvqGhdbLuWMb39i9PUbjmH8pNBzzl/PXlbi1QxjzwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Register token&quot;
+        title=&quot;Register token&quot;
+        src=&quot;/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png&quot;
+        srcset=&quot;/static/e5aa5c0e1045a9324ed8725c0977019b/5a46d/register_token.png 300w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/0a47e/register_token.png 600w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png 1200w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/bc3ae/register_token.png 1268w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;code&gt;Username&lt;/code&gt;에는 Credential의 소유주를 입력해줍니다. 아무렇게나 적어도 상관없지만, 저는 앞서 토큰을 발급했던 계정을 입력해주었습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Password&lt;/code&gt;엔 앞서 복사했던 발급받은 token을 넣어주시고, ID에는 Jenkins에서 사용될 Credential의 이름을 입력해주시면 됩니다. 이후 Jenkins에서 지금 설정한 ID를 통해 Credential을 사용할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Description&lt;/code&gt;에는 이 Credential에 대한 간단한 설명을 적어주고, Create 버튼을 눌러 생성을 마무리합니다.&lt;/p&gt;
+&lt;p&gt;이제 생성된 Credential을 통해 파이프라인 코드를 수정하여 서브모듈을 가져오는 과정을 추가할 차례입니다. 기존에 CI/CD를 위해 파이프라인을 작성하셨던 분들이라면 아래와 같은 코드를 이미 사용하고 계실겁니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;groovy&quot; data-index=&quot;2&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk3&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;Git Clone&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;) {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    steps {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        git &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;branch&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;develop-fe&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;https://github.com/woowacourse-teams/2022-momo.git&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;여기에 앞서 생성한 Credential을 활용하여 &lt;code&gt;git submodule update --init --recursive&lt;/code&gt; 명령어를 실행하는 코드를 덧붙이면 서브모듈을 함께 불러와 적용할 수 있게 됩니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;groovy&quot; data-index=&quot;3&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk3&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;Git Clone&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;) {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    steps {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        git &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;branch&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;develop-fe&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;https://github.com/woowacourse-teams/2022-momo.git&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;withCredentials&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mtk10&quot;&gt;GitUsernamePassword&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;credentialsId&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;submodule_fe_security_token&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;gitToolName&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;Default&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;)]) {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;            sh &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;git submodule update --init --recursive&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이렇게 환경 변수를 외부에 노출하지 않고, 구현된 CI/CD 파이프라인을 해치지 않는 서브모듈 적용이 끝났습니다.&lt;/p&gt;
+&lt;style class=&quot;grvsc-styles&quot;&gt;
+  .grvsc-container {
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 1rem;
+    padding-top: var(--grvsc-padding-top, var(--grvsc-padding-v, 1rem));
+    padding-bottom: 1rem;
+    padding-bottom: var(--grvsc-padding-bottom, var(--grvsc-padding-v, 1rem));
+    border-radius: 8px;
+    border-radius: var(--grvsc-border-radius, 8px);
+    font-feature-settings: normal;
+    line-height: 1.4;
+  }
+  
+  .grvsc-code {
+    display: table;
+  }
+  
+  .grvsc-line {
+    display: table-row;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+  }
+  
+  .grvsc-line &gt; * {
+    position: relative;
+  }
+  
+  .grvsc-gutter-pad {
+    display: table-cell;
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  .grvsc-gutter {
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter::before {
+    content: attr(data-content);
+  }
+  
+  .grvsc-source {
+    display: table-cell;
+    padding-left: 1.5rem;
+    padding-left: var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem));
+    padding-right: 1.5rem;
+    padding-right: var(--grvsc-padding-right, var(--grvsc-padding-h, 1.5rem));
+  }
+  
+  .grvsc-source:empty::after {
+    content: &apos; &apos;;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter + .grvsc-source {
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  /* Line transformer styles */
+  
+  .grvsc-has-line-highlighting &gt; .grvsc-code &gt; .grvsc-line::before {
+    content: &apos; &apos;;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .grvsc-line-diff-add::before {
+    background-color: var(--grvsc-line-diff-add-background-color, rgba(0, 255, 60, 0.2));
+  }
+  
+  .grvsc-line-diff-del::before {
+    background-color: var(--grvsc-line-diff-del-background-color, rgba(255, 0, 20, 0.2));
+  }
+  
+  .grvsc-line-number {
+    padding: 0 2px;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+  .one-dark-pro {
+    background-color: #282c34;
+    color: #abb2bf;
+  }
+  .one-dark-pro .mtki { font-style: italic; }
+  .one-dark-pro .mtk1 { color: #ABB2BF; }
+  .one-dark-pro .mtk8 { color: #56B6C2; }
+  .one-dark-pro .mtk6 { color: #98C379; }
+  .one-dark-pro .mtk5 { color: #7F848E; }
+  .one-dark-pro .mtk3 { color: #61AFEF; }
+  .one-dark-pro .mtk7 { color: #D19A66; }
+  .one-dark-pro .mtk10 { color: #C678DD; }
+  .one-dark-pro .grvsc-line-highlighted::before {
+    background-color: var(--grvsc-line-highlighted-background-color, rgba(255, 255, 255, 0.1));
+    box-shadow: inset var(--grvsc-line-highlighted-border-width, 4px) 0 0 0 var(--grvsc-line-highlighted-border-color, rgba(255, 255, 255, 0.5));
+  }
+&lt;/style&gt;</content:encoded></item><item><title><![CDATA[모달에 애니메이션 달기]]></title><description><![CDATA[…]]></description><link>https://2022-momo.github.io/DevOps/20220808-모달에-애니메이션-달기/</link><guid isPermaLink="false">https://2022-momo.github.io/DevOps/20220808-모달에-애니메이션-달기/</guid><pubDate>Mon, 08 Aug 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;해당 포스트는 모모팀 크루 &lt;a href=&quot;https://github.com/LAH1203&quot;&gt;하리&lt;/a&gt;가 작성했습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br /&gt;
+&lt;p&gt;현재 저희 팀에서는 로그인, 회원가입, 회원정보 수정 등 다양한 곳에서 모달을 사용하고 있습니다.&lt;/p&gt;
+&lt;p&gt;이렇게 다양하게 사용하는 만큼 모달 자체에 애니메이션을 달아주는 편이 경험 측면에서 더 좋을 것이라 판단하여 애니메이션을 달아주게 되었습니다.&lt;/p&gt;
+&lt;p&gt;여기에서는 모달에 여닫는 애니메이션을 어떻게 구현하였는지에 대해 소개해보려 합니다.&lt;/p&gt;
+&lt;br /&gt;
+&lt;p&gt;우선 애니메이션이 어떻게 적용되었는지부터 볼까요?&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183415666-33e8aa61-5424-4de9-a93c-67331055ee32.gif&quot; alt=&quot;모달&quot; width=&quot;400&quot;&gt;
+&lt;/center&gt;
+&lt;br /&gt;
+&lt;p&gt;&lt;em&gt;코드에 대한 설명 전 저희 모모 프로젝트에서는 emotion, keyframe, animation, setTimeout, react state를 사용했음을 알립니다.&lt;/em&gt;&lt;/p&gt;
+&lt;br /&gt;
+&lt;p&gt;저는 우선 keyframe을 정의하여 모달에 애니메이션을 적용시켜주었습니다.&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183422015-4662d25d-3b12-491d-a3a8-9842d6927172.png&quot; alt=&quot;code&quot; width=&quot;400&quot;&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;strong&gt;Simple Is The Best.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;간단하게 scale에 변화를 주어 모달이 커지고 작아질 수 있도록 만들었습니다.
+원하는 애니메이션이 있다면 해당 애니메이션을 적용해주어도 좋겠죠?&lt;/p&gt;
+&lt;br /&gt;
+&lt;p&gt;그리고 그렇게 만든 애니메이션을 모달에 적용시켜주었습니다.&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183423179-625031ce-5a5c-4167-ae1e-630803dc5165.png&quot; alt=&quot;code&quot; width=&quot;600&quot;&gt;
+&lt;/center&gt;
+&lt;p&gt;저는 좀 더 유연하게 모달 애니메이션을 보여주고자 &lt;code&gt;animationTime&lt;/code&gt;을 props로 전달받도록 만들었습니다.
+이제 이 props를 Modal 컴포넌트에서 전달해주기만 하면 모달을 여는 애니메이션은 잘 보여질겁니다!&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183427777-cbcd86eb-e6e8-4163-b59b-8f6dad0af547.png&quot; alt=&quot;code&quot; width=&quot;500&quot;&gt;
+&lt;/center&gt;
+&lt;br /&gt;
+&lt;blockquote&gt;
+&lt;p&gt;흠 근데 닫는 애니메이션도 보여준다고 하지 않았나요?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;맞습니다. 저희에겐 닫는 애니메이션을 보여주는 과정이 필요합니다.&lt;/p&gt;
+&lt;p&gt;근데 보통 모달을 보여줄 때는 true/false로 제어를 하는 경우가 많습니다.
+만약 &apos;보여주지 않는다&apos;라는 상태가 된다면 애니메이션이 보여지기 전에 컴포넌트가 사라지고 말죠.&lt;/p&gt;
+&lt;p&gt;그럼 우리가 애니메이션을 어떻게 하면 보여줄 수 있을까요?&lt;/p&gt;
+&lt;p&gt;그 방법은 쉽습니다.
+컴포넌트가 사라지는 과정을 지연시키면 됩니다.
+그리고 저는 그 방법으로 간단하게 &lt;code&gt;setTimeout&lt;/code&gt;을 사용할겁니다.&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183427967-9fcef4d3-e7dd-4013-97e7-42f280dbdf2e.png&quot; alt=&quot;code&quot; width=&quot;600&quot;&gt;
+&lt;/center&gt;
+&lt;p&gt;우선 &lt;code&gt;isClosing&lt;/code&gt;이라는 상태를 모달 컴포넌트가 갖게 됩니다.
+여기에서는 지금 모달이 닫히고 있는 상태인지의 여부를 알고 있을거예요.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;setOffModalWithAnimation&lt;/code&gt;이라는 함수에서는 모달 애니메이션을 제어합니다.
+실행됐을 경우 먼저 닫히고 있다고 알린 뒤 setTimeout으로 시간을 체크하여 시간이 경과되었을 경우 모달을 닫고 이제 모달이 닫혔다는 사실을 알립니다.&lt;/p&gt;
+&lt;p&gt;모달에서는 &lt;code&gt;isClosing&lt;/code&gt;에 따라 클래스명을 줄지 말지를 결정하는 거예요.&lt;/p&gt;
+&lt;p&gt;생각보다 모달에 애니메이션을 부여하는 과정은 간단했습니다.&lt;/p&gt;
+&lt;br /&gt;
+&lt;p&gt;그럼 마지막으로 저희가 실제 모달에 적용한 코드입니다.&lt;/p&gt;
+&lt;center&gt;
+  &lt;img src=&quot;https://user-images.githubusercontent.com/57928612/183428291-cd8ae618-b03f-4fca-af2e-172890bfa16d.png&quot; alt=&quot;code&quot; width=&quot;560&quot;&gt;
+&lt;/center&gt;
+&lt;p&gt;Dimmer 즉 모달의 바깥을 클릭했을 때 &lt;code&gt;setOffModalWithAnimation&lt;/code&gt;이 실행되는 부분이 추가되었습니다.
+물론 그러면서 모달을 클릭했을 때는 &lt;code&gt;setOffModalWithAnimation&lt;/code&gt;이 실행되는 것을 막기 위해 버블링을 막는 함수를 만들어 넣어주었고요!&lt;/p&gt;
+&lt;p&gt;이렇게 하면 간단하게 모달을 여닫는 애니메이션을 적용할 수 있습니다.&lt;/p&gt;
+&lt;style class=&quot;grvsc-styles&quot;&gt;
+  .grvsc-container {
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 1rem;
+    padding-top: var(--grvsc-padding-top, var(--grvsc-padding-v, 1rem));
+    padding-bottom: 1rem;
+    padding-bottom: var(--grvsc-padding-bottom, var(--grvsc-padding-v, 1rem));
+    border-radius: 8px;
+    border-radius: var(--grvsc-border-radius, 8px);
+    font-feature-settings: normal;
+    line-height: 1.4;
+  }
+  
+  .grvsc-code {
+    display: table;
+  }
+  
+  .grvsc-line {
+    display: table-row;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+  }
+  
+  .grvsc-line &gt; * {
+    position: relative;
+  }
+  
+  .grvsc-gutter-pad {
+    display: table-cell;
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  .grvsc-gutter {
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter::before {
+    content: attr(data-content);
+  }
+  
+  .grvsc-source {
+    display: table-cell;
+    padding-left: 1.5rem;
+    padding-left: var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem));
+    padding-right: 1.5rem;
+    padding-right: var(--grvsc-padding-right, var(--grvsc-padding-h, 1.5rem));
+  }
+  
+  .grvsc-source:empty::after {
+    content: &apos; &apos;;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter + .grvsc-source {
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  /* Line transformer styles */
+  
+  .grvsc-has-line-highlighting &gt; .grvsc-code &gt; .grvsc-line::before {
+    content: &apos; &apos;;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .grvsc-line-diff-add::before {
+    background-color: var(--grvsc-line-diff-add-background-color, rgba(0, 255, 60, 0.2));
+  }
+  
+  .grvsc-line-diff-del::before {
+    background-color: var(--grvsc-line-diff-del-background-color, rgba(255, 0, 20, 0.2));
+  }
+  
+  .grvsc-line-number {
+    padding: 0 2px;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+&lt;/style&gt;</content:encoded></item><item><title><![CDATA[CI/CD란?]]></title><description><![CDATA[…]]></description><link>https://2022-momo.github.io/DevOps/20220713-CICD란/</link><guid isPermaLink="false">https://2022-momo.github.io/DevOps/20220713-CICD란/</guid><pubDate>Wed, 13 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;이 글은 모모팀의 &lt;a href=&quot;https://github.com/Seongwon97&quot;&gt;렉스&lt;/a&gt;가 작성하였습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;개발자가 사용자들에게 서비스를 배포하기까지는 개발, 테스트, 빌드, 배포 등의 많은 과정들이 필요하다. 서비스를 한 번만 배포를 하면 이러한 과정을 수행하는 것이 문제가 없지만, 실제 서비스들은 추가적인 기능 개발과 예상하지 못한 오류 수정 등의 많은 코드의 변경이 필요하고 이러한 코드의 변경이 있을 때마다 위의 수많은 과정들을 반복해서 진행해야 할 것이다. CI/CD는 이러한 과정들을 자동화하여 애플리케이션을 짧은 주기로 사용자들에게 제공하고 개발자들이 빌드, 배포와 같은 작업에 투자하는 시간을 단축시켜 개발에 더 많은 시간을 투자할 수 있도록 해준다.&lt;/p&gt;
