@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url> <loc>https://2022-momo.github.io/DevOps/20220815-submodule로-환경변수-관리하기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://2022-momo.github.io/DevOps/20220808-모달에-애니메이션-달기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20221009-모모팀-서비스성능-개선기1/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20221008-Spring의_Event/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20220930-FetchJoin과-limit을-같이-사용하며-발생한-문제/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20220919-성능테스트-부하테스트-스트레스테스트란/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20220821-스프링-Profile이란/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/20220817-JPA-Specification/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Frontend/20220815-submodule로-환경변수-관리하기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/DevOps/20220814-CICD구축기4/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Frontend/20220808-모달에-애니메이션-달기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/DevOps/20220728-CICD구축기3/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/DevOps/20220717-CICD구축기2/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/DevOps/20220715-CICD구축기1/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://2022-momo.github.io/DevOps/20220713-CICD란/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Backend/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://2022-momo.github.io/DevOps/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://2022-momo.github.io/Frontend/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://2022-momo.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://2022-momo.github.io/search/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>
