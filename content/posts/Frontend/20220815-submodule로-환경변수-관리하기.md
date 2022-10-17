@@ -41,7 +41,7 @@ develop mode와 production mode를 오가며 BASE URL과 이에 따른 설정들
 
 <center>
 
-![Deploy process](image/20220815_submodule로-환경변수-관리하기/deploy_process.png)
+![Deploy process](content/posts/Frontend/image/20220815_submodule로-환경변수-관리하기/deploy_process.png)
 
 </center>
 
@@ -61,7 +61,7 @@ develop mode와 production mode를 오가며 BASE URL과 이에 따른 설정들
 
 <center>
 
-![Private repo](image/20220815_submodule로-환경변수-관리하기/private_repo.png)
+![Private repo](content/posts/Frontend/image/20220815_submodule로-환경변수-관리하기/private_repo.png)
 
 </center>
 
@@ -91,7 +91,7 @@ Jenkins에서도 서브모듈을 사용할 수 있게 해주려면 몇 가지 �
 
 <center>
 
-![Generate token](image/20220815_submodule로-환경변수-관리하기/generate_token.png)
+![Generate token](content/posts/Frontend/image/20220815_submodule로-환경변수-관리하기/generate_token.png)
 
 </center>
 
@@ -103,7 +103,7 @@ Jenkins의 `Dashboard > Manage Credentials` 에서 `Add Credentials`를 누릅�
 
 <center>
 
-![Untitled](image/20220815_submodule로-환경변수-관리하기/add_credential.png)
+![Untitled](content/posts/Frontend/image/20220815_submodule로-환경변수-관리하기/add_credential.png)
 
 </center>
 
@@ -111,7 +111,7 @@ Jenkins의 `Dashboard > Manage Credentials` 에서 `Add Credentials`를 누릅�
 
 <center>
 
-![Register token](image/20220815_submodule로-환경변수-관리하기/register_token.png)
+![Register token](content/posts/Frontend/image/20220815_submodule로-환경변수-관리하기/register_token.png)
 
 </center>
 
