@@ -1,4 +1,320 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모모의 기술 블로그]]></title><description><![CDATA[Develop, Security, It, Etc...]]></description><link>https://2022-momo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 17 Oct 2022 06:26:50 GMT</lastBuildDate><item><title><![CDATA[모모팀 서비스 성능 개선기1 (의존관계 개선)]]></title><description><![CDATA[해당 포스트는 모모팀 크루 렉스가 작성하였습니다. 기존 객체 의존관계의 문제점 모모팀 프로젝트는 모임 관련 서비스인만큼 모임 찜하기, 모임 참여하기 등의 기능이 추가될 때마다 Group…]]></description><link>https://2022-momo.github.io/Backend/20221009-모모팀-서비스성능-개선기1/</link><guid isPermaLink="false">https://2022-momo.github.io/Backend/20221009-모모팀-서비스성능-개선기1/</guid><pubDate>Sun, 09 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모모의 기술 블로그]]></title><description><![CDATA[Develop, Security, It, Etc...]]></description><link>https://2022-momo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 29 Oct 2022 07:45:04 GMT</lastBuildDate><item><title><![CDATA[recoil과 react-query를 우아하게 사용하기까지]]></title><description><![CDATA[…]]></description><link>https://2022-momo.github.io/Frontend/20221029-recoil과-react-query를-우아하게-사용하기까지/</link><guid isPermaLink="false">https://2022-momo.github.io/Frontend/20221029-recoil과-react-query를-우아하게-사용하기까지/</guid><pubDate>Sat, 29 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;해당 포스트는 모모팀 크루 &lt;a href=&quot;https://github.com/usageness&quot;&gt;유세지&lt;/a&gt;가 작성했습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;모두 모여라의 정식 스프린트가 모두 마무리 되고, 본격적인 유지보수와 리팩토링 단계에 들어갔습니다. 시간적인 여유가 생겨 사용되고 있는 기술 스택들을 깊게 공부해보며 발견했는데 현재 사용중인 라이브러리들 중 라이브러리가 추구하는 방향 또는 기능과 일치하지 않는 부분을 발견하였습니다.&lt;/p&gt;
+&lt;p&gt;무엇인가 이상한 점을 느껴 전체적인 데이터 관리 플로우를 점검해보았는데, 나름 잘 사용하고 있었다는 초기의 생각과는 달리 데이터 관리의 일관성이 무너진 상태였습니다. 저희 팀이 처음보는 라이브러리를 사용하며 어떤 착각을 했었는지, 그 실패의 경험을 글로 옮겨보려합니다.&lt;/p&gt;
+&lt;h3 id=&quot;무엇이-문제였을까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AC%B4%EC%97%87%EC%9D%B4-%EB%AC%B8%EC%A0%9C%EC%98%80%EC%9D%84%EA%B9%8C&quot; aria-label=&quot;무엇이 문제였을까 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;무엇이 문제였을까?&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;문제가 되는 라이브러리는 프로젝트의 상태 관리를 담당하는 &lt;code&gt;recoil&lt;/code&gt;과 통신을 담당하는 &lt;code&gt;react-query&lt;/code&gt; (현재 tanstack-query) 두 가지였습니다.&lt;/p&gt;
+&lt;p&gt;먼저 recoil은 전역 상태를 관리하는 라이브러리입니다. 전역 store에서 상태들을 관리하며 컴포넌트가 각 상태를 구독하고 있는 형태로 사용하게 됩니다. 일반적인 전역 상태로는 context api를 사용할 수도 있지만, 상태가 변경되는 경우 해당 상태를 구독하고 있는 컴포넌트의 하위 컴포넌트들에도 불필요하게 리렌더링이 발생한다는 단점이 있습니다.&lt;/p&gt;
+&lt;p&gt;반면 recoil은 내부적으로 ref를 통해 상태를 전달하여 이러한 리렌더링을 방지할 수 있고, atomic concept를 차용하여 리액트의 상태에 가깝게 사용할 수 있다는 장점이 있습니다. 유사한 라이브러리로는 jotai가 있습니다.&lt;/p&gt;
+&lt;p&gt;jotai는 recoil과 유사한 개념으로 동작하고 상대적으로 더 가볍습니다. 다만 훌륭한 공식 문서가 존재하고, 많은 사람들의 선택을 받은 점을 고려하여 recoil을 선택하게 되었습니다. recoil에 대한 자세한 정보는 프론트 팀의 &lt;a href=&quot;https://github.com/LAH1203&quot;&gt;하리&lt;/a&gt;가 &lt;a href=&quot;https://lah1203.netlify.app/post/8&quot;&gt;잘 정리해 준 글&lt;/a&gt;이 있어 자세히는 적지 않겠습니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 33.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA8klEQVQoz4WRW07FMAxEu/91chES3JY8GsdJ7MFOW4GgEh9TRY7njOMuIgJVvRWgeNkqeHugN4aXbnu9U4adBYsDL91DcRjs87fvvKsJEt+g6f1/4KzPdDs7VA+4jg5tBCkbZF/togGtfAP1d/Iln8CMGl7NUyG8z4lgIBQDjTZfkaogs2IZFum60sWn8aYpBigccnN4zCl84toVpVuJBM/cEWkYx3ao1gBOP5QhlMyXwJTBraH1MdNjLghGiTaNA3IddifoQ45N25OWmAkfa8Az7NgyY80Nn5Y6TacxUAe1gVgYxB3DASrzr+q5Lq/56r4A3lwnDZFLVPQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;recoil과 jotai의 사용률 비교&quot;
+        title=&quot;recoil과 jotai의 사용률 비교&quot;
+        src=&quot;/static/e536c1f817e3d2b9667b677ffa3fdc9b/c1b63/recoil_vs_jotai.png&quot;
+        srcset=&quot;/static/e536c1f817e3d2b9667b677ffa3fdc9b/5a46d/recoil_vs_jotai.png 300w,
+/static/e536c1f817e3d2b9667b677ffa3fdc9b/0a47e/recoil_vs_jotai.png 600w,
+/static/e536c1f817e3d2b9667b677ffa3fdc9b/c1b63/recoil_vs_jotai.png 1200w,
+/static/e536c1f817e3d2b9667b677ffa3fdc9b/21b4d/recoil_vs_jotai.png 1280w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;다음은 react-query입니다. 일반적인 연결을 넘어 응답값 캐싱, 무한 스크롤을 위한 메서드(useInfiniteScroll) 등 다양한 기능들을 지원해주고 있어 많은 인기를 끌고 있는 라이브러리입니다. 모두 모여라 팀도 불필요한 네트워크 요청을 줄이고, 이러한 편의기능을 이용하기 위해 react-query를 채택하였습니다.&lt;/p&gt;
+&lt;h3 id=&quot;프로젝트-초기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B4%88%EA%B8%B0&quot; aria-label=&quot;프로젝트 초기 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;프로젝트 초기&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;프로젝트 초기에 데이터들을 어떻게 관리할지에 대해 이야기를 나누었는데, 데이터를 여러 곳에 나누어 저장해두면 관리하기 어렵다고 생각했습니다. 특히 react-query를 통해 받아오는 데이터는 자동으로 캐싱이 되기 때문에 이렇게 사용하면 혼란이 발생할 여지가 있다고 느꼈습니다. 두 데이터들을 모두 한 곳에서 관리해주어야 할 필요성을 느꼈고, 그 결과 아래와 같은 코드가 탄생하였습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;0&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useRecoilQuery&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4 mtki&quot;&gt;recoilState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;RecoilState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4 mtki&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;getFunc&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;staleTime&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;Infinity&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;suspense&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;) &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; [&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;] &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useRecoilState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;recoilState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; { &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;isLoading&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;refetch&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; } &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useQuery&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;getFunc&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;staleTime&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;suspense&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  })&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(() &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; (&lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;) &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;return&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  }, [&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; { &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;isLoading&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;refetch&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;useRecoilQuery는 react-query를 통해 받은 응답값을 곧바로 recoil에 저장할 수 있는 커스텀 훅입니다. 이런식으로 응답값을 저장하고 실제로 사용하는 컴포넌트에서는 recoil에 저장된 값만을 참조한다면 데이터 참조에 나름의 일관성이 생기게 될 것이라 생각했습니다.&lt;/p&gt;
+&lt;center&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 71.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAADB0lEQVQ4y42RTUwTURSFbxmFEG38iS5coAvjQl24cOHCxGCMYlTi0q2JunFh1LhwY+LKmJgoIQGFhYqiQEiKiKVQpkpnOlPaTgRRMSYF+oeK+BNopS2Ud7xvWpUYF07yZe6cnnd63ntEfz1VVVV0uwZ0cw/o6mY47hwWoeZjAk1HBG7zfG07HHV7YXv+61ETghoPCbpUKaiGCo7mWrx6fAp4dBJoOopXJ0g4rmwqetTEP0KTEZQQlLIE+ZKghmrQnS2gMcDBre41HhaxxhoxIecwa/Xbih7p7coYjEmutGHzO5DDyjhUiYcWlXfarFL6v9XMxour6iovlzdX8rz+M4qtOr4MKq6MoXDYbziwbHmg3XKKib0Edc9C4e23q3Fh+VJCYwL8bfE22/wxKE/mLHJldLvdL5Y1FBUpCzf43ZC0REMqghtjr8UGNYk4h4BDi/DsSyDV//F7pSsTuNiVNps4qF7CbZs58Dil34Oy41gzbuYw4v2EUXUGEzxHR/M7+iYXhh8HJ8FkHwai2bZQHAOTSyPq17GtHTMvcH/SjZZYL1riHjxI9IEDg/Y2mZXc8Ay/z8UjhQtTEZx+/VasVZMiyQePP9gtp3xxlHPDWm543pUxz3aljbMcdp7ZTeNDGYqF8zbfR0HIgqKRHHXMLJRxyHUOaGXulmiV2ouEPMMIn2GA4fOb45uWt8wzIegvmzd0ZdgXdIYH9LWBfv86Sw06TU/v6rflpDTwrbaVuMWMVZBiep6tGgx4nb5Av1MLeNdohtf5JqqXx97rK6hgaoSRMCH9gRaDOgnTT4sMRkIEjBL8zwgD7QSV0dxFbThU9AQ1Kgzp9lqpySzCkL4PEXP/Utg4iLBRzYE72bgbYfOArUVMqe0SQW2XnEu+A9Jje/9o+2UWLejPMd3bjakeF7709YBN3iVjMPrZ89TWpnufSs2SzHh6bO2TuxsF9nCo91u/29Y+up8gr/lAvDif9auF+cGBfJ7DeWGnXJzzq2AtJ038rUp+abmiZnFgp/z9B69lrSCzfgLtpc5AHvhF6gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;useRecoilQuery의 구조&quot;
+        title=&quot;useRecoilQuery의 구조&quot;
+        src=&quot;/static/b27f59f7a2dda4c6595658f43ee7c8c9/c1b63/useRecoilQuery_graph.png&quot;
+        srcset=&quot;/static/b27f59f7a2dda4c6595658f43ee7c8c9/5a46d/useRecoilQuery_graph.png 300w,
+/static/b27f59f7a2dda4c6595658f43ee7c8c9/0a47e/useRecoilQuery_graph.png 600w,
+/static/b27f59f7a2dda4c6595658f43ee7c8c9/c1b63/useRecoilQuery_graph.png 1200w,
+/static/b27f59f7a2dda4c6595658f43ee7c8c9/21b4d/useRecoilQuery_graph.png 1280w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/center&gt;
+&lt;p&gt;실제로 useRecoilQuery를 이용했던 곳은 프로젝트를 통 틀어 두 곳인데, 예시를 보겠습니다.&lt;/p&gt;
+&lt;h3 id=&quot;카테고리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC&quot; aria-label=&quot;카테고리 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;카테고리&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;첫 번째는 useCategory입니다. 카테고리의 목록을 서버에서 넘겨받아 메인 페이지의 필터링 섹션을 비롯하여 모임 생성 페이지의 카테고리 선택 섹션등에 사용하고 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 48%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABcUlEQVQoz3VRXUsCQRSdP91j9WAPCWUgJmRk+EGpbeViYmYq+tKDEUX0lOZDYWvpxrqfs/PV3VkSjTpchjtnueeePYMiRTV6qm6X1XhVTV6q+w31sK1muuXzXjXbaq0cHK1lj9dz+c2TUqysxCtKsqakGkr6upRrFpBnTYhn+wDP81wXyvew67iCiwCMchqUYIwFDYOGQ0kSmcbHzNBtx7EsC06AZdvaeATzIPWujbTP0WDwYlomSHGA+JHlHK1GEpVCnmDMWUjKD4wyQiilGGNYBCeRV1jPJaABBtWLqaebK9eyiYdDbWmWUkKgwQSDl5AMx8QC0F1bfe41wWSwfL4ZdhDKBdXGr8PhEAIRfwE9dC/6ty1H/rRPSKgNiwUlhkMe32wu/gXa2EpkYjvGl+7IvIh0S2W8QIynxi+rS8PpePRsb1fXdbA9Z4NsKIVn06eTkAGJMLCl4X6ndt+pm7MZI/5C2sGrzvODM0wbsGjkG52zK/PnPe18AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;카테고리 데이터의 사용처&quot;
+        title=&quot;카테고리 데이터의 사용처&quot;
+        src=&quot;/static/70d30b3a5257a9d225aa40e2e3921a89/c1b63/category_usage.png&quot;
+        srcset=&quot;/static/70d30b3a5257a9d225aa40e2e3921a89/5a46d/category_usage.png 300w,
+/static/70d30b3a5257a9d225aa40e2e3921a89/0a47e/category_usage.png 600w,
+/static/70d30b3a5257a9d225aa40e2e3921a89/c1b63/category_usage.png 1200w,
+/static/70d30b3a5257a9d225aa40e2e3921a89/2eb79/category_usage.png 1256w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;카테고리 정보 또한 여러 곳에서 사용하기 때문에 아래처럼 커스텀 훅으로 만들어 분리해주었습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;1&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* useCategory.ts */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useCategory&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; { &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;categories&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; } &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useRecoilQuery&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;categoryState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;CATEGORY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;requestCategory&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  );&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;categories&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;};&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;...&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* category 데이터를 사용할 때 */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;categories&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useCategory&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;위의 useRecoilQuery를 보시면 staleTime이 Infinity로 지정되어 페이지에서 벗어나지 않는 한 받아온 응답값은 만료되지 않는 상태가 됩니다. 따라서 다른 페이지에서 useCategory를 통해 카테고리 값에 접근하더라도 새롭게 카테고리 데이터를 요청하지 않는다는 원래의 목적에는 부합하나, &lt;strong&gt;그것뿐이라면 굳이 recoil에 저장해 줄 이유가 사라지게 됩니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;카테고리는 서버에서 요청받는 값이지만, 사용자가 서비스를 이용하던 도중에 변경될 일은 사실상 없습니다. 따라서 react-query를 이용한 캐싱은 불필요한 기능이므로, 코드를 걷어내도록 하겠습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;2&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;categoryState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;CategoryType&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;[]&amp;gt;({&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;categoryState&amp;quot;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;async&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;categories&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;await&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;requestCategory&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;categories&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  },&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;})&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;recoil의 전역 상태를 관리하는 store에서 카테고리 상태 부분을 변경해줍니다. 기존의 react-query 대신, selector에서 데이터 요청 함수를 직접 호출하여 반환합니다. 이렇게되면 recoil의 selector 내부에서 해당 값이 캐싱되어 react-query를 사용하지 않고도 사용한 것처럼 동작하게 됩니다.&lt;/p&gt;
+&lt;h3 id=&quot;모임-상세정보&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A8%EC%9E%84-%EC%83%81%EC%84%B8%EC%A0%95%EB%B3%B4&quot; aria-label=&quot;모임 상세정보 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;모임 상세정보&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;두 번째는 모임 상세 정보입니다. 상세 정보의 경우 서비스를 이용하며 계속 변경되어야 하고, 같은 요청이더라도 데이터가 stale 되는 시점을 임의로 컨트롤 해야합니다. (로그인 여부에 따른 호스트, 찜, 참여 여부 등이 달라지기 때문입니다.)&lt;/p&gt;
+&lt;p&gt;이 경우에는 react-query를 이용하는게 타당하다고 판단했습니다. recoil을 이용하여 전역에서 사용할 수 있도록 해주는게 큰 이득이 아닐 뿐더러 &lt;strong&gt;데이터를 직접 갱신할 필요&lt;/strong&gt;가 있기 때문입니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;3&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* Detail.tsx */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; { &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; } &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useRecoilQuery&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;groupDetailState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_DETAILS&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;requestGroupDetail&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;)),&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;상세 페이지의 useRecoilQuery() 요청 부분입니다. 이 부분을 아래처럼 useQuery()로 변경해주었습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;4&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; { &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; } &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useQuery&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_DETAILS&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;requestGroupDetail&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이제 모임 상세정보는 react-query에 의해서만 관리되며, 프로젝트 내에서 useRecoilQuery가 사용되는 부분이 하나도 남지 않았기에 훅을 제거할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAACrklEQVQoz5VRW0iTcRQ/37xl2JJ8tqKH8rkgfOihmvd5wR4qI4IuTxIolYZC0E2wCAnazRUmmWA63Ezd1W/O7ducObxs5WZqyxKdbjZvmzq37/T/7DGKOvDjnPM/nPM75/cH+INJcpAnzUUgOCnOYn1iARuT5LBy0VkWXpxhKVKHf7b09HSQ5SNPLEAQCWJ5zRdYbLmM2ChkDYqbCD01SAhZ+C8T5UR4IkEUXhXgCXkRzr4sZsONBSiWZcVAlhuh5MUInevWvw/hzuCQmVGym1+8fo0ibt+lgw1p9cfm+YfhFB8RYaIHoZr/BaR5LCfJbo84m3gC+D6MMOdgd/2Ck9MFYbYb4V78GnSNLUD2FWGqZEx8YBKd/Ep5VRpH9Py2B6RH8beBHGCaCVFjeh81aV6jvLYY6G8htA+7qOOAlMIzfkgZGvS3zhvwzTdtVLFiRtW6/fE4PoHXD/x7pQWxRGkuyyFBVhoGqTAC4DatAKOaAmffEsyN7IAwtQnE5RHefcD4zuUP+4lOsvaA6V3boqlVsWpRKkO2UnI1ND36kdCQgVQdRTY7jUmSLKQIAL4O7XRMW8MdXntEOeeIZs64EVxtrmTj08kU7AWoxxFIxnIiBPLqNqxQiV6gn3lSPr1lkoLjqvjYUksc/XAqxd04mogfNXEwY93cctGBzc+WdZx1YOGWzQvcBohlgDY3YI8RcPvcrzetB1Bj/RU7mwGHSGxxkDwf0NEEqzRNCj7cQ34umYCH9sEjWwN9FX6t+k5QZ6jFIXPhtpm+EdBp7gY0+lq0D5REGeNVv1pXG9Rrq6JMfxlr6z+/rNXX+HWa6ojFWAGhKXIMocTRCcLIFG0Y9bjQq8KgXo1ot9BhkyHs6+3CgLYbWdsAQwhWljTv0U9yMmBmh+l3c/GiugvJMvgTZi24CJP3JQsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;useRecoilQuery가 사라진 현재의 구조&quot;
+        title=&quot;useRecoilQuery가 사라진 현재의 구조&quot;
+        src=&quot;/static/9a361641ab7c268f25b373186de96880/c1b63/without_useRecoilQuery_graph.png&quot;
+        srcset=&quot;/static/9a361641ab7c268f25b373186de96880/5a46d/without_useRecoilQuery_graph.png 300w,
+/static/9a361641ab7c268f25b373186de96880/0a47e/without_useRecoilQuery_graph.png 600w,
+/static/9a361641ab7c268f25b373186de96880/c1b63/without_useRecoilQuery_graph.png 1200w,
+/static/9a361641ab7c268f25b373186de96880/21b4d/without_useRecoilQuery_graph.png 1280w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;사용되지 않는 훅을 제거하고 나니 그동안 보이지 않던 문제들도 보이기 시작했습니다. 컴포넌트에서 로그인 상태에 따른 사이드 이펙트를 선언해주는 부분인데, 적당한 위치가 아니라는 생각이 들었습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;5&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* Main 컴포넌트의 모임 목록 갱신 함수 */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk3&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(() &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;queryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;invalidateQueries&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_SUMMARIES&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// eslint-disable-next-line react-hooks/exhaustive-deps&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}, [&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;accessTokenProvider&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;()])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* Detail 컴포넌트의 모임 상세 정보 갱신 함수 */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk3&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(() &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;queryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;invalidateQueries&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_DETAILS&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// eslint-disable-next-line react-hooks/exhaustive-deps&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}, [&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;accessTokenProvider&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;()])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;현재 모임 데이터들을 갱신해주는 부분입니다. 둘 모두 로그인 여부(accessToken의 변동)에 따라 모임 정보를 새롭게 받기 위해 해당 Query key를 이용해 캐시 무효화를 시켜주는 상황입니다.&lt;/p&gt;
+&lt;p&gt;각 컴포넌트에서 로그인 상태 변동 여부를 통해 데이터를 관리하려 했지만, 로그인 상태를 관리하고 있는 훅이 있는 상황에 컴포넌트에서 무효화를 시켜줄 필요가 없습니다. 기존에 로그인 상태와 동작을 관리하던 useAuth 훅 내부에서 수행하는 것이 적절해보이므로 옮겨주었습니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;6&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;/* 로그인 상태를 관리하는 커스텀 훅 */&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useAuth&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; () &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; [{ &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;isLogin&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; }, &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;setLoginInfo&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;] &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useRecoilState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;loginState&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  ...&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;queryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useQueryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(() &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;queryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;invalidateQueries&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_DETAILS&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;queryClient&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk3&quot;&gt;invalidateQueries&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;QUERY_KEY&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;GROUP_SUMMARIES&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// eslint-disable-next-line react-hooks/exhaustive-deps&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  }, [&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;isLogin&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;]);&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  ...&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이것으로 컴포넌트는 데이터를 표시해주는 역할 하나만 해주고 있습니다. 데이터 관리의 주체를 명확히 해 준 덕분인지 다른 부분들도 보이기 시작해 컴포넌트가 한결 깨끗해진 모습입니다.&lt;/p&gt;
+&lt;h3 id=&quot;마무리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A7%88%EB%AC%B4%EB%A6%AC&quot; aria-label=&quot;마무리 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;마무리&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;라이브러리의 철학을 제대로 이해하지 못하고 사용한 결과, 원하는대로 동작은 하더라도 비효율적이고 혼란스럽게 동작하는 코드를 만들게 되었습니다. 아마 중간부터 합류한 개발자가 있었다면 분명 의문을 표시했을 데이터 흐름이었습니다.&lt;/p&gt;
+&lt;p&gt;recoil은 클라이언트의 상태를 관리하고, react-query는 서버의 데이터를 관리하는 라이브러리이므로 둘의 역할은 분명히 나누어졌어야 합니다. 그러한 특성을 무시하고 그 둘을 합치려는 시도를 했기 때문에 결국 어딘가 이상한 구조가 되어버렸고, 라이브러리의 기능들을 100% 활용할 수 없었습니다. 클라이언트의 데이터와 서버의 데이터를 각각 recoil과 react-query를 이용해 따로 관리해주는게 지금으로서는 최선의 방법인것 같습니다.&lt;/p&gt;
+&lt;p&gt;잘못된 구조로 시작하여 추가적으로 시간을 쓰게 됐지만 이제라도 문제를 느끼고 역할에 따라 적절히 분리할 수 있어 정말 다행이라고 생각합니다. 추가로, 문제가 됐던 부분 이외에 불필요한 부분까지 발견하고 제거할 수 있어서 생각보다 변경이 더 많아졌습니다. 이래서 하나의 개선이 있어야 그 다음 개선으로 갈 수 있다고 하는 것 같네요.&lt;/p&gt;
+&lt;p&gt;모두 모여라에선 이러한 과정을 거쳐 이전보다 우아한 방법으로 두 라이브러리를 사용할 수 있게 되었습니다.&lt;/p&gt;
+&lt;style class=&quot;grvsc-styles&quot;&gt;
+  .grvsc-container {
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 1rem;
+    padding-top: var(--grvsc-padding-top, var(--grvsc-padding-v, 1rem));
+    padding-bottom: 1rem;
+    padding-bottom: var(--grvsc-padding-bottom, var(--grvsc-padding-v, 1rem));
+    border-radius: 8px;
+    border-radius: var(--grvsc-border-radius, 8px);
+    font-feature-settings: normal;
+    line-height: 1.4;
+  }
+  
+  .grvsc-code {
+    display: table;
+  }
+  
+  .grvsc-line {
+    display: table-row;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+  }
+  
+  .grvsc-line &gt; * {
+    position: relative;
+  }
+  
+  .grvsc-gutter-pad {
+    display: table-cell;
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  .grvsc-gutter {
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter::before {
+    content: attr(data-content);
+  }
+  
+  .grvsc-source {
+    display: table-cell;
+    padding-left: 1.5rem;
+    padding-left: var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem));
+    padding-right: 1.5rem;
+    padding-right: var(--grvsc-padding-right, var(--grvsc-padding-h, 1.5rem));
+  }
+  
+  .grvsc-source:empty::after {
+    content: &apos; &apos;;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter + .grvsc-source {
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  /* Line transformer styles */
+  
+  .grvsc-has-line-highlighting &gt; .grvsc-code &gt; .grvsc-line::before {
+    content: &apos; &apos;;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .grvsc-line-diff-add::before {
+    background-color: var(--grvsc-line-diff-add-background-color, rgba(0, 255, 60, 0.2));
+  }
+  
+  .grvsc-line-diff-del::before {
+    background-color: var(--grvsc-line-diff-del-background-color, rgba(255, 0, 20, 0.2));
+  }
+  
+  .grvsc-line-number {
+    padding: 0 2px;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+  .one-dark-pro {
+    background-color: #282c34;
+    color: #abb2bf;
+  }
+  .one-dark-pro .mtki { font-style: italic; }
+  .one-dark-pro .mtk9 { color: #C678DD; }
+  .one-dark-pro .mtk1 { color: #ABB2BF; }
+  .one-dark-pro .mtk3 { color: #61AFEF; }
+  .one-dark-pro .mtk8 { color: #56B6C2; }
+  .one-dark-pro .mtk11 { color: #E5C07B; }
+  .one-dark-pro .mtk4 { color: #E06C75; }
+  .one-dark-pro .mtk7 { color: #D19A66; }
+  .one-dark-pro .mtk5 { color: #7F848E; }
+  .one-dark-pro .mtk6 { color: #98C379; }
+  .one-dark-pro .grvsc-line-highlighted::before {
+    background-color: var(--grvsc-line-highlighted-background-color, rgba(255, 255, 255, 0.1));
+    box-shadow: inset var(--grvsc-line-highlighted-border-width, 4px) 0 0 0 var(--grvsc-line-highlighted-border-color, rgba(255, 255, 255, 0.5));
+  }
+&lt;/style&gt;</content:encoded></item><item><title><![CDATA[모모팀 서비스 성능 개선기1 (의존관계 개선)]]></title><description><![CDATA[해당 포스트는 모모팀 크루 렉스가 작성하였습니다. 기존 객체 의존관계의 문제점 모모팀 프로젝트는 모임 관련 서비스인만큼 모임 찜하기, 모임 참여하기 등의 기능이 추가될 때마다 Group…]]></description><link>https://2022-momo.github.io/Backend/20221009-모모팀-서비스성능-개선기1/</link><guid isPermaLink="false">https://2022-momo.github.io/Backend/20221009-모모팀-서비스성능-개선기1/</guid><pubDate>Sun, 09 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;해당 포스트는 모모팀 크루 &lt;a href=&quot;https://github.com/Seongwon97&quot;&gt;렉스&lt;/a&gt;가 작성하였습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&quot;기존-객체-의존관계의-문제점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B8%B0%EC%A1%B4-%EA%B0%9D%EC%B2%B4-%EC%9D%98%EC%A1%B4%EA%B4%80%EA%B3%84%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90&quot; aria-label=&quot;기존 객체 의존관계의 문제점 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;기존 객체 의존관계의 문제점&lt;/h1&gt;
@@ -418,6 +734,346 @@
   .one-dark-pro .mtk8 { color: #56B6C2; }
   .one-dark-pro .mtk6 { color: #98C379; }
   .one-dark-pro .mtk3 { color: #61AFEF; }
+  .one-dark-pro .grvsc-line-highlighted::before {
+    background-color: var(--grvsc-line-highlighted-background-color, rgba(255, 255, 255, 0.1));
+    box-shadow: inset var(--grvsc-line-highlighted-border-width, 4px) 0 0 0 var(--grvsc-line-highlighted-border-color, rgba(255, 255, 255, 0.5));
+  }
+&lt;/style&gt;</content:encoded></item><item><title><![CDATA[최적의 build-loader를 찾아가기]]></title><description><![CDATA[해당 포스트는 모모팀 크루 유세지와 하리가 작성했습니다. 이전까지 모두 모여라는 Webpack을 사용한 자바스크립트 프로젝트를 진행하며 babel…]]></description><link>https://2022-momo.github.io/Frontend/20221009-최적의-build-loader를-찾아가기/</link><guid isPermaLink="false">https://2022-momo.github.io/Frontend/20221009-최적의-build-loader를-찾아가기/</guid><pubDate>Sun, 09 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;해당 포스트는 모모팀 크루 &lt;a href=&quot;https://github.com/usageness&quot;&gt;유세지&lt;/a&gt;와 &lt;a href=&quot;https://github.com/LAH1203&quot;&gt;하리&lt;/a&gt;가 작성했습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이전까지 모두 모여라는 &lt;code&gt;Webpack&lt;/code&gt;을 사용한 자바스크립트 프로젝트를 진행하며 babel을 트랜스파일러로 사용해왔습니다. 웹팩의 튜토리얼 문서에서 만날 수 있는 첫 번째 트랜스파일러이자 과거와 현재를 아울러 많은 사랑을 받고 있기 때문에, 대부분의 개발자 분들께서 한 번쯤은 사용해 본 기억이 있는 프로그램입니다.&lt;/p&gt;
+&lt;p&gt;그런데 얼마 전, 리팩토링을 진행하며 새로운 로더를 설치해서 사용하게 되었습니다. 결론부터 이야기하면 굉장히 만족스러웠는데, 왜 다른 로더를 사용하게 되었고, 그 결과가 어떻게 작용했는지에 대해 적어보도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;그 전에 먼저 바벨에 대해 간단히 알아봅시다.&lt;/p&gt;
+&lt;h4 id=&quot;바벨이란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%94%EB%B2%A8%EC%9D%B4%EB%9E%80&quot; aria-label=&quot;바벨이란 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;바벨이란?&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;바벨은 최신 버젼의 자바스크립트 문법을 이전 버전에서도 사용할 수 있는 문법으로 변환하는 역할을 하는 트랜스파일러입니다. 자바스크립트의 버전은 하나가 아닌데, ECMA(European Computer Manufacturers Association)라고 하는 표준화 기구에서 편리한 자바스크립트 개발을 위해 매년마다 새로운 문법들을 표준으로 정하고 있으며, ES6, ES7, ... ES13 등의 이름으로 버전의 시점을 표시합니다.&lt;/p&gt;
+&lt;p&gt;현재 대부분의 브라우저는 자바스크립트의 최신 문법들을 지원하지만, 과거에 사용되던 IE와 같은 일부 브라우저의 경우 일정 시점 이후의 문법은 지원하지 않습니다. 그럼에도 아직까지 이용하는 사람들이 있기 때문에 이런 사용자들도 사이트를 이용할 수 있게 하려면 현재의 문법 대신 과거의 방식으로 구현하거나, 구현되지 않은 문법을 채워주는 폴리필(polyfil)이라고 하는 방법을 이용해야 합니다.&lt;/p&gt;
+&lt;p&gt;이러한 동작들을 개발자가 일일히 해주기엔 번거롭고, 그렇다고 하지 않으면 특정 문법을 사용하지 못하는 개발 환경은 그 자체로 문제 요소입니다. 바벨은 이러한 동작들을 대신 해줌으로써 문제를 깔끔하게 해결해주었습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 58.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAAChElEQVQoz01Sa08TQRTdn4GIBcq2+3603fduWyhQCgVsUJ6WANH4QWPEqJAY/I8q0FL4DRhTSv1QkuOd4SEfTs7cMztn7z0zQqlownF06IYGO2fA9fLwCO4dHDcHzy8gihwEgcO1OPE5mK6oEvIFm77LI4wCCJIswbQMEmxoZCopGlzfRxAGKLgOVN1ArlCAJCu0p0I3TSiaTpoDMSvBMPWHJuJiAkE3FCTFEFESolyysbPh4M1OGesvY8xWDCwvWGiu+5z3mhFeNEI8r9vYfRWhueagOhshjAMUSxF1akFgrcZJcPsnV8fWWoL6vI/Jsov5Woy11SqaWzUsL5XQ3KyiNhdjpTGJmSkDs9MGwsCkqCxEsU8eGgTT0qBqMmQli1zehh/62FgtY3tzErvNGbx7u4TXOzVsb1WI57C3PUNcxeZqkXJ1KSqHN8TGtnMmhFzepLw8ylEnYwVhmMen9ws4+trAlw8L+PZ5GQcf6zg6WLld7y/hcH8R3w8bWKyX+UWwyJgPuySBzc7cNV2BZZs8bFmzkc6oSI1lkBrPcs5IBtcl1YSs0r6okibTRerciE3KXgnvUDdU6tKlG9X5LUv0FFKjY2Q0TjzOOS0yUwkTmQmMpUWuDY+MQsxk+cgswzDyIFi2wc2YkMlmMTT8jD5McTx5yvC/Hhoe4fW9xuq0KD6YccPKdBlTlRIYx0kEL/AoAgrbc+AH9HgJfhDcrb1HmkejejzDew8GodPpoHNOIL64OEe73cLx8S+cnBzzdev0J+EHWi2qz9qknaJN6xbtnVHNzvDzdxAGgwHucTO4Qbd7hcvL38Rd9Pt99Hpd9K7+4Pr6iuq/xNeEHqHP68fnGf4BeHXdVjDyCiMAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;babel 공식 홈페이지&quot;
+        title=&quot;babel 공식 홈페이지&quot;
+        src=&quot;/static/173e42db2204e5f24505848ff67905c1/c1b63/babel_page.png&quot;
+        srcset=&quot;/static/173e42db2204e5f24505848ff67905c1/5a46d/babel_page.png 300w,
+/static/173e42db2204e5f24505848ff67905c1/0a47e/babel_page.png 600w,
+/static/173e42db2204e5f24505848ff67905c1/c1b63/babel_page.png 1200w,
+/static/173e42db2204e5f24505848ff67905c1/21b4d/babel_page.png 1280w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;웹팩 환경에서는 &lt;strong&gt;babel-loader&lt;/strong&gt;라고 하는 별도의 플러그인을 통해 프로젝트에 바벨을 적용해줄 수 있습니다. 아래처럼 module의 rules 부분에 지정할 파일들의 범위와 함께 구문을 추가해줍니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;javascript&quot; data-index=&quot;0&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// example of babel-loader&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;module: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  rules: [&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt; /&lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mtk7&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;js&lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;exclude&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt; /(node_modules&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;bower_components)/&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;loader&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;babel-loader&amp;quot;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;          &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;presets&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: [&lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;@babel/preset-env&amp;quot;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;],&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        },&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      },&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    },&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  ]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이렇게 바벨은 자바스크립트 환경에서 훌륭하게 동작할 수 있었습니다.&lt;/p&gt;
+&lt;p&gt;그런데, &lt;strong&gt;타입스크립트 환경&lt;/strong&gt;이라면 어떨까요?&lt;/p&gt;
+&lt;h4 id=&quot;타입스크립트-환경을-위한-babel-loader-구성하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%ED%99%98%EA%B2%BD%EC%9D%84-%EC%9C%84%ED%95%9C-babel-loader-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0&quot; aria-label=&quot;타입스크립트 환경을 위한 babel loader 구성하기 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;타입스크립트 환경을 위한 Babel-loader 구성하기&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;위에서 바벨은 자바스크립트를 변환해주는 트랜스파일러라고 설명했습니다. 타입스크립트 또한 런타임에는 자바스크립트가 되지만, 그것은 어디까지나 변환된 후의 이야기입니다. 위의 설정으로는 바벨이 ts 파일을 js 파일로 변환할 수 없습니다. Babel-loader가 타입스크립트 파일을 처리하려면 추가적인 플러그인이 필요합니다. 바로 &lt;strong&gt;@babel/preset-typescript&lt;/strong&gt; 입니다.&lt;/p&gt;
+&lt;p&gt;사용중인 패키지 매니저를 이용해 @babel/preset-typescript 를 설치하고, 바벨이 해당 플러그인을 불러와서 사용할 수 있도록 options의 presets 부분에 추가해줍니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;javascript&quot; data-index=&quot;1&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// example of babel-loader with typescript&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;module: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  rules: [&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt; /&lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;ts&lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;exclude&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt; /(node_modules&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;bower_components)/&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;loader&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;babel-loader&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: {&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;          &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;presets&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: [&lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;@babel/preset-env&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;@babel/preset-typescript&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;        }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;      }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;    }&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  ]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;}​&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이제 바벨이 타입스크립트 파일도 읽을 수 있게 되었습니다!&lt;/p&gt;
+&lt;h4 id=&quot;문제점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AC%B8%EC%A0%9C%EC%A0%90&quot; aria-label=&quot;문제점 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;문제점&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;다만 이렇게 구성된 babel-loader 설정에는 한 가지 문제가 있습니다. 바로 타입스크립트를 &lt;strong&gt;읽기만&lt;/strong&gt; 한다는 점입니다. 이게 어떤 의미인지 예시를 통해 확인해보겠습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1035px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 20.333333333333332%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAn0lEQVQY03WPaw7DIAyDOcfKI4RHCxTa3f9wXtZtEqq0Hx82CCux8hwQto5WG0rvyCHBOwttDB6LxqLN5f9hbigr4UgeNRXsuWJdy8UoGc9ddPXI5JAcYSUST0g/dQ58Qzk5gmf0baCXgTJO1K3JgIhDOCOjeY9dOEPAYL78wZ/3IPk4oUi2YyaQXKzzcG+IYayVulJ5qrd80ZO+/828AEaSbzJWeIehAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;type checking error&quot;
+        title=&quot;type checking error&quot;
+        src=&quot;/static/04607b70bce8550e5772578f7ce6677b/e3189/type_error.png&quot;
+        srcset=&quot;/static/04607b70bce8550e5772578f7ce6677b/5a46d/type_error.png 300w,
+/static/04607b70bce8550e5772578f7ce6677b/0a47e/type_error.png 600w,
+/static/04607b70bce8550e5772578f7ce6677b/e3189/type_error.png 1035w&quot;
+        sizes=&quot;(max-width: 1035px) 100vw, 1035px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;여기 타입이 잘못 지정된 코드가 있습니다. 숫자를 타입으로 갖는 변수에 문자열이 들어왔기 때문에 vscode의 타입 체커가 잘못되었다며 오류 내용을 알려주고 있습니다. 이 상태로 &lt;code&gt;webpack-dev-server&lt;/code&gt;를 통해 실행해보겠습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 34%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABJ0lEQVQY032OzU7CQBRG+w6QkEjpTL3DzJRhOtNf5KcEC9EX5AEMiTueQHfGrXHlBqMrNTGGBIE0Gkhq0ZULODnb891r8PMTnsZ81KaDDngeSAXCBeYAd5jjUErNI3N8Mb77uL96uL6Z3T69P8/eHgtfFq/GcRrQQYgTZYcuVrKK8E7LqloIIVxQKpUml5NNvpmv5ovsc/21XmbLVbbKvjMjiqJ+knS7PdV0PaW1UlI2C0WjwRkrLlcqlel0muf5drvN/2MknV633UpP46SnAl952tN6NyGEYIwRQsrl8t44POvLYctNZTgUREGV4EKT4Bqyambt7+29MRmGbNTC/QC05J6LYoGCBnBK6gQAbNs+FPu+3wy1EylC6xhsi8FOUlQ2/HIg/gHldsStAwSQuAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;error가 발생하지 않는 모습&quot;
+        title=&quot;error가 발생하지 않는 모습&quot;
+        src=&quot;/static/fb7b936122e7d91d2d6aff1bae5d5c50/c1b63/no_type_error.png&quot;
+        srcset=&quot;/static/fb7b936122e7d91d2d6aff1bae5d5c50/5a46d/no_type_error.png 300w,
+/static/fb7b936122e7d91d2d6aff1bae5d5c50/0a47e/no_type_error.png 600w,
+/static/fb7b936122e7d91d2d6aff1bae5d5c50/c1b63/no_type_error.png 1200w,
+/static/fb7b936122e7d91d2d6aff1bae5d5c50/afa26/no_type_error.png 1258w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;타입 에러가 발생할 것이라는 예상과는 다르게, 멀쩡히 동작하는 모습입니다.&lt;/p&gt;
+&lt;p&gt;이것은 babel-loader가 타입스크립트 파일을 변환하는 방식 때문에 발생하는 문제입니다. babel-loader는 빌드가 이루어질경우 별다른 타입 체크 없이 단순히 코드에서 타입을 모두 지워버립니다. 덕분에 빌드 속도가 꽤 빠른 편입니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;typescript&quot; data-index=&quot;2&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// 원본 코드&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;d&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk5 mtki&quot;&gt;// babel-loader에 의해 변환된 코드&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk4&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;quot;d&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;강력한 타입 체크는 타입스크립트의 장점이었는데, 이렇게 되면 언어의 큰 장점 하나를 잃는 셈이 됩니다. 코드도 변환하고, 타입 체크도 할 수 있는 방법은 없을까요?&lt;/p&gt;
+&lt;h4 id=&quot;빌드-시에-타입을-체크하는-플러그인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B9%8C%EB%93%9C-%EC%8B%9C%EC%97%90-%ED%83%80%EC%9E%85%EC%9D%84-%EC%B2%B4%ED%81%AC%ED%95%98%EB%8A%94-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8&quot; aria-label=&quot;빌드 시에 타입을 체크하는 플러그인 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;빌드 시에 타입을 체크하는 플러그인&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/TypeStrong/fork-ts-checker-webpack-plugin&quot;&gt;&lt;strong&gt;fork-ts-checker-webpack-plugin&lt;/strong&gt;&lt;/a&gt;을 사용하면 빌드 시에 별도로 타입을 체크해서 런타임에 결과를 확인할 수 있습니다. 컴파일은 컴파일대로 보내고, 타입 체크를 위한 과정은 따로 동작하여 기존의 빌드 속도와 큰 차이가 없다는 특징이 있습니다.&lt;/p&gt;
+&lt;p&gt;플러그인답게 적용하는 방법도 간단합니다. 모듈을 설치한뒤 웹팩 설정 파일에 불러와서 plugin 프로퍼티에 넣어주면 적용이 끝납니다.&lt;/p&gt;
+&lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;javascript&quot; data-index=&quot;3&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk9&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;ForkTsCheckerWebpackPlugin&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk8&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mtk6&quot;&gt;&amp;#39;fork-ts-checker-webpack-plugin&amp;#39;&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;...&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;plugins: [&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mtk9&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mtk11&quot;&gt;ForkTsCheckerWebpackPlugin&lt;/span&gt;&lt;span class=&quot;mtk1&quot;&gt;(),&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;],&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 22.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAoElEQVQI1z2OYQ6DIAxGdxFFoR9DqEXRZckWz4Hu/gcZbsSXtP3Rvny9rTxKWpfX+7Ft43Ox7EFkjFFKtQWlPscxjZxinDhEDjMHCd7+uJHujfMUBCwYfIyaAwEoctM0peecfeAlralkzJLm6H2oclf2Bj2Mc2TQtady0rb/YLXn7NwgImmSwd2JYC2qXApaEwzK0PXZizN53y3Oa6A6F1/29iZeyw/gKAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;runtime error가 발생한 모습&quot;
+        title=&quot;runtime error가 발생한 모습&quot;
+        src=&quot;/static/df873bf1c1563aa56e232c3cfbc94697/c1b63/runtime_type_error.png&quot;
+        srcset=&quot;/static/df873bf1c1563aa56e232c3cfbc94697/5a46d/runtime_type_error.png 300w,
+/static/df873bf1c1563aa56e232c3cfbc94697/0a47e/runtime_type_error.png 600w,
+/static/df873bf1c1563aa56e232c3cfbc94697/c1b63/runtime_type_error.png 1200w,
+/static/df873bf1c1563aa56e232c3cfbc94697/cff1a/runtime_type_error.png 1759w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이번에는 오류를 잘 잡아주고 있네요. 다만 왼쪽 터미널의 메시지를 잘 보시면 컴파일 자체는 에러 없이 완료되고 있습니다. 여기서 fork-ts-checker-webpack-plugin의 타입 체킹은 컴파일과는 무관하게 진행되는 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;h4 id=&quot;ts-loader&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ts-loader&quot; aria-label=&quot;ts loader permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;ts-loader&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;그러나 굳이 babel-loader를 사용해야한다는 제약만 버리면, 이 과정을 한 번에 완료할 수 있습니다. 바로 &lt;a href=&quot;https://github.com/TypeStrong/ts-loader&quot;&gt;&lt;strong&gt;ts-loader&lt;/strong&gt;&lt;/a&gt;를 사용하는 방법입니다.&lt;/p&gt;
+&lt;p&gt;ts-loader는 babel-loader와 달리 별도의 프리셋을 추가할 필요가 없으며, 빌드시 타입 체크도 자동으로 진행해주기 때문에 타입스크립트의 장점들을 십분 활용할 수 있습니다. 위에서 언급했던 타입 체크 플러그인인 fork-ts-checker-webpack-plugin 또한 ts-loader와 같은 그룹인 TypeString 팀에서 개발되었습니다.&lt;/p&gt;
+&lt;p&gt;적용하는 과정도 매우 간단한데, 모듈을 설치하고 rules에 추가해주면 끝입니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 406px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA+klEQVQoz5WQ3VLEIAyF9zVsSUibAC3Qlu5fV51xx974/m9k7Iw3uup6JkAY+MgJuzDM8/Vtf11dn1AikcW7tbMIPk/zy5oOj8FT58GYu2HSWg1FjhYtgHIAOrYwRnP4A1a1lkKe0vEiXUquzSLFu+U4urbVd7QT+wtsLSocD2dpmylwiWEZ+qXEzrsasVZLAD/ATYNg4n4pz6/D+SlPJTtep3zpuzn4U9cVJ5HZfiu/9UwkxBKiz2M/n7jPYu3AnJiLyCQyCGdxevMGLIzJxYaoripTPYCp4dOqzpXR/UdywzZSOyZibvTQbtIFtx/6Erd69pnYIQD+X++YVk6jl1sBBwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;정말 간단합니다&quot;
+        title=&quot;정말 간단합니다&quot;
+        src=&quot;/static/2ee62feab77b6967e425f3053ded699f/e33ef/simple.png&quot;
+        srcset=&quot;/static/2ee62feab77b6967e425f3053ded699f/5a46d/simple.png 300w,
+/static/2ee62feab77b6967e425f3053ded699f/e33ef/simple.png 406w&quot;
+        sizes=&quot;(max-width: 406px) 100vw, 406px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;ts-loader의 단점이라고 한다면, 아무래도 타입 체킹 과정이 있다보니 babel-loader보다 빌드 속도가 느립니다. 다만 이 부분은 babel-loader처럼 동작하는 옵션인 &lt;strong&gt;transpileOnly: true&lt;/strong&gt; 를 적용시켜주는것으로 극복할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;또는 fork-ts-checker-webpack-plugin을 적용해주면, 굳이 별다른 옵션을 주지 않아도 transpileOnly가 자동으로 true로 설정됩니다.&lt;/p&gt;
+&lt;p&gt;또 다른 단점은 로더 자체적으로 HMR(Hot Module Replacement) 이라고 불리는 기능을 정식으로 지원하지 않는다는 점입니다. 코드에 변경 사항이 생기면 실행중인 코드를 그에 맞게 갈아끼워 재빌드 시간을 단축 시켜주는 기능인데, 몇 가지 커스텀을 해주어야 비슷하게 사용할 수 있다는 점이 단점이라고 할 수 있을 것 같네요.&lt;/p&gt;
+&lt;h4 id=&quot;esbuild-loader&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#esbuild-loader&quot; aria-label=&quot;esbuild loader permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;esbuild-loader&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;다른 선택지로는 떠오르는 로더인 &lt;a href=&quot;https://github.com/privatenumber/esbuild-loader&quot;&gt;&lt;strong&gt;esbuild-loader&lt;/strong&gt;&lt;/a&gt;가 있습니다. 엄청나게 빠른 빌드 속도를 자랑하는 로더이며, 편리한 기능도 계속해서 업데이트 되고 있습니다. 현재 모두 모여라의 production 모드에서 빌드 로더로 사용하고 있기도 합니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 892px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 81%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAABoklEQVQ4y52T2XLjIBBF/f/fNY95yz5x7FQsOVoQEmIXsu80RPK4spUVVZ1qEND0vcCq4Rx5luOtKDB/x+NxMfO61RBGCGXQ9QqdkBBSw/oB1i2E1hwOB6y0Uuilgujfo3UeYRwRN5qJ/TDHr0hjB0pIFb68rLHf71FVNYqyTLt8/JZIX2ljUNU1GGOIfpZVhaIo0TQ8bRD/XZR09tA5h5o1BAdvO4wkYSaEcKr44kOJ2hkXKOsm+RjNdT7ADRPUToeU4ne8r0mHEg1tKFm2L9AbB00DCesXM6aE3oMMgyff5C6DeM2guh6GroKhSSleSKrQD568yyF4jZ487Ci5FipNWFLdKaEaLB79K27FM675E57EDm+yQaN7eD/CuUiYGP8zjVkXPid89hlu5Rp/8ivcUNL7doOb+i8e+Bb3fIPHdos7tsYD26CgzUrVphjptJok++mlDA5rt0NuK3AtwbQANzJVGNu16k6xki2YEonYjwijP3hId62zGtLYkzz7lcQzmed8khzfai8tpLZpQP1gvLro2tCLiPr9cHaZf0ms8B/HzdtHgKi/zwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;esbuild-loader Readme&quot;
+        title=&quot;esbuild-loader Readme&quot;
+        src=&quot;/static/fdd0e52f7238e03adb28771ada08a83b/1568e/esbuild_loader_readme.png&quot;
+        srcset=&quot;/static/fdd0e52f7238e03adb28771ada08a83b/5a46d/esbuild_loader_readme.png 300w,
+/static/fdd0e52f7238e03adb28771ada08a83b/0a47e/esbuild_loader_readme.png 600w,
+/static/fdd0e52f7238e03adb28771ada08a83b/1568e/esbuild_loader_readme.png 892w&quot;
+        sizes=&quot;(max-width: 892px) 100vw, 892px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;다른 로더와 기능 자체는 다를게 없는데, 속도가 그렇게 빠르다고 하니 한 번 사용해볼만한 가치는 있어 보였습니다. 모두 모여라에서 실제로 사용해 본 결과 아래와 같았습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 20%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAvUlEQVQI1zWP0Q7CIAxF9yGLgwwYsAHKxBiFLW7RaEz0Yfqk//8d3mk8D23T3Pa2WQjWe9+2rda6ruumaZCVUpxx1NP06Ps0jGOMCZryT0FIURRZ18VhOACsWHxBlxCS57kQ1fs1Xa7H4+kc426/j9ZagS6Yo8i6fptSCiGsfCulFF8454wxWD2f02azxoySsiwpmZkjDCilmXN2uVwZo5XCOYz+BITgBGPM7XavKmWtc672Hp9pbBacwQCCDw4KKoO6ToFRAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ts-loader vs esbuild-loader&quot;
+        title=&quot;ts-loader vs esbuild-loader&quot;
+        src=&quot;/static/d9b07d56e65e49e81fd070800573a2e8/c1b63/ts_loader_vs_esbuild_loader.png&quot;
+        srcset=&quot;/static/d9b07d56e65e49e81fd070800573a2e8/5a46d/ts_loader_vs_esbuild_loader.png 300w,
+/static/d9b07d56e65e49e81fd070800573a2e8/0a47e/ts_loader_vs_esbuild_loader.png 600w,
+/static/d9b07d56e65e49e81fd070800573a2e8/c1b63/ts_loader_vs_esbuild_loader.png 1200w,
+/static/d9b07d56e65e49e81fd070800573a2e8/2dc7d/ts_loader_vs_esbuild_loader.png 1760w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;왼쪽은 compileOnly: true를 적용한 ts-loader이고, 오른쪽은 esbuild-loader입니다. 한 번만 실행하면 튀는 값이 나올 것같아 두 로더 모두 세 번씩 실행해보았는데 세 번 모두 비슷하게 나왔습니다.&lt;/p&gt;
+&lt;p&gt;각각 약 16초와 11초 정도의 빌드 시간이 걸렸는데, 수치로 보면 빌드 시간을 약 &lt;strong&gt;30%&lt;/strong&gt;정도 단축시킨 효과가 있네요. 지금이야 프로젝트 크기가 작아서 크게 느껴지진 않지만, 나중에 프로젝트 크기가 정말 커졌을때 적용시킨다면 몇 분 내지는 몇 십분까지도 단축시킬 수 있을 것 같습니다.&lt;/p&gt;
+&lt;h4 id=&quot;마무리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A7%88%EB%AC%B4%EB%A6%AC&quot; aria-label=&quot;마무리 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;마무리&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;어떤 로더를 선택하던, 모두 훌륭한 로더들이니 각각의 특징이나 장점을 보고 상황에 맞는 로더를 선택해서 사용하시는게 제일 좋아보입니다. 현재 모두 모여라의 경우에는 development 모드에는 안전한 타입 체킹을 활용한 개발을 위해 ts-loader에 fork-ts-checker-webpack-plugin을 함께 사용했고, production 모드에서는 위에서 말씀 드렸듯이 빠른 빌드 및 라이브 서버 적용을 위해 esbuild-loader를 사용하고 있습니다.&lt;/p&gt;
+&lt;p&gt;긴 글 읽어주셔서 감사드리고, 모두 모여라 팀의 경험이 로더를 선택하시는데 조금이나마 도움이 되었다면 기쁠 것 같습니다.&lt;/p&gt;
+&lt;style class=&quot;grvsc-styles&quot;&gt;
+  .grvsc-container {
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 1rem;
+    padding-top: var(--grvsc-padding-top, var(--grvsc-padding-v, 1rem));
+    padding-bottom: 1rem;
+    padding-bottom: var(--grvsc-padding-bottom, var(--grvsc-padding-v, 1rem));
+    border-radius: 8px;
+    border-radius: var(--grvsc-border-radius, 8px);
+    font-feature-settings: normal;
+    line-height: 1.4;
+  }
+  
+  .grvsc-code {
+    display: table;
+  }
+  
+  .grvsc-line {
+    display: table-row;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+  }
+  
+  .grvsc-line &gt; * {
+    position: relative;
+  }
+  
+  .grvsc-gutter-pad {
+    display: table-cell;
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  .grvsc-gutter {
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter::before {
+    content: attr(data-content);
+  }
+  
+  .grvsc-source {
+    display: table-cell;
+    padding-left: 1.5rem;
+    padding-left: var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem));
+    padding-right: 1.5rem;
+    padding-right: var(--grvsc-padding-right, var(--grvsc-padding-h, 1.5rem));
+  }
+  
+  .grvsc-source:empty::after {
+    content: &apos; &apos;;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter + .grvsc-source {
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  /* Line transformer styles */
+  
+  .grvsc-has-line-highlighting &gt; .grvsc-code &gt; .grvsc-line::before {
+    content: &apos; &apos;;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .grvsc-line-diff-add::before {
+    background-color: var(--grvsc-line-diff-add-background-color, rgba(0, 255, 60, 0.2));
+  }
+  
+  .grvsc-line-diff-del::before {
+    background-color: var(--grvsc-line-diff-del-background-color, rgba(255, 0, 20, 0.2));
+  }
+  
+  .grvsc-line-number {
+    padding: 0 2px;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+  .one-dark-pro {
+    background-color: #282c34;
+    color: #abb2bf;
+  }
+  .one-dark-pro .mtki { font-style: italic; }
+  .one-dark-pro .mtk5 { color: #7F848E; }
+  .one-dark-pro .mtk1 { color: #ABB2BF; }
+  .one-dark-pro .mtk4 { color: #E06C75; }
+  .one-dark-pro .mtk8 { color: #56B6C2; }
+  .one-dark-pro .mtk7 { color: #D19A66; }
+  .one-dark-pro .mtk9 { color: #C678DD; }
+  .one-dark-pro .mtk6 { color: #98C379; }
+  .one-dark-pro .mtk11 { color: #E5C07B; }
   .one-dark-pro .grvsc-line-highlighted::before {
     background-color: var(--grvsc-line-highlighted-background-color, rgba(255, 255, 255, 0.1));
     box-shadow: inset var(--grvsc-line-highlighted-border-width, 4px) 0 0 0 var(--grvsc-line-highlighted-border-color, rgba(255, 255, 255, 0.5));
@@ -1964,7 +2620,30 @@
 &lt;p&gt;모모에서는 처음엔 환경 변수 파일을 생성하여 로컬 파일로 관리하였습니다. 그러나 Jenkins를 통해 CI/CD를 관리하기 시작하며 로컬에만 존재하는 환경 변수 파일을 함께 배포하기 번거로워졌습니다.&lt;/p&gt;
 &lt;p&gt;당시의 배포 과정은 이렇습니다.&lt;/p&gt;
 &lt;center&gt;
-&lt;p&gt;&lt;img src=&quot;content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/deploy_process.png&quot; alt=&quot;Deploy process&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 31.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAByElEQVQY02NggAIODg6GWncVhileSgweapKsN0sMp36s0ZH6cXQKWN7SwphFUFCY8UOVEeOdYgOGk5l6zo8rjKpXT5ZnaGIwY5rIkMmgw6DDBFIrAcR2bGxsDAJiUgxairIM+lqabI0OIgaFyYGKe9bN7F62tFf6////DGamhmwMDMoMEyLFGeJdJOVLAqSMOeZzCFjWSPKwVbBz8ybysoMMbADiNEZGxiCw6WJiXC6mxtwnm1MZpocEdO+Y1PB/VqhP9a7cBIYYWwtOzmheZob/QIU9DFoMsxgSGKYwpDNMYohgnMmQAeRrgczIA2JbIE4BccRERbl0dPS5zd1jGCIdPIuriiv/d6WmVS+ra2Dwd3TilNWXYlRhUGXSzBHhBhrGuWa3gde+I+6uDNMYeJkXMnCAzOAEYmkgZuLj42NQVlRkUFPXYAUHXGI5y7qdu+NXHDksAvKygbExmywwSIwcFRhjLIzYr970ZvhxIqL8y6n4ztW3TBliGZwZGZSUlPg1NDQEVVRUWI2MjBgUFRQYxEVFGBQUFLkUpSTFgcZyAQNORENLi5ONiYlBmVWZQYJHnoFfVoI5rkCDGeogTqswOWYJLSlmALQzZ7FGuaB8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Deploy process&quot;
+        title=&quot;Deploy process&quot;
+        src=&quot;/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png&quot;
+        srcset=&quot;/static/5d33aca76bf7ab2bd5d498b589415764/5a46d/deploy_process.png 300w,
+/static/5d33aca76bf7ab2bd5d498b589415764/0a47e/deploy_process.png 600w,
+/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png 1200w,
+/static/5d33aca76bf7ab2bd5d498b589415764/d61c2/deploy_process.png 1800w,
+/static/5d33aca76bf7ab2bd5d498b589415764/97a96/deploy_process.png 2400w,
+/static/5d33aca76bf7ab2bd5d498b589415764/29726/deploy_process.png 8302w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;/center&gt;
 &lt;p&gt;프로젝트의 저장소에서 PR이 merge되면, webhook을 통해 Jenkins가 repository clone을 시도합니다. 클론이 완료되면 node module을 설치하고, build 하여 그 결과물을 Nginx가 설치된 서버에 자동으로 배포합니다.&lt;/p&gt;
 &lt;p&gt;여기서 문제가 발생합니다. 우리가 만든 환경 변수 파일은 github에 올라가지 않았기에 이 상태로 빌드를 시도하면 오류가 발생할 것입니다. Jenkins 파이프라인의 스크립트를 수정하여 다른 경로에 있는 환경 변수 파일을 참조하도록 하거나, 배포 방식을 수동으로 바꾸는 방법도 있겠지만 이러면 Jenkins를 적용하며 생긴 이점이 상당 부분 사라지거나, 기껏 구성한 환경이 다시 복잡해질 것입니다.&lt;/p&gt;
@@ -1974,7 +2653,26 @@
 &lt;h2 id=&quot;프로젝트에-서브모듈-적용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;프로젝트에 서브모듈 적용하기 permalink&quot; class=&quot;toc-header before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로젝트에 서브모듈 적용하기&lt;/h2&gt;
 &lt;p&gt;먼저 서브모듈로 사용할 새로운 repository를 만듭니다. 이 저장소에는 환경 변수를 업로드 해주어야 하기 때문에 private으로 생성해줍니다.&lt;/p&gt;
 &lt;center&gt;
-&lt;p&gt;&lt;img src=&quot;content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/private_repo.png&quot; alt=&quot;Private repo&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 380px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAACcUlEQVQ4y1VUW3LbMAzUhXuSfvYqPUKn/Wk6TSdunExiW1b0pGS9KIoSKW0ByrJVz+wQBmGACyzsDcOItuvR9QOUHh00+cZxAds9+QayjVkwmuW70gZ6tOgHc/u913Ud/CBEkJTY+R32gcQhXs6dLxGKFk/HCn+OEr8PLR6PLb7va7xECmkq8Pp2QpTmLhkn9TKRoyhrXGqF+NIjIRSNdid/F2WHvF7sQCj4KSFTCPOemCmUtUQjlUvmEhZpDEmGpmcbY2EsU2BaZoGdiJ5xFK1d7tdzMNON8gpvliUKqpIWFU5BhD1R4AJHsqNE4HA8I7tU9Ioe76cAQZjA/4hxOod4O51RVA0xbHDwPxDGKbyanltXNdrLBUWSQkQxOqLCgRUVyvISVdtBKg1BRcu6pfa0ZJfICEy3oaFy26pGwmM606CBoQdGOs0ATBb8mecZ62c17567f5pm5+d4j53cp4KqVq1EzgOi10mqOlJPWQVlWUJrDSk7WPK1UqIiVkop6ru5JefELiFr7fwRIc0E/j6/4O3gu77w6wtqRSYEmqaBEAUM+TKKi6g1eZ5TYbVJOC0JeWIrHUtOS5V44vzCeUNtvZ//oztdJ7+cHocN44Td8wOSLHTq581h8CBWewVrjf0OV+1t4V7YDxZfPn/Cj29fSToJfj0+Ybd/JeonnKPESeT96COmzVDXNdtiXVm3ektCErVqofv+upeaLu/B9x8N7p7FrFns1BLec+XuF3hODrPFQwLQdqGtKwrQN9ls4YpT0aZuaEikR9Ih/7lsY28Jf0YWQlrItnEJWQLc6GVIk7PZx/JpSV6csKbEnHAb+w+E7oPdUsIPAQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Private repo&quot;
+        title=&quot;Private repo&quot;
+        src=&quot;/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png&quot;
+        srcset=&quot;/static/943e31d058d752a5aa21b49518c0e149/5a46d/private_repo.png 300w,
+/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png 380w&quot;
+        sizes=&quot;(max-width: 380px) 100vw, 380px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;/center&gt;
 &lt;p&gt;해당 repository에 환경 변수를 업로드했다면, 이제 메인이 되는 repository로 돌아와서 서브모듈을 불러올 차례입니다. 명령어를 통해 서브모듈을 연결해줍니다.&lt;/p&gt;
 &lt;pre class=&quot;grvsc-container one-dark-pro&quot; data-language=&quot;groovy&quot; data-index=&quot;0&quot;&gt;&lt;code class=&quot;grvsc-code&quot;&gt;&lt;span class=&quot;grvsc-line&quot;&gt;&lt;span class=&quot;grvsc-source&quot;&gt;&lt;span class=&quot;mtk1&quot;&gt;git submodule add [서브모듈의 주소]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
@@ -1989,17 +2687,84 @@
 &lt;p&gt;Jenkins에서도 서브모듈을 사용할 수 있게 해주려면 몇 가지 설정이 필요합니다. 먼저 Jenkins가 private repository에 접근하여 서브모듈을 받아올 수 있도록 권한을 설정해주어야 합니다.&lt;/p&gt;
 &lt;p&gt;먼저 github에서 토큰을 발급합니다.&lt;/p&gt;
 &lt;center&gt;
-&lt;p&gt;&lt;img src=&quot;content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/generate_token.png&quot; alt=&quot;Generate token&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.33333333333334%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAADY0lEQVQ4y1WT228UVRzHTyXAtFtDYySRhW0ze6lsWtleAlRoQEwbiIEFDSHyR+C78cEX3+2DQKqFLhBEHyDwqCRgTeSBhjQhECtst9Cyl86W3bmeuc/xe0632k7yzbnMmc/5/r6/XbJ7T6Jze6wrt+3dnYc7unaNSDveH+14L/5R4epU19/z8x+XSiWu0bm5uV5CyLbc4FBnMpWOJdOZWDKVicmYy8lUrLu7R0okEhI5cOiT7WMnTj06kT/HPvv8vPHFuS/Z4MiR3xljGU3THcMwKVt7fvpj5k8wt5Le/gGS3Tckxp50lvRkoGSGJOIfEFIoTLevvm08WVEUVq3V/Hq9zubn/5mxLLqX2jajlEZ4OHAKtI7Dx8ZPZgf2j/UPHRjP5obH0n258UzfwLFMX669d98wIXfu3pNc1501DIO5nuf6QcA/fgh9CHeh4zjYEnvf79wtnz555iwbHjkSHRz9lO0/dJT1Dx7ksiAZIuTypYv/AT0AuRvHcVtAI2o0m0HL4cTS0lL+1XKVvVx47ReLC9GLl8Vw+U2ZVapVvVyuyJVKlZDr165JlmXNKii1Xl8VQM/zBVDX9UhVNQEMw2gCe/lWnj7Ebwlbax2SIUJ+nJyUHDhUNY2hCW4Yhszz14CmZUWmaQa8ZEAF0Pd9hot8ZMvWoPyyUIdkiDssSBalwiGgLj+17lCDQ9O0RIDrQN1yGcr035QrrNFQI0pt/u5/h1empiQELzKEk01AdDqyHWcT0PVD/t6HeNYRpptLLkxPC4dNVWNhFLmhyNATQNu2IyjAGkA2gZLyESLB6LXyC3hEiEHDRA4ClPzLzetS4DmzDjX5GeHQcdccGqYZIUfxEe+yadEzmm4gGp3xUvlFukGZYVp2EPgyfBNy8cotqVhRHxfLKivVTPv1W58pmvtAlExpAIfeOhDz44jBcx1awccruGkFJa/CYQnqhghJ579t//q28vSbOwr76tYKu/BzjT14rj0CINtUdXTU4HXxDG8AS5hT6dRqL6TAMSSc2ag2keHk5R94U37Fz6CIjTloEbdO85BR4rNGU31KbWcRLr/jDhj+zubqK+LaOuGAjRJPMpXayukzv93dgvGddd1/+BfZsN6CnNsWl5eIZxvEtjTiey5BowiaSBRFEax4PN72LwiKeukNk7t0AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Generate token&quot;
+        title=&quot;Generate token&quot;
+        src=&quot;/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png&quot;
+        srcset=&quot;/static/b056658f67bfd281a27651cf457f290e/5a46d/generate_token.png 300w,
+/static/b056658f67bfd281a27651cf457f290e/0a47e/generate_token.png 600w,
+/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png 1200w,
+/static/b056658f67bfd281a27651cf457f290e/d61c2/generate_token.png 1800w,
+/static/b056658f67bfd281a27651cf457f290e/97a96/generate_token.png 2400w,
+/static/b056658f67bfd281a27651cf457f290e/38808/generate_token.png 5440w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;/center&gt;
 &lt;p&gt;[Settings] → [Developer settings] → [Personal access tokens] 메뉴에서 접근 가능한 토큰을 생성하고, 키 값을 복사해둡니다.&lt;/p&gt;
 &lt;p&gt;이제 이 키를 Jenkins에 등록해서 사용해야 합니다.&lt;/p&gt;
 &lt;p&gt;Jenkins의 &lt;code&gt;Dashboard &gt; Manage Credentials&lt;/code&gt; 에서 &lt;code&gt;Add Credentials&lt;/code&gt;를 누릅니다.&lt;/p&gt;
 &lt;center&gt;
-&lt;p&gt;&lt;img src=&quot;content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/add_credential.png&quot; alt=&quot;Untitled&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 39.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAACCklEQVQoz0VRzYoTQRDu9eyKiYcQUBDyBl5U3ChuCAoSNxFEWFZve1NEEG95AV9AA168aVg9xBU2sHHdGCL6CLksGGeSOD2Z6emenp/OdFntZrGgqKa66qvvqyIPNzdf1mq1N+Vy+XW9Xm91Op3WcDhsNZvNV9Vq9e3djY07hJCzFy+cv41xHesq/f5hpffloFK5cbVyZoWsk5VTt1ZXT18qlUpXiG1Z4WQ6hdFoBJZlQZIksFgsgDEGk8kEfN9/8XFn51pvfx9wmBoMBppSRzuU6p8/vuted0/tdbvQ7/cPisXiNkni5JfWGmQkEwRSAKCM4TuGY3uMXl6+F2EYYm0EaZrCSW4ZD3O53BahR0c2R4aSsUyI0KCBEALmnqdCKSFJ06fz+fy6yUkpVcC5FjLVXEgdBEwzLhUTkQH8ms/nH5GAMdvI5CzIfJT5T3KWIQNkiREHPBuPxzcNILJSCK49HulYZTqKIi2jRIVR+h/Q87wxfkAcx6mRmmWZylA6emxWgfZk7rprZqdYgwyFZtTVbDrTqRA6ValK4vgEcItgU2AajVwWBLBAhhGlwH9bkMWJKXyOKtYMQ3OsDGeYfOL5oI+BYDn4GwJuE9xLCxf9gVL63rbtNl61TR2nPbUn75DVp9nsz73Pu7vnUMkD13XreOGG63kNT4gG9b2G4zh19Puc83KhULj8F9LEBXrJ4SLbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Untitled&quot;
+        title=&quot;Untitled&quot;
+        src=&quot;/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png&quot;
+        srcset=&quot;/static/e8d3923af45b64b864247a64759a036e/5a46d/add_credential.png 300w,
+/static/e8d3923af45b64b864247a64759a036e/0a47e/add_credential.png 600w,
+/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png 1200w,
+/static/e8d3923af45b64b864247a64759a036e/d61c2/add_credential.png 1800w,
+/static/e8d3923af45b64b864247a64759a036e/97a96/add_credential.png 2400w,
+/static/e8d3923af45b64b864247a64759a036e/83914/add_credential.png 6080w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;/center&gt;
 &lt;p&gt;키 값을 통해 github에 로그인 하는 방식이므로, Kind의 &lt;code&gt;Username with password&lt;/code&gt;을 선택하고 나머지 빈 값을 채워줍니다.&lt;/p&gt;
 &lt;center&gt;
-&lt;p&gt;&lt;img src=&quot;content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/register_token.png&quot; alt=&quot;Register token&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 89.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAACHUlEQVQ4y41Uy44SURDtDT/Azg1slIQETYwmMwvxC9Sf4kf8BL+ChIwJi9k4EYg2NIz08Oj3497u46mLkzCdbpmbHCguXafOqSqwPrx/h+vrKwyHQ3S7XbTbbbRaLYxGI0ynU4zHY0wmE4Obm+/48vkTrgYv8PHNW7x+1cPLXg+dTgf9fh+DwQDWj7s7zOcLYo7ZbGYgsWCxWBhI7DgO1sRyucTStk9gvFqtTGwTElvgybIMcRwjiiJorREnCfaHA7aui839PXKl8Nxj+b5vqks1d7tFQNJg5cD7bcPn/ZGVMxIXLKD3+3rs5P2AgmIsUZTnuYGikoJV4sUvhFQWPewQ73bQQQDl+Sf4Fcgdv08poqRTq0625kPxny0yVpW48CvwzvD4maQoS1glX84hl6LSC0P4tB+lKUL21IBxXhTQUrQCc088UWgI5QEmx5xYRNuKtg3cB6ijh0IKMrEOkl9LKH0JuErJ4UhLgbEjZPl6QxWl2YQ6FI0KORxFooQ9jDgUGY4MoEizM4VlBf9RqDnxYLOBR0UpVyIhqTQe7OHFPay1TDWRvUQactG58DpOoDgksayoRNFeHRotKw4lddZmWbXsoSwubcuKyBPGslivoNkyE3JWNMnVxIYJ6399rSckWUi78tt+tKIbiM4JaxUaTlGilfnT0GeETbioMIgSOO6B6k5ViwvqGhdbLuWMb39i9PUbjmH8pNBzzl/PXlbi1QxjzwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Register token&quot;
+        title=&quot;Register token&quot;
+        src=&quot;/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png&quot;
+        srcset=&quot;/static/e5aa5c0e1045a9324ed8725c0977019b/5a46d/register_token.png 300w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/0a47e/register_token.png 600w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png 1200w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/bc3ae/register_token.png 1268w&quot;
+        sizes=&quot;(max-width: 1200px) 100vw, 1200px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;/center&gt;
 &lt;p&gt;&lt;code&gt;Username&lt;/code&gt;에는 Credential의 소유주를 입력해줍니다. 아무렇게나 적어도 상관없지만, 저는 앞서 토큰을 발급했던 계정을 입력해주었습니다.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Password&lt;/code&gt;엔 앞서 복사했던 발급받은 token을 넣어주시고, ID에는 Jenkins에서 사용될 Credential의 이름을 입력해주시면 됩니다. 이후 Jenkins에서 지금 설정한 ID를 통해 Credential을 사용할 수 있습니다.&lt;/p&gt;

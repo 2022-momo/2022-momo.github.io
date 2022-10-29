@@ -85,7 +85,30 @@
 <p>모모에서는 처음엔 환경 변수 파일을 생성하여 로컬 파일로 관리하였습니다. 그러나 Jenkins를 통해 CI/CD를 관리하기 시작하며 로컬에만 존재하는 환경 변수 파일을 함께 배포하기 번거로워졌습니다.</p>
 <p>당시의 배포 과정은 이렇습니다.</p>
 <center>
-<p><img src="content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/deploy_process.png" alt="Deploy process"></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 31.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAByElEQVQY02NggAIODg6GWncVhileSgweapKsN0sMp36s0ZH6cXQKWN7SwphFUFCY8UOVEeOdYgOGk5l6zo8rjKpXT5ZnaGIwY5rIkMmgw6DDBFIrAcR2bGxsDAJiUgxairIM+lqabI0OIgaFyYGKe9bN7F62tFf6////DGamhmwMDMoMEyLFGeJdJOVLAqSMOeZzCFjWSPKwVbBz8ybysoMMbADiNEZGxiCw6WJiXC6mxtwnm1MZpocEdO+Y1PB/VqhP9a7cBIYYWwtOzmheZob/QIU9DFoMsxgSGKYwpDNMYohgnMmQAeRrgczIA2JbIE4BccRERbl0dPS5zd1jGCIdPIuriiv/d6WmVS+ra2Dwd3TilNWXYlRhUGXSzBHhBhrGuWa3gde+I+6uDNMYeJkXMnCAzOAEYmkgZuLj42NQVlRkUFPXYAUHXGI5y7qdu+NXHDksAvKygbExmywwSIwcFRhjLIzYr970ZvhxIqL8y6n4ztW3TBliGZwZGZSUlPg1NDQEVVRUWI2MjBgUFRQYxEVFGBQUFLkUpSTFgcZyAQNORENLi5ONiYlBmVWZQYJHnoFfVoI5rkCDGeogTqswOWYJLSlmALQzZ7FGuaB8AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Deploy process"
+        title="Deploy process"
+        src="/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png"
+        srcset="/static/5d33aca76bf7ab2bd5d498b589415764/5a46d/deploy_process.png 300w,
+/static/5d33aca76bf7ab2bd5d498b589415764/0a47e/deploy_process.png 600w,
+/static/5d33aca76bf7ab2bd5d498b589415764/c1b63/deploy_process.png 1200w,
+/static/5d33aca76bf7ab2bd5d498b589415764/d61c2/deploy_process.png 1800w,
+/static/5d33aca76bf7ab2bd5d498b589415764/97a96/deploy_process.png 2400w,
+/static/5d33aca76bf7ab2bd5d498b589415764/29726/deploy_process.png 8302w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
 </center>
 <p>프로젝트의 저장소에서 PR이 merge되면, webhook을 통해 Jenkins가 repository clone을 시도합니다. 클론이 완료되면 node module을 설치하고, build 하여 그 결과물을 Nginx가 설치된 서버에 자동으로 배포합니다.</p>
 <p>여기서 문제가 발생합니다. 우리가 만든 환경 변수 파일은 github에 올라가지 않았기에 이 상태로 빌드를 시도하면 오류가 발생할 것입니다. Jenkins 파이프라인의 스크립트를 수정하여 다른 경로에 있는 환경 변수 파일을 참조하도록 하거나, 배포 방식을 수동으로 바꾸는 방법도 있겠지만 이러면 Jenkins를 적용하며 생긴 이점이 상당 부분 사라지거나, 기껏 구성한 환경이 다시 복잡해질 것입니다.</p>
@@ -95,7 +118,26 @@
 <h2 id="프로젝트에-서브모듈-적용하기" style="position:relative;"><a href="#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0" aria-label="프로젝트에 서브모듈 적용하기 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>프로젝트에 서브모듈 적용하기</h2>
 <p>먼저 서브모듈로 사용할 새로운 repository를 만듭니다. 이 저장소에는 환경 변수를 업로드 해주어야 하기 때문에 private으로 생성해줍니다.</p>
 <center>
-<p><img src="content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/private_repo.png" alt="Private repo"></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 380px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 73.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAACcUlEQVQ4y1VUW3LbMAzUhXuSfvYqPUKn/Wk6TSdunExiW1b0pGS9KIoSKW0ByrJVz+wQBmGACyzsDcOItuvR9QOUHh00+cZxAds9+QayjVkwmuW70gZ6tOgHc/u913Ud/CBEkJTY+R32gcQhXs6dLxGKFk/HCn+OEr8PLR6PLb7va7xECmkq8Pp2QpTmLhkn9TKRoyhrXGqF+NIjIRSNdid/F2WHvF7sQCj4KSFTCPOemCmUtUQjlUvmEhZpDEmGpmcbY2EsU2BaZoGdiJ5xFK1d7tdzMNON8gpvliUKqpIWFU5BhD1R4AJHsqNE4HA8I7tU9Ioe76cAQZjA/4hxOod4O51RVA0xbHDwPxDGKbyanltXNdrLBUWSQkQxOqLCgRUVyvISVdtBKg1BRcu6pfa0ZJfICEy3oaFy26pGwmM606CBoQdGOs0ATBb8mecZ62c17567f5pm5+d4j53cp4KqVq1EzgOi10mqOlJPWQVlWUJrDSk7WPK1UqIiVkop6ru5JefELiFr7fwRIc0E/j6/4O3gu77w6wtqRSYEmqaBEAUM+TKKi6g1eZ5TYbVJOC0JeWIrHUtOS5V44vzCeUNtvZ//oztdJ7+cHocN44Td8wOSLHTq581h8CBWewVrjf0OV+1t4V7YDxZfPn/Cj29fSToJfj0+Ybd/JeonnKPESeT96COmzVDXNdtiXVm3ektCErVqofv+upeaLu/B9x8N7p7FrFns1BLec+XuF3hODrPFQwLQdqGtKwrQN9ls4YpT0aZuaEikR9Ih/7lsY28Jf0YWQlrItnEJWQLc6GVIk7PZx/JpSV6csKbEnHAb+w+E7oPdUsIPAQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Private repo"
+        title="Private repo"
+        src="/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png"
+        srcset="/static/943e31d058d752a5aa21b49518c0e149/5a46d/private_repo.png 300w,
+/static/943e31d058d752a5aa21b49518c0e149/3f520/private_repo.png 380w"
+        sizes="(max-width: 380px) 100vw, 380px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
 </center>
 <p>해당 repository에 환경 변수를 업로드했다면, 이제 메인이 되는 repository로 돌아와서 서브모듈을 불러올 차례입니다. 명령어를 통해 서브모듈을 연결해줍니다.</p>
 <pre class="grvsc-container one-dark-pro" data-language="groovy" data-index="0"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">git submodule add [서브모듈의 주소]</span></span></span>
@@ -110,17 +152,84 @@
 <p>Jenkins에서도 서브모듈을 사용할 수 있게 해주려면 몇 가지 설정이 필요합니다. 먼저 Jenkins가 private repository에 접근하여 서브모듈을 받아올 수 있도록 권한을 설정해주어야 합니다.</p>
 <p>먼저 github에서 토큰을 발급합니다.</p>
 <center>
-<p><img src="content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/generate_token.png" alt="Generate token"></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 73.33333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAADY0lEQVQ4y1WT228UVRzHTyXAtFtDYySRhW0ze6lsWtleAlRoQEwbiIEFDSHyR+C78cEX3+2DQKqFLhBEHyDwqCRgTeSBhjQhECtst9Cyl86W3bmeuc/xe0632k7yzbnMmc/5/r6/XbJ7T6Jze6wrt+3dnYc7unaNSDveH+14L/5R4epU19/z8x+XSiWu0bm5uV5CyLbc4FBnMpWOJdOZWDKVicmYy8lUrLu7R0okEhI5cOiT7WMnTj06kT/HPvv8vPHFuS/Z4MiR3xljGU3THcMwKVt7fvpj5k8wt5Le/gGS3Tckxp50lvRkoGSGJOIfEFIoTLevvm08WVEUVq3V/Hq9zubn/5mxLLqX2jajlEZ4OHAKtI7Dx8ZPZgf2j/UPHRjP5obH0n258UzfwLFMX669d98wIXfu3pNc1501DIO5nuf6QcA/fgh9CHeh4zjYEnvf79wtnz555iwbHjkSHRz9lO0/dJT1Dx7ksiAZIuTypYv/AT0AuRvHcVtAI2o0m0HL4cTS0lL+1XKVvVx47ReLC9GLl8Vw+U2ZVapVvVyuyJVKlZDr165JlmXNKii1Xl8VQM/zBVDX9UhVNQEMw2gCe/lWnj7Ebwlbax2SIUJ+nJyUHDhUNY2hCW4Yhszz14CmZUWmaQa8ZEAF0Pd9hot8ZMvWoPyyUIdkiDssSBalwiGgLj+17lCDQ9O0RIDrQN1yGcr035QrrNFQI0pt/u5/h1empiQELzKEk01AdDqyHWcT0PVD/t6HeNYRpptLLkxPC4dNVWNhFLmhyNATQNu2IyjAGkA2gZLyESLB6LXyC3hEiEHDRA4ClPzLzetS4DmzDjX5GeHQcdccGqYZIUfxEe+yadEzmm4gGp3xUvlFukGZYVp2EPgyfBNy8cotqVhRHxfLKivVTPv1W58pmvtAlExpAIfeOhDz44jBcx1awccruGkFJa/CYQnqhghJ579t//q28vSbOwr76tYKu/BzjT14rj0CINtUdXTU4HXxDG8AS5hT6dRqL6TAMSSc2ag2keHk5R94U37Fz6CIjTloEbdO85BR4rNGU31KbWcRLr/jDhj+zubqK+LaOuGAjRJPMpXayukzv93dgvGddd1/+BfZsN6CnNsWl5eIZxvEtjTiey5BowiaSBRFEax4PN72LwiKeukNk7t0AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Generate token"
+        title="Generate token"
+        src="/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png"
+        srcset="/static/b056658f67bfd281a27651cf457f290e/5a46d/generate_token.png 300w,
+/static/b056658f67bfd281a27651cf457f290e/0a47e/generate_token.png 600w,
+/static/b056658f67bfd281a27651cf457f290e/c1b63/generate_token.png 1200w,
+/static/b056658f67bfd281a27651cf457f290e/d61c2/generate_token.png 1800w,
+/static/b056658f67bfd281a27651cf457f290e/97a96/generate_token.png 2400w,
+/static/b056658f67bfd281a27651cf457f290e/38808/generate_token.png 5440w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
 </center>
 <p>[Settings] → [Developer settings] → [Personal access tokens] 메뉴에서 접근 가능한 토큰을 생성하고, 키 값을 복사해둡니다.</p>
 <p>이제 이 키를 Jenkins에 등록해서 사용해야 합니다.</p>
 <p>Jenkins의 <code>Dashboard > Manage Credentials</code> 에서 <code>Add Credentials</code>를 누릅니다.</p>
 <center>
-<p><img src="content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/add_credential.png" alt="Untitled"></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 39.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAACCklEQVQoz0VRzYoTQRDu9eyKiYcQUBDyBl5U3ChuCAoSNxFEWFZve1NEEG95AV9AA168aVg9xBU2sHHdGCL6CLksGGeSOD2Z6emenp/OdFntZrGgqKa66qvvqyIPNzdf1mq1N+Vy+XW9Xm91Op3WcDhsNZvNV9Vq9e3djY07hJCzFy+cv41xHesq/f5hpffloFK5cbVyZoWsk5VTt1ZXT18qlUpXiG1Z4WQ6hdFoBJZlQZIksFgsgDEGk8kEfN9/8XFn51pvfx9wmBoMBppSRzuU6p8/vuted0/tdbvQ7/cPisXiNkni5JfWGmQkEwRSAKCM4TuGY3uMXl6+F2EYYm0EaZrCSW4ZD3O53BahR0c2R4aSsUyI0KCBEALmnqdCKSFJ06fz+fy6yUkpVcC5FjLVXEgdBEwzLhUTkQH8ms/nH5GAMdvI5CzIfJT5T3KWIQNkiREHPBuPxzcNILJSCK49HulYZTqKIi2jRIVR+h/Q87wxfkAcx6mRmmWZylA6emxWgfZk7rprZqdYgwyFZtTVbDrTqRA6ValK4vgEcItgU2AajVwWBLBAhhGlwH9bkMWJKXyOKtYMQ3OsDGeYfOL5oI+BYDn4GwJuE9xLCxf9gVL63rbtNl61TR2nPbUn75DVp9nsz73Pu7vnUMkD13XreOGG63kNT4gG9b2G4zh19Puc83KhULj8F9LEBXrJ4SLbAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png"
+        srcset="/static/e8d3923af45b64b864247a64759a036e/5a46d/add_credential.png 300w,
+/static/e8d3923af45b64b864247a64759a036e/0a47e/add_credential.png 600w,
+/static/e8d3923af45b64b864247a64759a036e/c1b63/add_credential.png 1200w,
+/static/e8d3923af45b64b864247a64759a036e/d61c2/add_credential.png 1800w,
+/static/e8d3923af45b64b864247a64759a036e/97a96/add_credential.png 2400w,
+/static/e8d3923af45b64b864247a64759a036e/83914/add_credential.png 6080w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
 </center>
 <p>키 값을 통해 github에 로그인 하는 방식이므로, Kind의 <code>Username with password</code>을 선택하고 나머지 빈 값을 채워줍니다.</p>
 <center>
-<p><img src="content/posts/Frontend/image/20220815_submodule%EB%A1%9C-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0/register_token.png" alt="Register token"></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 89.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAACHUlEQVQ4y41Uy44SURDtDT/Azg1slIQETYwmMwvxC9Sf4kf8BL+ChIwJi9k4EYg2NIz08Oj3497u46mLkzCdbpmbHCguXafOqSqwPrx/h+vrKwyHQ3S7XbTbbbRaLYxGI0ynU4zHY0wmE4Obm+/48vkTrgYv8PHNW7x+1cPLXg+dTgf9fh+DwQDWj7s7zOcLYo7ZbGYgsWCxWBhI7DgO1sRyucTStk9gvFqtTGwTElvgybIMcRwjiiJorREnCfaHA7aui839PXKl8Nxj+b5vqks1d7tFQNJg5cD7bcPn/ZGVMxIXLKD3+3rs5P2AgmIsUZTnuYGikoJV4sUvhFQWPewQ73bQQQDl+Sf4Fcgdv08poqRTq0625kPxny0yVpW48CvwzvD4maQoS1glX84hl6LSC0P4tB+lKUL21IBxXhTQUrQCc088UWgI5QEmx5xYRNuKtg3cB6ijh0IKMrEOkl9LKH0JuErJ4UhLgbEjZPl6QxWl2YQ6FI0KORxFooQ9jDgUGY4MoEizM4VlBf9RqDnxYLOBR0UpVyIhqTQe7OHFPay1TDWRvUQactG58DpOoDgksayoRNFeHRotKw4lddZmWbXsoSwubcuKyBPGslivoNkyE3JWNMnVxIYJ6399rSckWUi78tt+tKIbiM4JaxUaTlGilfnT0GeETbioMIgSOO6B6k5ViwvqGhdbLuWMb39i9PUbjmH8pNBzzl/PXlbi1QxjzwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Register token"
+        title="Register token"
+        src="/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png"
+        srcset="/static/e5aa5c0e1045a9324ed8725c0977019b/5a46d/register_token.png 300w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/0a47e/register_token.png 600w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/c1b63/register_token.png 1200w,
+/static/e5aa5c0e1045a9324ed8725c0977019b/bc3ae/register_token.png 1268w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
 </center>
 <p><code>Username</code>에는 Credential의 소유주를 입력해줍니다. 아무렇게나 적어도 상관없지만, 저는 앞서 토큰을 발급했던 계정을 입력해주었습니다.</p>
 <p><code>Password</code>엔 앞서 복사했던 발급받은 token을 넣어주시고, ID에는 Jenkins에서 사용될 Credential의 이름을 입력해주시면 됩니다. 이후 Jenkins에서 지금 설정한 ID를 통해 Credential을 사용할 수 있습니다.</p>
