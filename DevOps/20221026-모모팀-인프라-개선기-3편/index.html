@@ -1,0 +1,828 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0"/><style data-href="/styles.d53766664f3eaba3db40.css" id="gatsby-global-css">/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}[hidden],template{display:none}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}button{background-color:transparent;background-image:none}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}hr{border-top-width:1px}img{border-style:solid}textarea{resize:vertical}input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#a0aec0}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:#a0aec0}input::placeholder,textarea::placeholder{color:#a0aec0}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit}code,kbd,pre,samp{font-family:Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}</style><meta name="generator" content="Gatsby 2.32.13"/><style type="text/css">
+    .toc-header.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .toc-header.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .toc-header svg,
+    h2 .toc-header svg,
+    h3 .toc-header svg,
+    h4 .toc-header svg,
+    h5 .toc-header svg,
+    h6 .toc-header svg {
+      visibility: hidden;
+    }
+    h1:hover .toc-header svg,
+    h2:hover .toc-header svg,
+    h3:hover .toc-header svg,
+    h4:hover .toc-header svg,
+    h5:hover .toc-header svg,
+    h6:hover .toc-header svg,
+    h1 .toc-header:focus svg,
+    h2 .toc-header:focus svg,
+    h3 .toc-header:focus svg,
+    h4 .toc-header:focus svg,
+    h5 .toc-header:focus svg,
+    h6 .toc-header:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="icon" href="/favicon-32x32-1134414851454382d55f3e82eb460d40.png" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><meta name="theme-color" content="#3F4145"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384-1134414851454382d55f3e82eb460d40.png"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512-1134414851454382d55f3e82eb460d40.png"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><title data-react-helmet="true">모모팀 인프라 개선기 3편 (무중단 배포) | 모모의 기술 블로그</title><meta data-react-helmet="true" name="description" content="1. 들어가며 앞서 모모팀의 CI/CD구조에 Docker를 도입하는 작업과 로드 밸런싱을 하는 작업을 진행하였다. 해당 작업들을 진행한 이후 모모팀의 CI/CD구조는 아래와 같다.  간단히 구조를 설명하면 Jenkins에서는 JAR파일을 빌드 후, 해당 파일을 통해 실행 Docker 이미지를 만들어 Private Registry에 올리면 각각의 WAS 서…"/><meta data-react-helmet="true" property="og:title" content="모모팀 인프라 개선기 3편 (무중단 배포)"/><meta data-react-helmet="true" property="og:image" content="/static/social-image-78ea8dbe9ea55ddf7384fb9b357c15ca.png"/><meta data-react-helmet="true" property="og:description" content="1. 들어가며 앞서 모모팀의 CI/CD구조에 Docker를 도입하는 작업과 로드 밸런싱을 하는 작업을 진행하였다. 해당 작업들을 진행한 이후 모모팀의 CI/CD구조는 아래와 같다.  간단히 구조를 설명하면 Jenkins에서는 JAR파일을 빌드 후, 해당 파일을 통해 실행 Docker 이미지를 만들어 Private Registry에 올리면 각각의 WAS 서…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"/><meta data-react-helmet="true" name="twitter:image" content="/static/social-image-78ea8dbe9ea55ddf7384fb9b357c15ca.png"/><meta data-react-helmet="true" name="twitter:creator" content="momo"/><meta data-react-helmet="true" name="twitter:title" content="모모팀 인프라 개선기 3편 (무중단 배포)"/><meta data-react-helmet="true" name="twitter:description" content="1. 들어가며 앞서 모모팀의 CI/CD구조에 Docker를 도입하는 작업과 로드 밸런싱을 하는 작업을 진행하였다. 해당 작업들을 진행한 이후 모모팀의 CI/CD구조는 아래와 같다.  간단히 구조를 설명하면 Jenkins에서는 JAR파일을 빌드 후, 해당 파일을 통해 실행 Docker 이미지를 만들어 Private Registry에 올리면 각각의 WAS 서…"/><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><link as="script" rel="preload" href="/webpack-runtime-91d2ca5880d6e7d8e505.js"/><link as="script" rel="preload" href="/framework-eb684e3e828ad13b3940.js"/><link as="script" rel="preload" href="/styles-84a9bc99193fe5828ffe.js"/><link as="script" rel="preload" href="/dc6a8720040df98778fe970bf6c000a41750d3ae-17eb047fb821ccbad0b0.js"/><link as="script" rel="preload" href="/app-d1a6932a45bfd024ad29.js"/><link as="script" rel="preload" href="/d7eeaac4-dcbe97e7a5aa158c9d08.js"/><link as="script" rel="preload" href="/5e2a4920-da90abce4a08c86a094c.js"/><link as="script" rel="preload" href="/1bfc9850-409296e666dade882413.js"/><link as="script" rel="preload" href="/commons-b839ac3ef2817b5d267d.js"/><link as="script" rel="preload" href="/7a297f752dcfe258c0b0106d89edb3a916af916e-ba3bed115b500439fc94.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-js-4910a6c560d7a355cf37.js"/><link as="fetch" rel="preload" href="/page-data/DevOps/20221026-모모팀-인프라-개선기-3편/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/3911196313.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/4111100897.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><noscript><style data-emotion-css="zp4s6h">.css-zp4s6h{position:fixed;bottom:0;left:0;margin-left:0.5rem;margin-bottom:0.5rem;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06);-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:0.25rem;--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));font-size:0.875rem;font-weight:700;padding-left:1rem;padding-right:1rem;padding-top:0.75rem;padding-bottom:0.75rem;background-color:#A5CC82;z-index:9999;}</style><div class="css-zp4s6h"><style data-emotion-css="5x4yj0">.css-5x4yj0{fill:currentColor;width:1.5rem;height:1.5rem;margin-right:0.5rem;}</style><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 192 512" class="css-5x4yj0" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path></svg><style data-emotion-css="1f2k2gl">.css-1f2k2gl{margin-left:0.5rem;}</style><div class="css-1f2k2gl">Please enable JavaScript to use this site.<br/>JavaScript를 활성화 시켜주세요.</div></div></noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><style data-emotion-css="f6s0ma">.css-f6s0ma{-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);background-color:#FFFFFF;color:#333333;}</style><style data-emotion-css="acifd">.css-acifd{min-height:100vh;-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);background-color:#FFFFFF;color:#333333;}</style><div class="css-acifd e5jinln0"><style data-emotion-css="8ezs2g">.css-8ezs2g{min-height:calc(100vh - 100px);}</style><div class="css-8ezs2g"><style data-emotion-css="17vgyms">.css-17vgyms{background:linear-gradient( 90deg,#00467F,#A5CC82 );}</style><div class="css-17vgyms"><style data-emotion-css="1mqm4zt">.css-1mqm4zt{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;max-width:1280px;margin-left:auto;margin-right:auto;padding:1.25rem;}</style><nav class="css-1mqm4zt eocge8f0"><style data-emotion-css="1usmgm5">.css-1usmgm5{font-size:1.25rem;--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));font-weight:700;}</style><a class="css-1usmgm5" href="/">모모팀의 기술 블로그</a><a aria-label="search page" href="/search"><style data-emotion-css="47445j">.css-47445j{--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));margin-top:auto;margin-bottom:auto;width:2rem;height:2rem;}</style><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="css-47445j" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path></svg></a></nav></div><style data-emotion-css="1d3ps91">.css-1d3ps91{background:linear-gradient( 90deg,#00467F,#A5CC82 );position:fixed;width:100%;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06);z-index:100;-webkit-transition:all 300ms cubic-bezier(0,0,0.2,1);transition:all 300ms cubic-bezier(0,0,0.2,1);top:-100px;}</style><div class="css-1d3ps91"><nav class="css-1mqm4zt eocge8f0"><a class="css-1usmgm5" href="/">모모팀의 기술 블로그</a><a aria-label="search page" href="/search"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="css-47445j" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path></svg></a></nav></div><style data-emotion-css="w27u98">.css-w27u98{margin-top:1rem;padding-left:1rem;padding-right:1rem;}</style><div class="blog-post-container css-w27u98"><div class="blog-post"><style data-emotion-css="1bdwg0l">.css-1bdwg0l{width:100%;max-width:768px;margin-left:auto;margin-right:auto;}</style><div class="css-1bdwg0l e6qprj20"><style data-emotion-css="1abxlfd">.css-1abxlfd{font-size:2.25rem;font-weight:700;margin-bottom:1rem;}@media (min-width:768px){.css-1abxlfd{font-size:3rem;}}</style><h1 class="blog-title css-1abxlfd">모모팀 인프라 개선기 3편 (무중단 배포)</h1><style data-emotion-css="cpn9zx">.css-cpn9zx{font-size:1rem;margin-bottom:1rem;}</style><h2 class="blog-date css-cpn9zx">2022년 10월 26일</h2><style data-emotion-css="cet0rr">.css-cet0rr{margin-bottom:0.5rem;}</style><div class="blog-tags css-cet0rr"><style data-emotion-css="engchn">.css-engchn{white-space:nowrap;-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);font-size:1rem;font-weight:700;border-radius:9999px;margin-right:0.5rem;margin-top:0.25rem;margin-bottom:0.25rem;padding-top:0.25rem;padding-bottom:0.25rem;padding-left:0.75rem;padding-right:0.75rem;background-color:#edf2f7;color:#00467F;}</style><button class="css-engchn">무중단 배포</button><button class="css-engchn">로드 밸런싱</button><button class="css-engchn">Nginx</button><button class="css-engchn">Jenkins</button><button class="css-engchn">CI/CD</button><button class="css-engchn">Docker</button><button class="css-engchn">모두모여라</button></div><style data-emotion-css="1l4w6pd">.css-1l4w6pd{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}</style><div class="css-1l4w6pd"><style data-emotion-css="164tafw">.css-164tafw{border-radius:9999px;width:100%;height:1px;--bg-opacity:1;background-color:rgba(247,250,252,var(--bg-opacity));background:linear-gradient( 270deg,#00467F,#A5CC82,#FFC500 );}</style><div class="css-164tafw"></div></div></div><div class="blog-content"><style data-emotion-css="qwqmam">.css-qwqmam{-webkit-scrollbar-width:thin;-moz-scrollbar-width:thin;-ms-scrollbar-width:thin;scrollbar-width:thin;-webkit-scrollbar-color:gray transparent;-moz-scrollbar-color:gray transparent;-ms-scrollbar-color:gray transparent;scrollbar-color:gray transparent;display:none;}.css-qwqmam::-webkit-scrollbar{width:4px;}.css-qwqmam::-webkit-scrollbar-track{background-color:transparent;}.css-qwqmam::-webkit-scrollbar-thumb{border-radius:9999px;background-color:gray;}.css-qwqmam::-webkit-scrollbar-button{width:0;height:0;}@media screen and (min-width:1280px){.css-qwqmam{float:right;position:-webkit-sticky;position:sticky;top:100px;width:calc((100vw - 720px) / 2 - 80px);max-width:250px;margin-right:1rem;overflow:auto;word-break:break-word;max-height:calc(100vh - 200px);fontsize:1rem;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;border-left-width:4px;border-image:linear-gradient( 180deg,#00467F,#A5CC82,#FFC500 );border-image-slice:1;}}</style><div class="css-qwqmam"><style data-emotion-css="13af3fo">.css-13af3fo{margin-left:1rem;margin-right:1rem;}</style><div class="css-13af3fo"><style data-emotion-css="17i5xbf">.css-17i5xbf{font-weight:700;margin-bottom:0.5rem;font-size:1.125rem;--text-opacity:1;color:rgba(74,85,104,var(--text-opacity));}</style><h3 class="css-17i5xbf">TOC</h3><style data-emotion-css="1me4zjn">.css-1me4zjn ul{margin-left:0.5rem;}.css-1me4zjn ul > li a:hover{color:#555555;}.css-1me4zjn ul > li a{-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);--text-opacity:1;color:rgba(160,174,192,var(--text-opacity));font-size:0.875rem;}.css-1me4zjn ul > li a[href=""]{font-size:0.95rem;color:#555555;}</style><div class="css-1me4zjn"><ul>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#1-%EB%93%A4%EC%96%B4%EA%B0%80%EB%A9%B0">1. 들어가며</a></li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#2-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC%EB%9E%80">2. 무중단 배포란?</a></li>
+<li>
+<p><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#3-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC--%EB%B0%A9%EC%8B%9D">3. 무중단 배포  방식</a></p>
+<ul>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#%EB%B8%94%EB%A3%A8-%EA%B7%B8%EB%A6%B0-%EB%B0%B0%ED%8F%AC-blue-green-deployment">블루-그린 배포 (Blue-Green Deployment)</a></li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#%EB%A1%A4%EB%A7%81-%EB%B0%B0%ED%8F%AC-rolling-deployment">롤링 배포 (Rolling Deployment)</a></li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#%EC%B9%B4%EB%82%98%EB%A6%AC-%EB%B0%B0%ED%8F%ACcanary-deployment">카나리 배포(Canary Deployment)</a></li>
+</ul>
+</li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#4-%EB%AA%A8%EB%AA%A8%ED%8C%80%EC%9D%B4-%EC%84%A0%ED%83%9D%ED%95%9C-%EB%B0%B0%ED%8F%AC-%EB%B0%A9%EB%B2%95">4. 모모팀이 선택한 배포 방법</a></li>
+<li>
+<p><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#5-jenkins-docker%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%B8%94%EB%A3%A8-%EA%B7%B8%EB%A6%B0-%EB%B0%B0%ED%8F%AC-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0">5. Jenkins, Docker를 통한 블루-그린 배포 진행하기</a></p>
+<ul>
+<li>
+<p><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#51-docker-image-build--push">5.1. Docker Image Build &#x26; Push</a></p>
+<ul>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#-%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%A5%BC-2%EA%B0%9C%EB%A1%9C-%EB%B6%84%EB%A6%AC%ED%95%9C-%EC%9D%B4%EC%9C%A0">📌 이미지를 2개로 분리한 이유</a></li>
+</ul>
+</li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#52-deploy">5.2. Deploy</a></li>
+</ul>
+</li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#6-%EC%8B%A4%ED%96%89-%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0">6. 실행 결과 확인해보기</a></li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#7-%EB%A7%88%EC%B9%98%EB%A9%B0">7. 마치며</a></li>
+<li><a href="/DevOps/20221026-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-3%ED%8E%B8/#-reference">📚 Reference</a></li>
+</ul></div></div></div><div class="css-1bdwg0l e6qprj20"><div><style data-emotion-css="14b4smw">.css-14b4smw{font-size:1rem;word-break:break-word;}.css-14b4smw h1 > a > svg,.css-14b4smw h2 > a > svg,.css-14b4smw h3 > a > svg,.css-14b4smw h4 > a > svg,.css-14b4smw h5 > a > svg,.css-14b4smw h6 > a > svg{fill:#000;}.css-14b4smw h1,.css-14b4smw h2{font-size:1.25rem;font-weight:600;margin-top:1.5rem;margin-bottom:1.5rem;}.css-14b4smw h3,.css-14b4smw h4,.css-14b4smw h5,.css-14b4smw h6{font-size:1.125rem;margin-top:1.5rem;margin-bottom:1.5rem;font-weight:600;}@media (min-width:640px){.css-14b4smw h1,.css-14b4smw h2{font-size:1.5rem;}.css-14b4smw h3,.css-14b4smw h4,.css-14b4smw h5,.css-14b4smw h6{font-size:1.25rem;}}.css-14b4smw a{color:#00467F;}.css-14b4smw a:hover{-webkit-text-decoration:underline;text-decoration:underline;}.css-14b4smw p{margin:0.3rem;margin-top:0.75rem;margin-bottom:0.75rem;}.css-14b4smw ul,.css-14b4smw ol{margin:0.3rem;margin-left:2rem;}.css-14b4smw li > p,.css-14b4smw li > ul,.css-14b4smw li > ol{margin-bottom:0;}.css-14b4smw ol{list-style-type:decimal;}.css-14b4smw ul{list-style-type:disc;}.css-14b4smw blockquote{padding:0.5rem;background-color:#eee;margin:0.3rem;margin-top:0.5rem;margin-bottom:0.5rem;border-left-width:4px;border-color:#A5CC82;}.css-14b4smw blockquote > p{margin:0.5rem;}.css-14b4smw blockquote > h1,.css-14b4smw blockquote > h2,.css-14b4smw blockquote > h3,.css-14b4smw blockquote > h4,.css-14b4smw blockquote > h5{margin-top:0.5rem;margin-bottom:0.5rem;}.css-14b4smw td,.css-14b4smw th{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.25rem;padding-bottom:0.25rem;border-width:1px;border-color:#A5CC82;}.css-14b4smw tr:nth-of-type(even){background-color:#eee;}.css-14b4smw th{background-color:#eee;}.css-14b4smw table{margin-bottom:1.5rem;display:block;max-width:-webkit-fit-content;max-width:-moz-fit-content;max-width:fit-content;margin:0 auto;overflow-x:auto;white-space:nowrap;}.css-14b4smw p > code,.css-14b4smw li > code{padding-top:0.1rem;padding-bottom:0.1rem;padding-right:0.25rem;padding-left:0.25rem;border-radius:0.25rem;color:#00467F;background-color:#eee;white-space:pre-line;}.css-14b4smw pre.grvsc-container{margin-top:24px;margin-bottom:24px;}.css-14b4smw hr{margin-top:24px;margin-bottom:24px;height:2px;border:none;background:linear-gradient( 270deg,#00467F,#A5CC82,#FFC500 );}</style><div class="markdown css-14b4smw"><h1 id="1-들어가며" style="position:relative;"><a href="#1-%EB%93%A4%EC%96%B4%EA%B0%80%EB%A9%B0" aria-label="1 들어가며 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. 들어가며</h1>
+<p>앞서 모모팀의 CI/CD구조에 Docker를 도입하는 작업과 로드 밸런싱을 하는 작업을 진행하였다. 해당 작업들을 진행한 이후 모모팀의 CI/CD구조는 아래와 같다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 54.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6UlEQVQoz21S2W7bQAzU//9MX4sCfWhRGEGTxmltwLAkW5J1rlar+7DOKXcdO04QAtQuqOUMOaSGV5vHAcuyYGpLtG2LaZpUXMakSysygcffv3A8HBBGEeZ5vr25miY/bdPAYRnSrIC/f8F2u8XJ894BNlUFywvx/SDwz08RxAIdEX8kVYBVWcLwOPwohnNyYVIFEWM31q47o65rFEWBZ9PFl8c9veUU794BSleAJbE71hHnc6daDXwfLKaEc/8K2CFNUzAiYVwoL6mIi721e6twHEc01Hae50g4R1W3aNMIgW2o+zD0CmAmMpk+Sp8X2JYJz9zDONrwgxA1YWj3gsrqOAEWlJwlDKFlgFOlstXrkLKyRpwWsN0AP5wAT+FPZHmNME6QZCU0XddhmqYCchwHq9UKHg1E+sO3rwhPJ3gkQcITCEGe5WiHGV6UIBIcOtPB0wwRySBBNSEEgiCAbdtwXRe73U5VIgGfX/7icDwqOSRhTVoXVYPzMF707TsMbY+apt33w9tQPjO5i+v1GnEc32Jy7/KqRkXu+tTuZgNL3+BgOWor5HC1+5EvlCCTrroOw3C7X97MEHmJvKxgewxPcYo/yQOqpkeYZIilhh8X87Pz/v9EhG0/Kg0ZD2H4BoKIwQ8ZIhrgfyWqSIs3k78yAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/0621eb5f8267ded8c8fb6bc3e6347520/c1b63/img.png"
+        srcset="/static/0621eb5f8267ded8c8fb6bc3e6347520/5a46d/img.png 300w,
+/static/0621eb5f8267ded8c8fb6bc3e6347520/0a47e/img.png 600w,
+/static/0621eb5f8267ded8c8fb6bc3e6347520/c1b63/img.png 1200w,
+/static/0621eb5f8267ded8c8fb6bc3e6347520/68638/img.png 1510w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>간단히 구조를 설명하면 Jenkins에서는 JAR파일을 빌드 후, 해당 파일을 통해 실행 Docker 이미지를 만들어 Private Registry에 올리면 각각의 WAS 서버에서 이미지를 다운받아 실행하는 구조를 형성하고 있다.</p>
+<p>지금의 구조에는 배포에 있어 한가지 문제점이 있다. 그 문제점은 바로 서버의 재배포가 일어날 때 서버가 중단되는 <strong>다운타임(downtime)</strong>이 존재한다는 것이다. 현재 사용중인 EC2에서 Spring 앱을 실행시키는데는 약 7초의 시간이 걸린다. 즉, 지금까지 항상 재배포를 할 때마다 Spring이 실행되는 7초라는 시간동안 서버가 중단되었던 것이다.</p>
+<p>이러한 중간에 서버가 다운되며 발생하는 다운타임은 무중단 배포를 한다면 없앨 수 있다.</p>
+<h1 id="2-무중단-배포란" style="position:relative;"><a href="#2-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC%EB%9E%80" aria-label="2 무중단 배포란 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. 무중단 배포란?</h1>
+<p>무중단 배포는 말 그대로 서비스의 버전이 변경되어 배포될 때, 운영중인 서비스가 중단되지 않고 새로운 버전을 배포하는 것을 의미한다. 무중단 배포의 핵심은 로드밸런서를 통해 연결된 두 개 이상의 (서로 다른 포트, IP를 가진) 인스턴스에 트래픽을 제어해 배포한다는 점이다.</p>
+<p>무중단 배포에는 크게 3가지 방법이 존재한다. 지금부터 3가지 방법의 이론에 대해 자세히 알아보겠다.</p>
+<h1 id="3-무중단-배포--방식" style="position:relative;"><a href="#3-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC--%EB%B0%A9%EC%8B%9D" aria-label="3 무중단 배포  방식 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. 무중단 배포  방식</h1>
+<h2 id="블루-그린-배포-blue-green-deployment" style="position:relative;"><a href="#%EB%B8%94%EB%A3%A8-%EA%B7%B8%EB%A6%B0-%EB%B0%B0%ED%8F%AC-blue-green-deployment" aria-label="블루 그린 배포 blue green deployment permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>블루-그린 배포 (Blue-Green Deployment)</h2>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 28.666666666666668%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJklEQVQY011Qz0+DMBjlP/ToyYsn/x/jrwvqjDGZB6PxYtzBqzHGIcJCBoO5aeYiDGgl0FKetNnI2Ete++V9r69fq1VVBUmJ3zBEFEWqXtdXWNfiJEEYLVq6pCYXIYRqWKaBgWWquhQlRCWaAOWrWS69rmPDNvuqluebwNXtGRPYv3vD6aONTWxOKtHpGTi4f0XOmXQ0uvbgUjz5f+i5BO+jOdzvL7iJgzHx4cYOKKPKmOQlXqYZjFmO53rvez+wggm8eIgg9TBKhkiLBNpON8DutY+920+EGUDLOXTzCN1BB2cfx5imExVozjJsX9W+mzG2Ljz4CzkVwaWtQzcOcW6dwIlsaEVRgFLa+gfOOAgh4Jy3npwXDGmts7ovll7GpZZC5kj8A8Kcwvxz/AabAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/9640f8ce76dd686623b2dbb5644262a5/c1b63/img_1.png"
+        srcset="/static/9640f8ce76dd686623b2dbb5644262a5/5a46d/img_1.png 300w,
+/static/9640f8ce76dd686623b2dbb5644262a5/0a47e/img_1.png 600w,
+/static/9640f8ce76dd686623b2dbb5644262a5/c1b63/img_1.png 1200w,
+/static/9640f8ce76dd686623b2dbb5644262a5/2f6f6/img_1.png 1377w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>블루 그린 배포는 구버전과 동일한 구조의 신버전 인스턴스를 생성한 후, 로드 밸런서를 이용해 트래픽을 신버전으로 전환하는 배포 방식이다. 두 개의 인스턴스가 동일한 운영 환경을 이루기 때문에 실제 서비스 환경에서 신버전을 미리 테스트 할 수 있다는 장점이 있다. 또한 배포를 완료한 후, 구버전의 인스턴스를 지우는 작업을 하지 않는다면 해당 인스턴스는 남아있기에 빠른 롤백이 가능하다는 장점이 있다. 하지만 블루 그린 배포를 하기 위해서는 <strong>시스템 자원이 2배로 필요하다는 단점</strong>과 새로운 환경에 대한 테스트가 전제되어야한다는 단점이 존재한다.</p>
+<h2 id="롤링-배포-rolling-deployment" style="position:relative;"><a href="#%EB%A1%A4%EB%A7%81-%EB%B0%B0%ED%8F%AC-rolling-deployment" aria-label="롤링 배포 rolling deployment permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>롤링 배포 (Rolling Deployment)</h2>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 781px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAACQklEQVQoz32RyU9TQRzH+QM4GK8eNPGiN08evHvwbOLZGBMlEb1gQtREtCYqlSVR0xCIYLQEWcqqIAFJZVWqsvm60gUsYPftvb6l7cfX9w6eYA4zv5n5/D6ZzLcGfShSnrKYgYrGUUOVJbRCWq8O52qq05wvyfOZMJOeNBM+kc4faRYiIn1beezrGXJyyYA3ozmsX8I4NlPMBkU6XFmc4RSezE+W9+fJyGlT2LyQ5PhTD9cGI1zu2+XYky0ap6Kc79jmbJvAblY1hA4hx4kXPi51B6gbj1L72M3t8S3s3hbuOusJpL2msH0xzimrQP3oDlcdUU63CFhm97nYE+KCzcNezhSOubOcafdwxb5Nw9Q+J61e7n12M+B/TdNiI6FMwBTGxBLehGI0RtJFvHGRg7xKICERTBZRSxVDmJXL+JMy0bxmsJ5YlSuSlGIcFPZQSoopVMUsSCm9Kh8ZiiIVUbJ5Cik9QK10eCijv5PcGgnRuxbjW8zJRGiYjcQv5v5MM7MziaiJBhxMBRgQ7Ez7P7EcXWAiPIzr7worB1/5GHYQ119qCJ/Nx6m1uLk+5KdbaKPBWceIv59mVxOWpUbScsoQrsVd3F+6g229lQ++tzp3g/dCF52bL/X65v9QbN8TnHvl58F0mKFAD9bVR8xEJunSQdtaK1klYwiF5AYtLgu9whs+Bh00rz5kLDBIv++d0RPJhUyhqJTISBqSWqKoSfoqGR8sqaK+L1KpmKFoZRVRLeh3MrJ+Xr2vckXV7ClXSvwD2+K9x7H1Sh8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/3567e41733ac439e7c8edddb8197ec36/7fee5/img_2.png"
+        srcset="/static/3567e41733ac439e7c8edddb8197ec36/5a46d/img_2.png 300w,
+/static/3567e41733ac439e7c8edddb8197ec36/0a47e/img_2.png 600w,
+/static/3567e41733ac439e7c8edddb8197ec36/7fee5/img_2.png 781w"
+        sizes="(max-width: 781px) 100vw, 781px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>롤링 배포는 사용중인 N개의 인스턴스에서 새로운 버전의 배포를 점진적으로 진행하는 가장 기본적인 방법이다. 인스턴스마다 새로운 버전의 배포를 순차적으로 진행하기 때문에 상황에 따라 쉽게 롤백할 수 있다는 장점이 존재한다. 하지만 해당 방법은 신버전을 배포할 때 N개의 서버로 분산되던 부하가 N-1개의 서버로 분산되어 서비스 처리 용량을 고려해야한다는 단점이 있다. 또한 무엇보다 배포가 진행되는 과정에서 <strong>구버전과 신버전이 공존하는 상황이 발생하여 호환성 문제</strong>가 발생할 수 있다.</p>
+<h2 id="카나리-배포canary-deployment" style="position:relative;"><a href="#%EC%B9%B4%EB%82%98%EB%A6%AC-%EB%B0%B0%ED%8F%ACcanary-deployment" aria-label="카나리 배포canary deployment permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>카나리 배포(Canary Deployment)</h2>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAACPUlEQVQoz22T72/SQBjH+ftMjG98rW98qy99o1ti1CzGF8ZIZkYkmywYnBtkg0TZJqNsjLGsGDSCjgaZhday/qalFFq+toXyI9uT3N1z93zvc3fP3QWGwyFcc1tN08ALAgSnWJY1GffN923bhqqqEEXR087GA27lClyjaRorKyHE43GYpjkRzS7qa8lSCcFgEARBzOkC/oquURSFSCSCRCKBbrd7LdD3SZJEOBxGJpOZi3vAodcZQVmmheH4uPAAmLOhqx4PsgwzmjyTjoBtjxyKVXDvbR43FjZx69k2Qns/YNnzO/P7uQqDO6/TuLkYxe0XO0idNbxxyzlpwB6TLxUDrzaOsPQhh4XVDJIn51eO6S/+vd7Gk0gGS1ECi6v7KFRaU6DrGE6+dF1Dpiahwqowehx6XRX9fv/aPAIDxzEg6TRsS/US4W/MA/7hdZz/U1GkDZwyJjhdhqAI6BidK0CxJ0DqiegMNLT0JkRTcvpuEabAd6SIB6kmNso8Hu0xeH7AIc8SWKssoyb+mkAH9gDpiyRS9S2QbBGx6hqOaQLZ5i62alHIDtgDxkocHiYqWD/5i6dfKLw5bOJ9NYT72bs44wqj/DmvwAXm6K/Yb3xGsZHHx2/rOKQOkG9lka4noZrKCBj/KeFx+gKb5Uu8JBgsFzicNgtIVGOo85TzjDC+ZcubvFtPocyS2P79ydMdtwgHuDMFwjZhShw0sQ3Dad2kdyQNclsB3+Yhy/L8F3Q+Ec8JTlyFIijeHfn2H1e6dlSzaImyAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/6a7bc09c13cce3c5bfb3c4c6e221fd9d/5a190/img_3.png"
+        srcset="/static/6a7bc09c13cce3c5bfb3c4c6e221fd9d/5a46d/img_3.png 300w,
+/static/6a7bc09c13cce3c5bfb3c4c6e221fd9d/0a47e/img_3.png 600w,
+/static/6a7bc09c13cce3c5bfb3c4c6e221fd9d/5a190/img_3.png 800w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>카나리 배포는 잠재적인 문제 상황을 미리 발견하기 위한 방법으로 신버전의 제공 범위를 늘려가며 모니터링 및 피드백 과정을 거칠 수 있는 배포 방법이다. 로드 밸런서를 이용해 신버전의 제품을 경험하는 사용자를 조절할 수 있는 것이 특징이다. 해당 방법은 블루 그린과 유사하게 신버전 배포 이전에 실제 운영 환경에서 미리 테스트할 수 있다는 장점과 함께 단계적인 전환을 통해 부정적인 영향 최소화, 상황에 따른 트래픽 양을 조절할 수 있다는 장점도 존재한다. 하지만 롤링 배포와 마찬가지로 신버전과 구버전이 동시에 운영되어 호환성 문제가 발생할 수 있다.</p>
+<h1 id="4-모모팀이-선택한-배포-방법" style="position:relative;"><a href="#4-%EB%AA%A8%EB%AA%A8%ED%8C%80%EC%9D%B4-%EC%84%A0%ED%83%9D%ED%95%9C-%EB%B0%B0%ED%8F%AC-%EB%B0%A9%EB%B2%95" aria-label="4 모모팀이 선택한 배포 방법 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. 모모팀이 선택한 배포 방법</h1>
+<p>모모팀은 위의 세 가지 무중단 배포 방식중에 블루-그린 방법과 롤링 방법의 도입을 고민하였다. 초반에는 블루-그린의 경우 무조건 배포를 위한 동일한 환경의 EC2를 생성하여야하며, 해당 EC2가 운영중인 서버로 사용되지 않을 때는 항상 Idle하게 낭비되어야 한다고 생각하였기에 롤링 방식이 더 좋겠다고 생각했다. 롤링도 동 시간대에 2개의 버전이 서버에 올라가있다는 단점이 존재하였으나 불필요하게 EC2가 낭비되는 상황을 만드는 것보다는 더 낫다고 생각했다.</p>
+<p>하지만 현재 우리의 인프라에는 Docker를 사용하여 하나의 EC2에서도 포트를 다르게 하면 여러개의 스프링 서버를 띄울 수 있는 상황이다. 즉, 무중단 배포를 위한 EC2를 만들지 않더라도 기존의 WAS EC2에서 포트가 다른 새로운 컨테이너를 실행하며 블루-그린 배포를 적용할 수 있다.</p>
+<p>이렇게 걱정했던 블루-그린의 단점이 해결이 되어 모모팀은 최종적으로 포트 변경을 통한 블루-그린 배포를 채택하였다.</p>
+<h1 id="5-jenkins-docker를-통한-블루-그린-배포-진행하기" style="position:relative;"><a href="#5-jenkins-docker%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%B8%94%EB%A3%A8-%EA%B7%B8%EB%A6%B0-%EB%B0%B0%ED%8F%AC-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0" aria-label="5 jenkins docker를 통한 블루 그린 배포 진행하기 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Jenkins, Docker를 통한 블루-그린 배포 진행하기</h1>
+<p>무중단 배포 적용과정을 설명하기 앞서 먼저 최종적으로 완성된 Jenkins 스크립트 파일을 보여준 후, 각각의 단계별 설명을 진행하겠다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="0"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">pipeline {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    agent any</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    environment {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        JENKINS_ITEM_NAME = </span><span class="mtk6">&quot;Momo-Prod-BE&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        BRANCH = </span><span class="mtk6">&quot;develop-be&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        EXECUTE_PROFILE = </span><span class="mtk6">&quot;dev&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        IP1 = </span><span class="mtk6">&quot;{WAS_SERVER1_IP}&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        IP2 = </span><span class="mtk6">&quot;{WAS_SERVER2_IP}&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        SSH_CONNECTION1 = </span><span class="mtk6">&quot;ubuntu@{WAS_SERVER1_IP}&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        SSH_CONNECTION2 = </span><span class="mtk6">&quot;ubuntu@{WAS_SERVER2_IP}&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        NGINX_CONNECTION = </span><span class="mtk6">&quot;ubuntu@{NGINX_SERVER_IP}&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        SSH_CONNECTION_CREDENTIAL = </span><span class="mtk6">&quot;aws_key&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        CONTAINER = </span><span class="mtk6">&quot;{PRIVATE_REGISTRY_IP}/momo-sping-application&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    stages {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Git Clone&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                git branch: BRANCH, url: </span><span class="mtk6">&#39;https://github.com/woowacourse-teams/2022-momo.git&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                withCredentials([GitUsernamePassword(credentialsId: </span><span class="mtk6">&#39;submodule_security_token&#39;</span><span class="mtk1">, gitToolName: </span><span class="mtk6">&#39;Default&#39;</span><span class="mtk1">)]) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    sh </span><span class="mtk6">&#39;git submodule update --init --recursive&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Gradlew Build&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                dir(</span><span class="mtk6">&quot;./backend&quot;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    sh </span><span class="mtk6">&quot;./gradlew clean build&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Move Jar File To dockerfile directory&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                sh </span><span class="mtk6">&quot;mv /var/lib/jenkins/workspace/</span><span class="mtk4">${JENKINS_ITEM_NAME}</span><span class="mtk6">/backend/build/libs/momo-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/</span><span class="mtk4">${JENKINS_ITEM_NAME}</span><span class="mtk6">/backend/docker/dockerfile/momo-0.0.1-SNAPSHOT.jar&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Docker Image Build &amp; Push&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                dir(</span><span class="mtk6">&quot;./backend/docker/dockerfile&quot;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    script {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                        sh </span><span class="mtk6">&#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">#!/bin/bash</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">health_check() {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    DEFAULT_IF_FAIL=&quot;000&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TARGET=&quot;http://$1/actuator/health&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo $(curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;${TARGET}&quot;) || echo DEFAULT_IF_FAIL</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER1_8080_STATUS=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER2_8080_STATUS=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">if [ &quot;${SERVER1_8080_STATUS}&quot; -eq 200 ] || [ &quot;${SERVER2_8080_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker build -t momo-sping-application-blue:latest ./</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker tag momo-sping-application-blue:latest {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker push {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">else</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker build -t momo-sping-application-green:latest ./</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker tag momo-sping-application-green:latest {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker push {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">                        &#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Deploy&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                sshagent(credentials: [SSH_CONNECTION_CREDENTIAL]) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    script {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                        sh </span><span class="mtk6">&#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">#!/bin/bash</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">health_check() {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    DEFAULT_IF_FAIL=&quot;000&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TARGET=&quot;http://$1/actuator/health&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo $(curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;${TARGET}&quot;) || echo DEFAULT_IF_FAIL</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6"># 1. Health Checking</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">echo &quot;✅ &quot;서버1 8080 포트 헬스 체크&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER1_8080_STATUS=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">echo &quot;✅ &quot;서버2 8080 포트 헬스 체크&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER2_8080_STATUS=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6"># 2. if 8080 port is alive</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">if [ &quot;${SERVER1_8080_STATUS}&quot; -eq 200 ] || [ &quot;${SERVER2_8080_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;💥 8081 포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP1}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 1 기존 8081포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rm -f momo-app-8081&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8081포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker pull ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker run -d -p 8081:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8081 ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8081포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP2}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 2 기존 8081포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rm -f momo-app-8081&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8081포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker pull ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker run -d -p 8081:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8081 ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8081포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🏆 NGINX 재설정&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    for i in $(seq 100); do</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        sleep 1</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER1_8081_STATUS=$(health_check &quot;${IP1}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER2_8081_STATUS=$(health_check &quot;${IP2}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        if [ &quot;${SERVER1_8081_STATUS}&quot; -eq 200 ] &amp;&amp; [ &quot;${SERVER2_8081_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            ssh -o StrictHostKeyChecking=no -t ${NGINX_CONNECTION} &#39;</span><span class="mtk1">cd /etc/nginx/sites-enabled &amp;&amp; sudo rm * &amp;&amp; </span><span class="mtk8">cd</span><span class="mtk1"> ~/momo-conf &amp;&amp; sudo cp momo-8081.conf /etc/nginx/sites-enabled/ &amp;&amp; sudo nginx -s reload</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            break</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    done</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8080 포트 죽이기 &quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8080</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8080</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8080 포트 죽이기 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 사용하지 않는 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">else</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;💥 8080 포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 1 기존 8080포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rm -f momo-app-8080&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8080포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker pull ${CONTAINER}-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker run -d -p 8080:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8080 ${CONTAINER}-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8080포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 2 기존 8080포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rm -f momo-app-8080&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8080포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker pull ${CONTAINER}-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker run -d -p 8080:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8080 ${CONTAINER}-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8080포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🏆 NGINX 재설정&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    for i in $(seq 100); do</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        sleep 1</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER1_8080_STATUS=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER2_8080_STATUS=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        if [ &quot;${SERVER1_8080_STATUS}&quot; -eq 200 ] &amp;&amp; [ &quot;${SERVER2_8080_STATUS}&quot; -eq 200 ]; then </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            ssh -o StrictHostKeyChecking=no -t ${NGINX_CONNECTION} &#39;</span><span class="mtk1">cd /etc/nginx/sites-enabled &amp;&amp; sudo rm * &amp;&amp; </span><span class="mtk8">cd</span><span class="mtk1"> ~/momo-conf &amp;&amp; sudo cp momo-8080.conf /etc/nginx/sites-enabled/ &amp;&amp; sudo nginx -s reload</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            break</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    done</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8081 포트 죽이기 &quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8081</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8081</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8081 포트 죽이기 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 사용하지 않는 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">                        &#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">}</span></span></span></code></pre>
+<blockquote>
+<p>Docker 이미지를 빌드하고 푸쉬하기 전 단계들은 환경변수 설정을 제외하면 이전의 Docker 도입할 때의 코드에서 변경점이 없기에 설명 없이 넘어가도록 하겠다.</p>
+<p>해당 스크립트에대해 알고 싶다면 아래의 포스트를 참고하길 바란다.</p>
+<p><a href="https://seongwon.dev/DevOps/20221021-%EB%AA%A8%EB%AA%A8%ED%8C%80-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B0%9C%EC%84%A0%EA%B8%B0-1%ED%8E%B8/">모모팀 인프라 개선기 1편 (Docker🐳 도입)</a></p>
+</blockquote>
+<h2 id="51-docker-image-build--push" style="position:relative;"><a href="#51-docker-image-build--push" aria-label="51 docker image build  push permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.1. Docker Image Build &#x26; Push</h2>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="1"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Docker Image Build &amp; Push&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                dir(</span><span class="mtk6">&quot;./backend/docker/dockerfile&quot;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    script {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                        sh </span><span class="mtk6">&#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">#!/bin/bash</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">health_check() {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    DEFAULT_IF_FAIL=&quot;000&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TARGET=&quot;http://$1/actuator/health&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo $(curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;${TARGET}&quot;) || echo DEFAULT_IF_FAIL</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER1_8080_STATUS=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER2_8080_STATUS=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">if [ &quot;${SERVER1_8080_STATUS}&quot; -eq 200 ] || [ &quot;${SERVER2_8080_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker build -t momo-sping-application-blue:latest ./</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker tag momo-sping-application-blue:latest {PRIVATE_REGISTRY_IP}/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker push {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi momo-sping-application-blue:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">else</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker build -t momo-sping-application-green:latest ./</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker tag momo-sping-application-green:latest {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker push {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    docker rmi momo-sping-application-green:latest</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">                        &#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span></code></pre>
+<p>해당 단계에서는 Stage의 이름대로 Docker Image를 빌드한 후 Private Registry에 Push하는 작업을 진행한다. 실행 스크립트에서 유심히 봐야할 부분은 2개의 WAS서버에서 8080포트를 사용중인지 Health 체크를 하고 사용 유무에 따라 다른 작업을 한다는 점이다.</p>
+<p>만약 2개의 WAS서버중 8080포트를 사용하는 서버가 한개라도 존재하면 Jenkins에서는 <code>blue</code>라는 키워드가 붙은 <code>momo-sping-application-blue:latest</code> 이미지를 생성 후 registry에 push한다. 반대로 8080포트를 사용하는 서버가 존재하지 않으면 현재 8081포트에 <code>momo-sping-application-blue:latest</code> 컨테이너가 실행된다고 판단하여 8080포트에서 실행시킬 green 키워드가 붙은 새로운 버전의 <code>momo-sping-application-green:latest</code> 이미지를 생성 후 Push한다.</p>
+<h3 id="-이미지를-2개로-분리한-이유" style="position:relative;"><a href="#-%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%A5%BC-2%EA%B0%9C%EB%A1%9C-%EB%B6%84%EB%A6%AC%ED%95%9C-%EC%9D%B4%EC%9C%A0" aria-label=" 이미지를 2개로 분리한 이유 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>📌 이미지를 2개로 분리한 이유</h3>
+<p>Docker는 베이스 이미지가 같은 여러 개의 컨테이너를 만들어도 실제 PC에는 하나의 이미지만 존재한다. 이는 도커가 이미지는 읽기 전용으로 사용하고 여러개의 컨테이너가 해당 이미지 데이터를 읽으며 실행하기 때문이다.</p>
+<p>만약 이미지를 분리하지 않고 하나의 이미지로 관리한다면 실행 서버에서 새로운 이미지를 Pull받았을 때, 현재 실행중인 컨테이너에 영향이 갈 수도 있다. 이러한 이유때문에 하나의 이미지를 사용하지 않고 blue, green이름이 붙은 2개의 이미지를 관리하도록 하고 있다.</p>
+<p>이미지를 분리하면서 얻는 이점도 있다. 새로운 버전을 배포하였을 때, 예상하지 못한 오류들이 발생할 수 있다. 이전까지는 빠른 대처를 위해 배포 이전의 버전으로 돌리려면 Git에서 commit을 롤백하고 그 이후에 다시 배포하는 과정을 거쳐야했다. 하지만 이미지를 2개로 분리하며 최신 버전과 구 버전의 이미지가 Registry에 올라가 있게 되어 이제는 위의 과정을 거칠 필요 없이 단순히 Registry에 올라가있는 구 버전의 이미지를 Pull받아서 실행시키면 배포 이전의 버전으로 롤백할 수 있다.</p>
+<h2 id="52-deploy" style="position:relative;"><a href="#52-deploy" aria-label="52 deploy permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.2. Deploy</h2>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="2"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        stage(</span><span class="mtk6">&#39;Deploy&#39;</span><span class="mtk1">) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            steps {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                sshagent(credentials: [SSH_CONNECTION_CREDENTIAL]) {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    script {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                        sh </span><span class="mtk6">&#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">#!/bin/bash</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">health_check() {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    DEFAULT_IF_FAIL=&quot;000&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TARGET=&quot;http://$1/actuator/health&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo $(curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;${TARGET}&quot;) || echo DEFAULT_IF_FAIL</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6"># 1. Health Checking</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">echo &quot;✅ &quot;서버1 8080 포트 헬스 체크&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER1_8080_STATUS=$(health_check &quot;${IP1}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">echo &quot;✅ &quot;서버2 8080 포트 헬스 체크&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER2_8080_STATUS=$(health_check &quot;${IP2}&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6"># 2. if 8080 port is alive</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">if [ &quot;${SERVER1_8080_STATUS}&quot; -eq 200 ] || [ &quot;${SERVER2_8080_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;💥 8081 포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP1}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 1 기존 8081포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rm -f momo-app-8081&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8081포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker pull ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker run -d -p 8081:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8081 ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 1 8081포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    TEMP=$(health_check &quot;${IP2}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    if [ &quot;${TEMP}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        echo &quot;🔪 서버 2 기존 8081포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rm -f momo-app-8081&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8081포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker pull ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker run -d -p 8081:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=${EXECUTE_PROFILE} --name momo-app-8081 ${CONTAINER}-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🌈 서버 2 8081포트 배포 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🏆 NGINX 재설정&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    for i in $(seq 100); do</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        sleep 1</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER1_8081_STATUS=$(health_check &quot;${IP1}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        SERVER2_8081_STATUS=$(health_check &quot;${IP2}&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        if [ &quot;${SERVER1_8081_STATUS}&quot; -eq 200 ] &amp;&amp; [ &quot;${SERVER2_8081_STATUS}&quot; -eq 200 ]; then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            ssh -o StrictHostKeyChecking=no -t ${NGINX_CONNECTION} &#39;</span><span class="mtk1">cd /etc/nginx/sites-enabled &amp;&amp; sudo rm * &amp;&amp; </span><span class="mtk8">cd</span><span class="mtk1"> ~/momo-conf &amp;&amp; sudo cp momo-8081.conf /etc/nginx/sites-enabled/ &amp;&amp; sudo nginx -s reload</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">            break</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">        fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    done</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8080 포트 죽이기 &quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8080</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &#39;</span><span class="mtk1">docker rm -f momo-app-8080</span><span class="mtk6">&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 8080 포트 죽이기 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    </span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">    echo &quot;🔪 사용하지 않는 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION1}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">	ssh -o StrictHostKeyChecking=no -t &quot;${SSH_CONNECTION2}&quot; &quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">else</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">		# 위와 실행 포트와 실행 이미지만 다른 중복로직이라 생략하겠다.</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">                        &#39;&#39;&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                    }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">                }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">            }</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        }</span></span></span></code></pre>
+<p>이제 배포 과정을 살펴보겠다. 배포 스크립트도 길이상으로는 매우 길지만 코드를 보면 매우 간단한 것을 알 수 있다.</p>
+<p>코드의 진행 순서는 아래와 같다.</p>
+<ol>
+<li>
+<p><strong>서버의 8080포트를 확인하며 8080, 8081중 어떤 포트로 배포할지 결정</strong></p>
+<p>배포 과정에서도 앞서 이미지를 빌드한 것과 같이 서버의 8080포트의 헬스 체크를 진행하며 새로운 버전의 이미지를 8080포트로 배포할지, 8081포트로 배포할지 판단한다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="3"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk5 mtki"># 1. Health Checking</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;✅ &quot;</span><span class="mtk1">서버1 8080 포트 헬스 체크</span><span class="mtk6">&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">SERVER1_8080_STATUS=$(health_check &quot;</span><span class="mtk4">${IP1}</span><span class="mtk6">&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk6">echo &quot;</span><span class="mtk1">✅ </span><span class="mtk6">&quot;서버2 8080 포트 헬스 체크&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">SERVER2_8080_STATUS=</span><span class="mtk6">$(health_check &quot;</span><span class="mtk4">${IP2}</span><span class="mtk6">&quot;:8080)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk5 mtki"># 2. if 8080 port is alive</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk9">if</span><span class="mtk1"> [ </span><span class="mtk6">&quot;</span><span class="mtk4">${SERVER1_8080_STATUS}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk8">-eq</span><span class="mtk1"> 200 ] || [ </span><span class="mtk6">&quot;</span><span class="mtk4">${SERVER2_8080_STATUS}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk8">-eq</span><span class="mtk1"> 200 ]; </span><span class="mtk9">then</span></span></span></code></pre>
+</li>
+<li>
+<p><strong>각각의 서버에 기존의 이미지 제거 후, 새로운 버전 배포</strong></p>
+<p>현재 8080포트를 사용하고 있다면 8081 포트에 실행되는 컨테이너와 8081에서 실행할 기존의 <code>momo-sping-application-blue</code> 이미지를 제거한다.</p>
+<blockquote>
+<p>과거에 정상적으로 동작하였으면 실행중인 이미지가 없겠지만 서비스의 안정성을 위해 다시 한번 삭제해준다.</p>
+</blockquote>
+<p>컨테이너와 이미지를 제거하였으면 이제 private registry로부터 실행시킬 새로운 버전의 이미지를 다운받은 후, 실행을 한다.</p>
+<p>우리 서비스의 경우 2개의 WAS 서버를 사용중이어서 2개의 서버에 위의 과정을 각각 진행한다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="4"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;💥 8081 포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">TEMP=</span><span class="mtk6">$(health_check &quot;</span><span class="mtk4">${IP1}</span><span class="mtk6">&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk9">if</span><span class="mtk1"> [ </span><span class="mtk6">&quot;</span><span class="mtk4">${TEMP}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk8">-eq</span><span class="mtk1"> 200 ]; </span><span class="mtk9">then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    </span><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🔪 서버 1 기존 8081포트 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker rm -f momo-app-8081&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk9">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🌈 서버 1 8081포트 배포 시작&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker pull </span><span class="mtk4">${CONTAINER}</span><span class="mtk6">-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker run -d -p 8081:8080 -m 700m --cpus=1.8 -v /home/ubuntu/applicationlog:/momo -e PROFILE=</span><span class="mtk4">${EXECUTE_PROFILE}</span><span class="mtk6"> --name momo-app-8081 </span><span class="mtk4">${CONTAINER}</span><span class="mtk6">-blue:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🌈 서버 1 8081포트 배포 성공&quot;</span></span></span></code></pre>
+</li>
+<li>
+<p><strong>헬스체크를 통해 모든 서버에 배포가 완료되었는지 확인 및 Nginx에서 바라보는 포트 변경</strong></p>
+<p>새로운 버전의 배포 명령이 완료되었다면 헬스 체크를 통해 Spring이 온전히 올라갔는지 확인한다. 헬스 체크를 진행하는 이유는 앞서 언급했듯이 Spring이 실제로 실행되는 시간이 필요하기에 헬스 체킹 과정은 필수로 넣어야 한다. 해당 과정이 없을 경우 무중단 배포가 아니게 될 수 있다.</p>
+<p>헬스 체킹을 통해 Spring 서버가 정상적으로 실행됐다는 것이 판단되면 이제 Nginx의 설정을 변경해줘야 한다. 기존에는 8080포트를 바라봤다면 이제 8081포트로 연결하도록 해야한다.</p>
+<p>Nginx의 설정 변경을 해주려면 먼저 Nginx서버에 접속하여 8080포트를 바라보는 스크립트와 8081포트를 바라본는 서버를 각각 생성해줘야한다. 우리는 <code>/momo-conf</code> 디렉터리를 생성한 후, 해당 디렉터리에 <code>momo-8080.conf</code> 와 <code>momo-8081.conf</code> 설정 파일을 만들어뒀다. 설정 파일의 내용은 아래와 같다. 파일별로 각각 바라보는 포트만을 다르게 하면 된다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="5"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">upstream springApp {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	server {WAS_SERVER1_IP}:{PORT};</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	server {WAS_SERVER2_IP}:{PORT};</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">server {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	listen 443 ssl;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	server_name dev-api.moyeora.site;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	ssl_certificate /home/ubuntu/momokeys/fullchain.pem;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	ssl_certificate_key /home/ubuntu/momokeys/privkey.pem;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	location / {</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">		proxy_pass http://springApp;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">		proxy_buffer_size 128k;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">		proxy_buffers 4 256k;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">		proxy_busy_buffers_size 256k;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">	}</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">}</span></span></span></code></pre>
+<p>해당 설정이 정상적으로 완료되었다면 Jenkins에서 ssh를 통해 아래의 명령을 실행하면 자동으로 Nginx에서 바라보는 포트가 변경될 것이다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="6"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🏆 NGINX 재설정&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk9">for</span><span class="mtk1"> </span><span class="mtk4">i</span><span class="mtk1"> </span><span class="mtk9">in</span><span class="mtk1"> </span><span class="mtk6">$(seq 100)</span><span class="mtk1">; </span><span class="mtk9">do</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    sleep 1</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    SERVER1_8081_STATUS=</span><span class="mtk6">$(health_check &quot;</span><span class="mtk4">${IP1}</span><span class="mtk6">&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    SERVER2_8081_STATUS=</span><span class="mtk6">$(health_check &quot;</span><span class="mtk4">${IP2}</span><span class="mtk6">&quot;:8081)</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    </span><span class="mtk9">if</span><span class="mtk1"> [ </span><span class="mtk6">&quot;</span><span class="mtk4">${SERVER1_8081_STATUS}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk8">-eq</span><span class="mtk1"> 200 ] &amp;&amp; [ </span><span class="mtk6">&quot;</span><span class="mtk4">${SERVER2_8081_STATUS}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk8">-eq</span><span class="mtk1"> 200 ]; </span><span class="mtk9">then</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        ssh -o StrictHostKeyChecking=no -t </span><span class="mtk4">${NGINX_CONNECTION}</span><span class="mtk1"> </span><span class="mtk6">&#39;cd /etc/nginx/sites-enabled &amp;&amp; sudo rm * &amp;&amp; cd ~/momo-conf &amp;&amp; sudo cp momo-8081.conf /etc/nginx/sites-enabled/ &amp;&amp; sudo nginx -s reload&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">        </span><span class="mtk8">break</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">    </span><span class="mtk9">fi</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk9">done</span></span></span></code></pre>
+<blockquote>
+<p>Nginx의 설정을 변경하는 방법은 restart와 reload가 존재한다. reload의 경우 설정을 다시 불러오는 것이고 reatart는 말 그대로 Nginx자체를 종료했다가 실행하게 된다. restart를 하게 된다면 아주 찰나의 순간이지만 Nginx가 종료되는 시간이 존재하게 되어 우리는 reload를 하게 됐다.</p>
+</blockquote>
+</li>
+<li>
+<p><strong>이전에 사용중이던 Port의 컨테이너와 이미지 제거</strong></p>
+<p>새로운 Spring서버를 띄우고 Nginx에서 바라보는 포트를 변경하는 작업이 모두 완료되었다. 이제 기존에 사용하던 포트에 연결된 컨테이너는 자원만 축내는 컨테이너가 된다. 이제 삭제하도록 하겠다.</p>
+<pre class="grvsc-container one-dark-pro" data-language="bash" data-index="7"><code class="grvsc-code"><span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🔪 8080 포트 죽이기 &quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&#39;docker rm -f momo-app-8080&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION2}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&#39;docker rm -f momo-app-8080&#39;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🔪 8080 포트 죽이기 성공&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk8">echo</span><span class="mtk1"> </span><span class="mtk6">&quot;🔪 사용하지 않는 이미지 제거&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION1}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span>
+<span class="grvsc-line"><span class="grvsc-source"><span class="mtk1">ssh -o StrictHostKeyChecking=no -t </span><span class="mtk6">&quot;</span><span class="mtk4">${SSH_CONNECTION2}</span><span class="mtk6">&quot;</span><span class="mtk1"> </span><span class="mtk6">&quot;docker rmi -f {PRIVATE_REGISTRY_IP}:8080/momo-sping-application-green:latest&quot;</span></span></span></code></pre>
+</li>
+</ol>
+<h1 id="6-실행-결과-확인해보기" style="position:relative;"><a href="#6-%EC%8B%A4%ED%96%89-%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-label="6 실행 결과 확인해보기 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. 실행 결과 확인해보기</h1>
+<p>모든 설정을 마쳤으니 스크립트가 올바르기 실행되는지 확인해보겠다.</p>
+<p>먼저 Jenkins 배포를 하기 전 각각의 EC2에 존재하는 이미지와 실행중인 컨테이너를 확인해보겠다. 현재 서버에는 각각 <code>momo-sping-application-blue:latest</code> 이미지가 존재하며 해당 이미지로 만든 <code>momo-app-8081</code> 이라는 이름의 컨테이너가 <strong>8081</strong>포트에서 실행중이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 16.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsTAAALEwEAmpwYAAAArklEQVQI122LywqCUBRF/Y4gH9kliywjB+GjHGXZnxU1qD8IGjSQq+ZVtI/bHW4UDRoszoa1jvKoGwjRoKyfKO4psv0B+fUGnlfgWUkI2iWKqqauhahaFNTn5wv48QSe5uTFt1UsZwE2mEM3p9BMBz3LhUq7q9vEWN6OOgSzXTByRt+B1pvAoB+NzaAav90IShglCFYJvHADn/CCWF5/uZVIF6xpxwij3dv96T68AEKAfM2di24sAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/f486794fc2d26c29a30b615c93ce7150/c1b63/img_4.png"
+        srcset="/static/f486794fc2d26c29a30b615c93ce7150/5a46d/img_4.png 300w,
+/static/f486794fc2d26c29a30b615c93ce7150/0a47e/img_4.png 600w,
+/static/f486794fc2d26c29a30b615c93ce7150/c1b63/img_4.png 1200w,
+/static/f486794fc2d26c29a30b615c93ce7150/68638/img_4.png 1510w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>이제 새로운 배포를 위해 Jenkins 빌드를 해보겠다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 34.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABKUlEQVQoz22Q626EIBCFff+n25/dbLNWVrmN4FZQ0FVPgaSmaXaSCcMHc4ZDJYRA0zTQWiPHcRz4H5m94++iCiHAe48Y4wm3bTtz3/eTr+t65t87v/l6vVC9m7IsC5RSsINNdYQxPfzkQUS4XC7lLDu6fd7gnMM4jmWf+07BrJ5Bnj5NE0hTEjJwPtVkU6PHYAdcP66FhzkkIYc5rdZaaKWT0wnV003Q1JepnHNIKSG1BOMMrGvQKokbayFIgssONbujFS3I6sJkr/BId++sTjWhkmYEVwQhOJZ1Ka8dokEbv9AFBr1y8LmBCC14bMH8HTw80O8K/aFAm0Q3MzzmGiZStnwkm0uxmT82x3d4QjgO5QVo1qApNadVeZl4V7gJVAQKd6LwYbb4AdjOGOF/+qkhAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/3c4d428072d5fe226d65794c575b91b1/c1b63/img_5.png"
+        srcset="/static/3c4d428072d5fe226d65794c575b91b1/5a46d/img_5.png 300w,
+/static/3c4d428072d5fe226d65794c575b91b1/0a47e/img_5.png 600w,
+/static/3c4d428072d5fe226d65794c575b91b1/c1b63/img_5.png 1200w,
+/static/3c4d428072d5fe226d65794c575b91b1/68638/img_5.png 1510w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<p>실행 후의 결과는 아래와 같다. 이미지를 확인해보면 알 수 있듯이 새로운 배포를 한 이후에는 8081 포트에서 실행되던 <code>momo-sping-application-blue:latest</code> 이미지와 컨테이너는 삭제되었고 <strong>8080</strong>포트에서 <code>momo-sping-application-green:latest</code> 이미지로 만든 <code>momo-app-8080</code> 컨테이너가 실행중인 것을 확인할 수 있다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 20.666666666666668%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA20lEQVQY002Py2rDMBBF/TWhwW9bjlz5naRNoR9aKKVQ+hdZehkbWXaS77gZjTdZHAY0R/dKzmRmGLPAXO+Y+h7D9xf0+QxNZ1qblYmw3rxgJsxyw/j/h+H3B/oy0n5mz+Y45fsnVPUBqd6QyT1k1kBkLRIiFg0S0SJMK6jDib3cevmBvBYiqdizRGkNVZ7giO6IOG3gRwW8UCEgyaX54kpix3PjCiR1x+HWcwPyYusV2Hr56mwzfoCzq47cGFIQB8YlTz9cCzx7yZcQRQdBP1i9AkH07NmSV94/AA4PqG7oFkxLAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/b4693f18b26f0d64a3296c59772be524/c1b63/img_6.png"
+        srcset="/static/b4693f18b26f0d64a3296c59772be524/5a46d/img_6.png 300w,
+/static/b4693f18b26f0d64a3296c59772be524/0a47e/img_6.png 600w,
+/static/b4693f18b26f0d64a3296c59772be524/c1b63/img_6.png 1200w,
+/static/b4693f18b26f0d64a3296c59772be524/68638/img_6.png 1510w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<blockquote>
+<p>📌 배포 과정을 진행하는 중간에 각각의 서버에 Spring이 온전히 실행된 것을 확인하기 전까지는 8080, 8081 포트에서 컨테이너가 각각 실행하게 된다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 10.333333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAj0lEQVQI1y2Lyw6CMBRE+RqDfVOsbW1BiBTBuzau3fgPujBxY/zrayUuJpPJOVPEEcD5Aajpp5Hqy5utP1cub2qzP3EVQOkGRBXA9glcSKBNByvm5odg9ycpX5P251I1c7V4EQrbJrS7AY07IFcRSQ6VATNE/m+pI9a+Qx+PuF28gLRqkGTOf17eIv9U3eIXuoU0yq+dlwEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/d64b50f12ab059d0aad2134f8965caaa/c1b63/img_7.png"
+        srcset="/static/d64b50f12ab059d0aad2134f8965caaa/5a46d/img_7.png 300w,
+/static/d64b50f12ab059d0aad2134f8965caaa/0a47e/img_7.png 600w,
+/static/d64b50f12ab059d0aad2134f8965caaa/c1b63/img_7.png 1200w,
+/static/d64b50f12ab059d0aad2134f8965caaa/d61c2/img_7.png 1800w,
+/static/d64b50f12ab059d0aad2134f8965caaa/c6720/img_7.png 1922w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+</blockquote>
+<h1 id="7-마치며" style="position:relative;"><a href="#7-%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="7 마치며 permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. 마치며</h1>
+<p>지금까지 무중단 배포란 무엇인가로부터 모모팀 서비스에 무중단 배포를 도입한 과정에 대해 알아봤다.</p>
+<p>프로젝트에는 무중단 배포 적용을 하며 블루그린 배포 뿐만 아니라 롤링 배포도 직접 구현해봤다. 두 방법 모두 구현을 해본 결과 구현을 함에 있어 더 간단한 방법은 롤링 방법이었다. 하지만 해당 방법은 버전이 일치하지 않는 상황이 발생한다는 단점이 존재하여 이후에 블루그린 배포를 진행하였고 이번 포스트에서 기록한 최종 코드가 만들어졌다.</p>
+<p>마지막으로 앞선 인프라 개선과 무중단 배포 과정을 거쳐 만들어진 모모팀의 CI/CD구조를 남기며 글을 마무리하겠다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1200px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAACO0lEQVQ4y3WT627aQBCF/f5P0ifovyo/KiWtihqIAzEhELCNL2vw/QI25uvYiROC1CONvFrPnj1zZlZDcG5PnM8tNAcOZUFd1/T753MfdCFYPI6YPeosX5bkef415x1aUx/Zqj0qygg3T0zHI4znBU3TfDlQZCm3Lx53ZoKflHjBjlNTf/wfQqtEkb3LMP0Qx3GwtxKuy+l0+rg1TYVEBfh+wLdfBrdzizCM+NT1Ce1wODA3ngj3u37DskxWq1eiOPlIipMEpRSWXOZ6fh9RllP4FoHr4fqKoih7a7ROSVEUoiIljiNyWdfHisgzyfLiXWFKIZ51igbd9yvF98kdxmaCZftYjosK9miDio44CAJRFlPlKd5qyut60xOVZfmW07bsk7wv3wkSlrmLfxC14mmYlfgdoWmavYIsy5hNpywWC9aWxWI8ZjX+i+NLieJpl+PJOqtqkrxEt2J+uhvMbMHhCGXdCuEOzTAMurBtm5ubG6IoEsND9MkDD+MJtpDrkwmj0aj3Vs71tli2YqWWzDyd7VaxsbeoXfhWciuldC3vvkP58/mc2WxGVVUcj0fx9SjNSckr+YZ71rbD61Rn/bxmOn/uG9blagPJgGFIY/GyU3qJJM3Yx0KahLw4MT9WM57UH6mqIEpztp5Cux7MS9LLwX6r4EzVtP1hO0ixiohtYZMWdd8UR+ZUu1Z3SXpNPKCRp7nyU36rHUZ8T17WfbNcdUX4P1wrb8VjxwtYOyb6Rse0XV4teWGOxz/uMN/oE39Y3AAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Untitled"
+        title="Untitled"
+        src="/static/d442ffe9e6dc0359e52a2617d620b99e/c1b63/img_8.png"
+        srcset="/static/d442ffe9e6dc0359e52a2617d620b99e/5a46d/img_8.png 300w,
+/static/d442ffe9e6dc0359e52a2617d620b99e/0a47e/img_8.png 600w,
+/static/d442ffe9e6dc0359e52a2617d620b99e/c1b63/img_8.png 1200w,
+/static/d442ffe9e6dc0359e52a2617d620b99e/68638/img_8.png 1510w"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+    </span></p>
+<h1 id="-reference" style="position:relative;"><a href="#-reference" aria-label=" reference permalink" class="toc-header before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>📚 Reference</h1>
+<ul>
+<li><a href="https://www.samsungsds.com/kr/insights/1256264_4627.html">무중단 배포 아키텍처[Zero Downtime Deployment] - 글로벌 서비스 운영의 필수 요소</a></li>
+<li><a href="https://jay-ji.tistory.com/m/99">docker-compose 무중단 배포 1편 (blue, green)</a></li>
+<li><a href="https://devbksheen.tistory.com/entry/Jenkins-Docker-Nginx-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0">Jenkins + Docker + Nginx 무중단 자동화 배포하기(Centos)</a></li>
+</ul>
+<style class="grvsc-styles">
+  .grvsc-container {
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 1rem;
+    padding-top: var(--grvsc-padding-top, var(--grvsc-padding-v, 1rem));
+    padding-bottom: 1rem;
+    padding-bottom: var(--grvsc-padding-bottom, var(--grvsc-padding-v, 1rem));
+    border-radius: 8px;
+    border-radius: var(--grvsc-border-radius, 8px);
+    font-feature-settings: normal;
+    line-height: 1.4;
+  }
+  
+  .grvsc-code {
+    display: table;
+  }
+  
+  .grvsc-line {
+    display: table-row;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+  }
+  
+  .grvsc-line > * {
+    position: relative;
+  }
+  
+  .grvsc-gutter-pad {
+    display: table-cell;
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  .grvsc-gutter {
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter::before {
+    content: attr(data-content);
+  }
+  
+  .grvsc-source {
+    display: table-cell;
+    padding-left: 1.5rem;
+    padding-left: var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem));
+    padding-right: 1.5rem;
+    padding-right: var(--grvsc-padding-right, var(--grvsc-padding-h, 1.5rem));
+  }
+  
+  .grvsc-source:empty::after {
+    content: ' ';
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .grvsc-gutter + .grvsc-source {
+    padding-left: 0.75rem;
+    padding-left: calc(var(--grvsc-padding-left, var(--grvsc-padding-h, 1.5rem)) / 2);
+  }
+  
+  /* Line transformer styles */
+  
+  .grvsc-has-line-highlighting > .grvsc-code > .grvsc-line::before {
+    content: ' ';
+    position: absolute;
+    width: 100%;
+  }
+  
+  .grvsc-line-diff-add::before {
+    background-color: var(--grvsc-line-diff-add-background-color, rgba(0, 255, 60, 0.2));
+  }
+  
+  .grvsc-line-diff-del::before {
+    background-color: var(--grvsc-line-diff-del-background-color, rgba(255, 0, 20, 0.2));
+  }
+  
+  .grvsc-line-number {
+    padding: 0 2px;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+  .one-dark-pro {
+    background-color: #282c34;
+    color: #abb2bf;
+  }
+  .one-dark-pro .mtki { font-style: italic; }
+  .one-dark-pro .mtk1 { color: #ABB2BF; }
+  .one-dark-pro .mtk6 { color: #98C379; }
+  .one-dark-pro .mtk4 { color: #E06C75; }
+  .one-dark-pro .mtk8 { color: #56B6C2; }
+  .one-dark-pro .mtk5 { color: #7F848E; }
+  .one-dark-pro .mtk9 { color: #C678DD; }
+  .one-dark-pro .grvsc-line-highlighted::before {
+    background-color: var(--grvsc-line-highlighted-background-color, rgba(255, 255, 255, 0.1));
+    box-shadow: inset var(--grvsc-line-highlighted-border-width, 4px) 0 0 0 var(--grvsc-line-highlighted-border-color, rgba(255, 255, 255, 0.5));
+  }
+</style></div></div></div></div><div class="css-1bdwg0l e6qprj20"><div><style data-emotion-css="17t5ffy">.css-17t5ffy{margin-top:1rem;margin-bottom:1rem;}</style><div class="css-17t5ffy"><div class="css-1l4w6pd"><div class="css-164tafw"></div></div></div><style data-emotion-css="i1cgbm">.css-i1cgbm{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end;margin-top:1rem;padding-left:0.5rem;padding-right:0.5rem;}</style><div class="css-i1cgbm"><style data-emotion-css="16k19ub">.css-16k19ub{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;padding-left:0.75rem;padding-right:0.75rem;padding-top:0.25rem;padding-bottom:0.25rem;margin-top:0.5rem;margin-bottom:0.5rem;margin-left:0.5rem;border-radius:0.25rem;--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));background-color:#2D87FD;}</style><button class="css-16k19ub"><style data-emotion-css="u7tj59">.css-u7tj59{fill:currentColor;margin-top:auto;margin-bottom:auto;margin-right:0.25rem;}</style><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" class="css-u7tj59" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>Share with <!-- -->Facebook</button><style data-emotion-css="9nr5sz">.css-9nr5sz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;padding-left:0.75rem;padding-right:0.75rem;padding-top:0.25rem;padding-bottom:0.25rem;margin-top:0.5rem;margin-bottom:0.5rem;margin-left:0.5rem;border-radius:0.25rem;--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));background-color:#1CA1F2;}</style><button class="css-9nr5sz"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="css-u7tj59" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>Share with <!-- -->Twitter</button><style data-emotion-css="rk0yc0">.css-rk0yc0{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;padding-left:0.75rem;padding-right:0.75rem;padding-top:0.25rem;padding-bottom:0.25rem;margin-top:0.5rem;margin-bottom:0.5rem;margin-left:0.5rem;border-radius:0.25rem;--text-opacity:1;color:rgba(255,255,255,var(--text-opacity));background-color:#6E7783;}</style><button class="css-rk0yc0"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="css-u7tj59" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg>Share with <!-- -->Url</button></div></div></div></div></div><div class="css-1bdwg0l e6qprj20"><style data-emotion-css="17t1oy1">.css-17t1oy1{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap-reverse;-ms-flex-wrap:wrap-reverse;flex-wrap:wrap-reverse;margin-left:0.5rem;margin-right:0.5rem;margin-top:1rem;}@media (min-width:768px){.css-17t1oy1{-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;}}</style><div class="css-17t1oy1 e1ic15ss0"><style data-emotion-css="1pwr1ry">.css-1pwr1ry{width:100%;margin:0.5rem;}@media (min-width:768px){.css-1pwr1ry{width:50%;margin:1rem;}}</style><div class="css-1pwr1ry e1ic15ss1"><style data-emotion-css="txyanx">.css-txyanx{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start;-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);text-align:left;width:100%;height:100%;padding:0.5rem;background-color:#eee;border-radius:0.25rem;border-left-width:4px;border-color:#A5CC82;}.css-txyanx:hover{background-color:#ddd;}</style><a rel="prev" class="css-txyanx" href="/DevOps/20221023-모모팀-인프라-개선기-2편/"><style data-emotion-css="19o7xeo">.css-19o7xeo{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-content:center;-ms-flex-line-pack:center;align-content:center;margin-right:1rem;margin-left:0.5rem;height:100%;}</style><div class="css-19o7xeo"><style data-emotion-css="11za1ik">.css-11za1ik{width:2rem;height:2rem;margin-top:auto;margin-bottom:auto;}</style><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="css-11za1ik" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M872 474H286.9l350.2-304c5.6-4.9 2.2-14-5.2-14h-88.5c-3.9 0-7.6 1.4-10.5 3.9L155 487.8a31.96 31.96 0 0 0 0 48.3L535.1 866c1.5 1.3 3.3 2 5.2 2h91.5c7.4 0 10.8-9.2 5.2-14L286.9 550H872c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"></path></svg></div><style data-emotion-css="v38or">.css-v38or{display:inline-block;margin-top:0.5rem;margin-bottom:0.5rem;}</style><div class="css-v38or"><style data-emotion-css="1e3im4j">.css-1e3im4j{color:#00467F;}</style><p class="css-1e3im4j">이전 포스트</p><p>모모팀 인프라 개선기 2편 (로드 밸런싱 도입)</p></div></a></div><div class="css-1pwr1ry e1ic15ss1"><style data-emotion-css="89mi30">.css-89mi30{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end;-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);text-align:right;width:100%;height:100%;padding:0.5rem;background-color:#eee;border-radius:0.25rem;border-right-width:4px;border-color:#A5CC82;}.css-89mi30:hover{background-color:#ddd;}</style><a rel="next" class="css-89mi30" href="/Frontend/20221029-recoil과-react-query를-우아하게-사용하기까지/"><div class="css-v38or"><p class="css-1e3im4j">다음 포스트</p><p>recoil과 react-query를 우아하게 사용하기까지</p></div><div class="css-19o7xeo"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="css-11za1ik" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-.7 5.2-2L869 536.2a32.07 32.07 0 0 0 0-48.4z"></path></svg></div></a></div></div><style data-emotion-css="14yohw7">.css-14yohw7{width:100%;max-width:768px;padding-left:1rem;padding-right:1rem;margin-left:auto;margin-right:auto;padding-top:2rem;margin-top:0.5rem;margin-bottom:1rem;}@media (min-width:768px){.css-14yohw7{padding-left:0;padding-right:0;padding-top:3rem;}}</style><div class="css-14yohw7 e1q36c7t0"><style data-emotion-css="180ky7f">.css-180ky7f{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:0.5rem;padding-right:0.5rem;}@media (min-width:768px){.css-180ky7f{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}}</style><div class="css-180ky7f e1q36c7t1"><style data-emotion-css="p5b1u1">.css-p5b1u1{border-radius:9999px;border-width:1px;--border-opacity:1;border-color:rgba(214,188,250,var(--border-opacity));margin-right:2rem;margin-bottom:0.5rem;}@media (min-width:768px){.css-p5b1u1{margin-bottom:1rem;}}</style><div class="css-p5b1u1 gatsby-image-wrapper" style="position:relative;overflow:hidden;display:inline-block;width:128px;height:128px"><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAADDklEQVQ4y31UXUhTYRg+F0VFSRmBms413dSyMvuhaGU5LCEQzUCcWxJpGeE/hNnwN+1nCKUyp3gRImFIXmRd5KYXYZLQSvBa8EaSpqRo29ymezrvmd/Z5pYvfOc7H+c9z/e8z/vDra+vg5bbTcu9+e7G2toatrONjQ04nU7Rn/3LhQJzuVzCT4uLi+joeA2NJh/XrquQkXEVmZkZaGlpFsDInM61AFCOHWgnINrJenq6ERF5CKfPpKCiohRNzQ2oq9fhfkkxko4qkJAYj8nJb5ugPqacPzMGVlx8F+HhYRgcfPffkGuf1GD3nh2YmPgaAMoxqiyEoqI7kEpjYLX+Fh1JT7YcDocoSeuzp5DFxQphezweX8gsAe3trxB+MAzz87+Es91uD9DWXxoGejIlGS2tzcI74XDsw8zMDPYf2IvRUbNwdjjsW4C8i4EyEn19b5B8PInPuscbMvtQ8uAesrJubII54Csnrxx0sb/4jMjc3BxiYiIxPT0tnDl6LC39gSQ2CibTZ1E3BkLa+BsDZszJLirPw2Do8AEODLzFseTEAFbMrFYrjEYDTOYRGLo6g4DJtLfVqKqu8AFWVZVDXZAnsiNWlCAKZ3l5CTWPH2F4+AO6e4xYXV3B2NiomASywkINSsse+gAL+E4o54uXZZYs91YOzp5LDao/5aULyM7JCvDVaPNR5g9IB61WLSaE7Upem8QkOerqdKiurkSsNBqX05Q862UhChYytWVbm94HODT0HvFyqdDw/iXhcjnxUv8cN3Ozka/OE9qRfFi45EugMpkEZrPJC0gOJLAiIQ6NjfWijqwOtxr5soIn0+tfQK6QCZcTFsdoU6Pv3bcLTU0NAQA2uw02G62/QSNNp6vl+3knX24jIpGA1rP8sEAiiRLq6uOnYSwsWIMYTk39FCKRK44IpWaxfA8eDv6gKysrqOTLiJqeFmU1PT0N6ao0nEo9gcPREVCprqC3t0eUhOkpji8GysJnN46Pf+GLugvG7i6+EzrR39+H2dnZbac2F2qS0I0sm6GMjbRQk+gfC+9ZnRl0IjIAAAAASUVORK5CYII=" alt="profileImg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;transition-delay:500ms"/><noscript><picture><source srcset="/static/1134414851454382d55f3e82eb460d40/2c344/profile.png 1x,
+/static/1134414851454382d55f3e82eb460d40/f20a7/profile.png 1.5x" /><img loading="lazy" width="128" height="128" srcset="/static/1134414851454382d55f3e82eb460d40/2c344/profile.png 1x,
+/static/1134414851454382d55f3e82eb460d40/f20a7/profile.png 1.5x" src="/static/1134414851454382d55f3e82eb460d40/2c344/profile.png" alt="profileImg" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div><div><span>Written by </span><style data-emotion-css="16q43sj">.css-16q43sj{display:inline-block;font-size:1.25rem;font-weight:700;border-radius:9999px;margin-bottom:0.5rem;padding-left:0.75rem;padding-right:0.75rem;--bg-opacity:1;background-color:rgba(237,242,247,var(--bg-opacity));color:#00467F;}</style><p class="css-16q43sj">@<!-- -->momo</p><style data-emotion-css="vg2p6i">.css-vg2p6i{font-size:0.875rem;font-weight:400;margin-bottom:0.5rem;}</style><div class="css-vg2p6i">모모팀의 기술 블로그입니다</div></div></div><style data-emotion-css="1air669">.css-1air669{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;margin-left:0.5rem;margin-right:0.5rem;}</style><div class="css-1air669"><div class="css-164tafw"></div></div></div><style data-emotion-css="18jj1tc">.css-18jj1tc{margin-top:1.25rem;margin-left:0.5rem;margin-right:0.5rem;}</style><div class="css-18jj1tc"><div class="utterances"></div></div></div></div><style data-emotion-css="xgi74q">.css-xgi74q{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:fixed;bottom:0;right:0;padding-right:1.5rem;padding-bottom:1.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}</style><div class="css-xgi74q e1m8uc5d0"><style data-emotion-css="1a68u">.css-1a68u{box-shadow:0 2px 2px 0 rgba(0,0,0,0.15);-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);background-color:#FFFFFF;color:#636363;font-size:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.5rem;padding-bottom:0.5rem;border-radius:9999px;--transform-translate-x:0;--transform-translate-y:0;--transform-rotate:0;--transform-skew-x:0;--transform-skew-y:0;--transform-scale-x:1;--transform-scale-y:1;-webkit-transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));-ms-transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));cursor:pointer;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-content:flex-end;-ms-flex-line-pack:end;align-content:flex-end;z-index:100;}.css-1a68u:hover{background-color:#404040;color:#FFFFFF;}.css-1a68u:hover{--transform-scale-x:1.05;--transform-scale-y:1.05;}</style><button title="change to darkmode" class="css-1a68u"><style data-emotion-css="1alqh2e">.css-1alqh2e{fill:currentColor;--text-opacity:1;color:rgba(246,224,94,var(--text-opacity));width:1rem;height:1rem;margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:0;}@media (min-width:768px){.css-1alqh2e{display:inline-block;margin-left:0.25rem;margin-right:0.25rem;}}</style><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="css-1alqh2e" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg><style data-emotion-css="flxr9x">.css-flxr9x{display:none;margin-right:0;}@media (min-width:768px){.css-flxr9x{display:inline-block;margin-right:0.25rem;}}</style><span class="css-flxr9x">다크 모드로 보기</span></button><style data-emotion-css="15afv4q">.css-15afv4q{box-shadow:0 2px 2px 0 rgba(0,0,0,0.15);-webkit-transition:all 300ms cubic-bezier(0.4,0,0.2,1);transition:all 300ms cubic-bezier(0.4,0,0.2,1);background-color:#FFFFFF;color:#636363;font-size:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.5rem;padding-bottom:0.5rem;border-radius:9999px;--transform-translate-x:0;--transform-translate-y:0;--transform-rotate:0;--transform-skew-x:0;--transform-skew-y:0;--transform-scale-x:1;--transform-scale-y:1;-webkit-transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));-ms-transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));transform:translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));cursor:pointer;margin-left:0.5rem;margin-top:auto;margin-bottom:auto;z-index:100;}.css-15afv4q:hover{background-color:#404040;color:#FFFFFF;}.css-15afv4q:hover{--transform-scale-x:1.05;--transform-scale-y:1.05;}</style><button title="top page" class="css-15afv4q"><style data-emotion-css="13htjwu">.css-13htjwu{width:1rem;height:1rem;}</style><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="css-13htjwu" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M868 545.5L536.1 163a31.96 31.96 0 0 0-48.3 0L156 545.5a7.97 7.97 0 0 0 6 13.2h81c4.6 0 9-2 12.1-5.5L474 300.9V864c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V300.9l218.9 252.3c3 3.5 7.4 5.5 12.1 5.5h81c6.8 0 10.5-8 6-13.2z"></path></svg></button></div><style data-emotion-css="1k8xcyw">.css-1k8xcyw{text-align:center;padding-top:2rem;padding-bottom:2rem;bottom:0;}</style><footer class="css-1k8xcyw"><style data-emotion-css="1xju3od">.css-1xju3od{font-size:0.75rem;font-weight:700;}</style><a href="https://github.com/Seongwon97" class="css-1xju3od">©Momo</a></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'G-Y3VQCJ7ZEX', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/DevOps/20221026-모모팀-인프라-개선기-3편/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-2f72579fb641bf14a0fa.js"],"app":["/app-d1a6932a45bfd024ad29.js"],"component---src-pages-404-js":["/component---src-pages-404-js-0a6852889ec28cc0cb78.js"],"component---src-pages-index-js":["/component---src-pages-index-js-df04c8a92b3d2d8d3fc9.js"],"component---src-pages-search-js":["/component---src-pages-search-js-9304c0011dcd53f925c6.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-4910a6c560d7a355cf37.js"],"component---src-templates-category-js":["/component---src-templates-category-js-00675ddb0659eb6056e0.js"]};/*]]>*/</script><script src="/polyfill-2f72579fb641bf14a0fa.js" nomodule=""></script><script src="/component---src-templates-blog-post-js-4910a6c560d7a355cf37.js" async=""></script><script src="/7a297f752dcfe258c0b0106d89edb3a916af916e-ba3bed115b500439fc94.js" async=""></script><script src="/commons-b839ac3ef2817b5d267d.js" async=""></script><script src="/1bfc9850-409296e666dade882413.js" async=""></script><script src="/5e2a4920-da90abce4a08c86a094c.js" async=""></script><script src="/d7eeaac4-dcbe97e7a5aa158c9d08.js" async=""></script><script src="/app-d1a6932a45bfd024ad29.js" async=""></script><script src="/dc6a8720040df98778fe970bf6c000a41750d3ae-17eb047fb821ccbad0b0.js" async=""></script><script src="/styles-84a9bc99193fe5828ffe.js" async=""></script><script src="/framework-eb684e3e828ad13b3940.js" async=""></script><script src="/webpack-runtime-91d2ca5880d6e7d8e505.js" async=""></script></body></html>
